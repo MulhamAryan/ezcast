@@ -1,23 +1,40 @@
-<?php 
+<?php
 if (isset($errorActionMsg)) {
     ?>
     <div class="alert alert-danger col-md-10 col-md-offset-1" role="alert">
-    ®monit_error_param® (<?php echo $errorActionMsg; ?>)
+        ®monit_error_param® (<?php echo $errorActionMsg; ?>)
     </div>
-<?php
+    <?php
 }
 
 if (isset($cronWarningMsg) && $cronWarningMsg) {
     ?>
     <div class="alert alert-warning col-md-10 col-md-offset-1" role="alert">
-    ®monit_warning_cron®
+        ®monit_warning_cron®
     </div>
-<?php
+    <?php
 }
 
 if (isset($pagination)) {
     $pagination->insert();
 }
+global $repository_path;
+global $ezmanager_url;
+$exAsset = explode('_', $resStatus[0]['asset']);
+$album = end($exAsset);
+$implode = implode('_', $exAsset);
+$asset = str_replace('_' . $album, '', $implode);
+
+if (is_dir($repository_path . '/' . $album . '-priv/' . $asset))
+    $album = $album . '-priv';
+else
+    $album = $album . '-pub';;
+$asset_metadata = ezmam_asset_metadata_get($album, $asset);
+
+$media_metadata = ezmam_media_list_metadata_assoc($album, $asset);
+
+$has_cam = (strpos($asset_metadata['record_type'], 'cam') !== false); // Whether or not the asset has a "live-action" video
+$has_slides = (strpos($asset_metadata['record_type'], 'slide') !== false); // Whether or not the asset has slides
 ?>
 
 
@@ -32,7 +49,7 @@ if (isset($pagination)) {
             <th>®monit_message®</th>
         </tr>
 
-        <?php 
+        <?php
         foreach ($resStatus as &$status) {
             ?>
             <tr class="<?php echo EventStatus::getColorStatus($status['status']); ?>">
@@ -42,65 +59,73 @@ if (isset($pagination)) {
                         <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
                     </button>
                     <button type="button" class="btn btn-default btn-sm" id="link"
-                    <?php if (array_key_exists($status['asset'], $listChildren) || in_array($status['asset'], $listAssetWithParent)) {
-                echo 'disabled="disabled"';
-            } else {
-                ?>
-                            data-toggle="modal" data-target="#modal_link" data-asset="<?php echo $status['asset']; ?>"
                     <?php
-            } ?>
-                    >
+                    if (array_key_exists($status['asset'], $listChildren) || in_array($status['asset'], $listAssetWithParent)) {
+                        echo 'disabled="disabled"';
+                    } else {
+                        ?>
+                                data-toggle="modal" data-target="#modal_link" data-asset="<?php echo $status['asset']; ?>"
+                                <?php }
+                            ?>
+                            >
                         <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm" id="getinfo" 
+                            data-toggle="modal" data-target="#modal_getinfo" data-asset="<?php echo $status['asset']; ?>">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </button>
                 </td>
                 <td style="text-align: left;">
                     <a href="./index.php?action=view_track_asset&post=&startDate=1970-01-01+00%3A00&view_all=on&asset=<?php echo $status['asset']; ?>">
-                        <?php echo $status['asset']; ?>
+    <?php echo $status['asset']; ?>
                     </a>
                     <a style="float: right;" href="./index.php?action=view_events&post=&startDate=1970-01-01+00%3A00&asset=<?php echo $status['asset']; ?>">
                         <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
                     </a>
-                    <?php if (array_key_exists($status['asset'], $listChildren)) {
-                foreach ($listChildren[$status['asset']] as $children) {
-                    echo '<br />';
-                    echo '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> ';
-                    echo '<a href="./index.php?action=view_track_asset&post=&startDate=1970-01-01+00%3A00&view_all=on&asset='.
-                                    $children.'">';
-                    echo $children . '  ';
-                    echo '</a>';
-                            
-                    // Remove parent
-                    echo '<form name="form" method="POST" style="display: inline;">';
-                    echo '<input type="hidden" name="current_asset" value="'.$children.'" />';
-                    echo '<input type="hidden" name="modal_action" value="remove_parent">';
-                    echo '<a href="#" onclick="this.parentElement.submit();">';
-                    echo '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
-                    echo '</a>';
-                    echo '</form>';
-                }
-            } ?>
+                    <?php
+                    if (array_key_exists($status['asset'], $listChildren)) {
+                        foreach ($listChildren[$status['asset']] as $children) {
+                            echo '<br />';
+                            echo '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> ';
+                            echo '<a href="./index.php?action=view_track_asset&post=&startDate=1970-01-01+00%3A00&view_all=on&asset=' .
+                            $children . '">';
+                            echo $children . '  ';
+                            echo '</a>';
+
+                            // Remove parent
+                            echo '<form name="form" method="POST" style="display: inline;">';
+                            echo '<input type="hidden" name="current_asset" value="' . $children . '" />';
+                            echo '<input type="hidden" name="modal_action" value="remove_parent">';
+                            echo '<a href="#" onclick="this.parentElement.submit();">';
+                            echo '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>';
+                            echo '</a>';
+                            echo '</form>';
+                        }
+                    }
+                    ?>
                 </td>
                 <td><?php echo $status['status_time']; ?></td>
                 <td><?php echo $status['author']; ?></td>
                 <td><span class="label label-<?php echo EventStatus::getColorStatus($status['status']); ?>">
-                        <?php echo $status['status']; ?>
+                <?php echo $status['status']; ?>
                     </span>
                 </td>
                 <td
-                <?php if (array_key_exists('min_description', $status)) {
-                ?>
-                    data-container="body" data-toggle="popover" data-trigger="hover" 
-                        data-placement="right" data-content="<?php echo $status['description']; ?>"><?php 
-                    echo $status['min_description'];
-            } else {
-                echo '>'.$status['description'];
-            } ?>    
+                        <?php if (array_key_exists('min_description', $status)) {
+                            ?>
+                        data-container="body" data-toggle="popover" data-trigger="hover" 
+                        data-placement="right" data-content="<?php echo $status['description']; ?>"><?php
+                            echo $status['min_description'];
+                        } else {
+                            echo '>' . $status['description'];
+                        }
+                        ?>    
                 </td>
             </tr>
-        <?php
-        } ?>
+    <?php }
+?>
     </table>
-    
+
     <!-- Link an asset to an other -->
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLink" id="modal_link">
         <div class="modal-dialog" role="document">
@@ -133,7 +158,7 @@ if (isset($pagination)) {
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    
+
     <!-- Check an asset -->
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalCheck" id="modal_check">
         <div class="modal-dialog" role="document">
@@ -148,29 +173,29 @@ if (isset($pagination)) {
                     <div class="modal-body">
                         <input type="hidden" name="modal_action" value="new_status">
                         <input id="asset_name" type="hidden" name="current_asset" value="">
-                        
+
                         <div class="form-group">
                             <label for="new_status">®monit_status®</label>
                             <select name="new_status" class="form-control">
                                 <?php
                                 foreach (EventStatus::getManualEventStatus() as $status) {
-                                    echo '<option value="'.$status.'"';
+                                    echo '<option value="' . $status . '"';
                                     if (isset($input) && array_key_exists('status', $input) &&
                                             $input['status'] != "" && $input['status'] == $status) {
                                         echo ' selected';
                                     }
-                                    echo '>'.$status.
-                                        '</option>';
+                                    echo '>' . $status .
+                                    '</option>';
                                 }
                                 ?>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="description">®monit_message®</label>
                             <textarea class="form-control" name="new_description" rows="4" placeholder="®monit_message®"></textarea>
                         </div>
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">®monit_help_status_close®</button>
@@ -180,34 +205,111 @@ if (isset($pagination)) {
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-        
+
+    <!-- Get Info asset -->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalGetinfo" id="modal_getinfo">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="®monit_help_status_close®">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">®monit_getinfo_video®</h4>
+</div>
+                <div class="modal-body">
+                    <b>Titre : </b><?php echo $asset_metadata["title"]; ?><br>
+                    <b>®author® : </b><?php echo $asset_metadata["author"]; ?><br>
+                    <b>Type : </b><?php echo $asset_metadata["record_type"]; ?><br>
+                    <b>Origine : </b><?php echo $asset_metadata["origin"]; ?><br>
+                    <?php
+                    if ($has_cam == true) {
+                        $cam["high"] = ezmam_media_geturl($album, $asset, 'high_cam');
+                        $cam["low"] = ezmam_media_geturl($album, $asset, 'low_cam');
+                        ?>
+                        <div style="float:left">
+                            <b>Cam high</b><br>
+                            <video width="280" controls preload="none">
+                                <source src="<?php echo $cam["high"]; ?>" type="video/mp4">
+                                Your browser does not support HTML5 video.
+                            </video>
+                        </div>
+                        <div style="float:right">
+                            <b>Cam low</b><br>
+                            <video width="280" controls preload="none">
+                                <source src="<?php echo $cam["low"]; ?>" type="video/mp4">
+                                Your browser does not support HTML5 video.
+                            </video>
+                        </div>
+                        <div style="clear:both"></div>
+                        <?php
+                    }
+                    ?>
+                    <div style="clear:both"></div>
+                    <?php
+                    if ($has_slides == true) {
+                        $slide["high"] = ezmam_media_geturl($album, $asset, 'high_slide');
+                        $slide["low"] = ezmam_media_geturl($album, $asset, 'low_slide');
+                        ?>
+                        <div style="float:left">
+                            <b>Slide high</b><br>
+                            <video width="280" controls preload="none">
+                                <source src="<?php echo $slide["high"]; ?>" type="video/mp4">
+                                Your browser does not support HTML5 video.
+                            </video>
+                        </div>
+                        <div style="float:right">
+                            <b>Slide low</b><br>
+                            <video width="280" controls preload="none">
+                                <source src="<?php echo $slide["low"]; ?>" type="video/mp4">
+                                Your browser does not support HTML5 video.
+                            </video>
+                        </div>
+                        <div style="clear:both"></div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 </div>
 
-<?php if (isset($pagination)) {
-                                    $pagination->insert();
-                                } ?>
+<?php
+if (isset($pagination)) {
+    $pagination->insert();
+}
+?>
 
 
 
-<script> 
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover(); 
-    
-    $("button[data-toggle='modal']#link").on('click', function(e) {
-        var button = $(this); //clicked object
-        var assetName = button.attr('data-asset'); //modal element id 
-        var modal = $('#modal_link');
-        modal.find('.modal-body input#asset_name').val(assetName);
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+
+        $("button[data-toggle='modal']#link").on('click', function (e) {
+            var button = $(this); //clicked object
+            var assetName = button.attr('data-asset'); //modal element id 
+            var modal = $('#modal_link');
+            modal.find('.modal-body input#asset_name').val(assetName);
+        });
+
+        $("button[data-toggle='modal']#check").on('click', function (e) {
+            var button = $(this); //clicked object
+            var assetName = button.attr('data-asset'); //modal element id 
+            var modal = $('#modal_check');
+            modal.find('.modal-body input#asset_name').val(assetName);
+        });
+
+        $("button[data-toggle='modal']#getinfo").on('click', function (e) {
+            var button = $(this); //clicked object
+            var assetName = button.attr('data-asset'); //modal element id 
+            var modal = $('#modal_getinfo');
+            modal.find('.modal-body input#asset_name').val(assetName);
+        });
+
+
     });
-    
-    $("button[data-toggle='modal']#check").on('click', function(e) {
-        var button = $(this); //clicked object
-        var assetName = button.attr('data-asset'); //modal element id 
-        var modal = $('#modal_check');
-        modal.find('.modal-body input#asset_name').val(assetName);
-    });
-    
-
-}); 
 
 </script>

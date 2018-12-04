@@ -27,14 +27,12 @@
 /**
  * @package ezcast.ezadmin.lib.various
  */
-
-require_once(__DIR__."/../commons/lib_database.php");
+require_once(__DIR__ . "/../commons/lib_database.php");
 
 /**
  * Parses the config file and returns the settings that can be changed in it.
  */
-function parse_config_file()
-{
+function parse_config_file() {
     include 'config.inc';
 
     $res = array(
@@ -54,8 +52,7 @@ function parse_config_file()
  * @param type $recorder_password_storage_option
  * @param type $use_user_name_option
  */
-function update_config_file($recorder_option, $add_users_option, $recorder_password_storage_option, $use_user_name_option)
-{
+function update_config_file($recorder_option, $add_users_option, $recorder_password_storage_option, $use_user_name_option) {
     $config = file_get_contents('config.inc');
 
     $conf1 = ($recorder_option) ? 'true' : 'false';
@@ -67,7 +64,7 @@ function update_config_file($recorder_option, $add_users_option, $recorder_passw
     $config = preg_replace('/\$add_users_enabled = (.+);/', '\$add_users_enabled = ' . $conf2 . ';', $config);
     $config = preg_replace('/\$recorder_password_storage_enabled = (.+);/', '\$recorder_password_storage_enabled = ' . $conf3 . ';', $config);
     $config = preg_replace('/\$use_user_name = (.+);/', '\$use_user_name = ' . $conf4 . ';', $config);
-    
+
     file_put_contents('config.inc', $config);
 }
 
@@ -98,30 +95,7 @@ function update_config_file($recorder_option, $add_users_option, $recorder_passw
  * @param type $https_ready
  */
 function edit_config_file(
-    $php_cli_cmd,
-    $rsync_pgm,
-    $application_url,
-    $repository_basedir,
-    $organization_name,
-    $organization_url,
-    $copyright,
-    $mailto_alert,
-    $basedir,
-    $db_type,
-    $db_host,
-    $db_login,
-    $db_passwd,
-    $db_name,
-    $db_prefix,
-    $recorder_user,
-    $recorder_basedir,
-    $ezmanager_host,
-    $ezmanager_url,
-    $classrooms_category_enabled,
-    $add_users_enable,
-    $recorder_password_storage_enabled,
-    $use_user_name,
-    $https_ready
+$php_cli_cmd, $rsync_pgm, $application_url, $repository_basedir, $organization_name, $organization_url, $copyright, $mailto_alert, $basedir, $db_type, $db_host, $db_login, $db_passwd, $db_name, $db_prefix, $recorder_user, $recorder_basedir, $ezmanager_host, $ezmanager_url, $classrooms_category_enabled, $add_users_enable, $recorder_password_storage_enabled, $use_user_name, $https_ready
 ) {
     $global_config = (file_exists('../commons/config.inc')) ?
             file_get_contents('../commons/config.inc') :
@@ -171,8 +145,7 @@ function edit_config_file(
  * Returns the list of admins
  * @return array
  */
-function parse_admin_file()
-{
+function parse_admin_file() {
     include 'admin.inc';
 
     $admins = array();
@@ -188,8 +161,7 @@ function parse_admin_file()
     return $admins;
 }
 
-function renderer_exists($name)
-{
+function renderer_exists($name) {
     if (file_exists('renderers.inc')) {
         $renderers = require_once 'renderers.inc';
         foreach ($renderers as $index => $renderer) {
@@ -203,8 +175,7 @@ function renderer_exists($name)
     return false;
 }
 
-function renderer_get($name)
-{
+function renderer_get($name) {
     if (file_exists('renderers.inc')) {
         $renderers = require_once 'renderers.inc';
         foreach ($renderers as $renderer) {
@@ -216,8 +187,7 @@ function renderer_get($name)
     return false;
 }
 
-function renderer_update_enabled($name, $enable, &$error)
-{
+function renderer_update_enabled($name, $enable, &$error) {
     $renderer_index = renderer_exists($name);
 
     if ($renderer_index === false) {
@@ -254,7 +224,7 @@ function renderer_update_enabled($name, $enable, &$error)
     }
     copy('./renderers.inc', './renderers.inc.old');
     rename('./renderers_tmp.inc', './renderers.inc');
-    $res=renderers_push();
+    $res = renderers_push();
     return $res;
 }
 
@@ -262,14 +232,12 @@ function renderer_update_enabled($name, $enable, &$error)
  * copies renderers.inc file from ezadmin to common (to be used by ezmanager scheduler)
  * @return bool true on success
  */
-function renderers_push()
-{   
-    $res=copy('./renderers.inc', '../commons/renderers.inc');
+function renderers_push() {
+    $res = copy('./renderers.inc', '../commons/renderers.inc');
     return $res;
 }
 
-function renderer_delete($name)
-{
+function renderer_delete($name) {
     $renderer_index = renderer_exists($name);
 
     if ($renderer_index === false) {
@@ -300,8 +268,7 @@ function renderer_delete($name)
     return true;
 }
 
-function renderer_add($name, $address, $user, $status, $root_path, $php_cli)
-{
+function renderer_add($name, $address, $user, $status, $root_path, $php_cli) {
     if (!file_exists('renderers.inc')) {
         $renderers = array();
     } else {
@@ -336,7 +303,7 @@ function renderer_add($name, $address, $user, $status, $root_path, $php_cli)
     }
     copy('./renderers.inc', './renderers.inc.old');
     rename('./renderers_tmp.inc', './renderers.inc');
-    $res=renderers_push();
+    $res = renderers_push();
     return $res;
 }
 
@@ -345,8 +312,7 @@ function renderer_add($name, $address, $user, $status, $root_path, $php_cli)
  * @param type $netid
  * @return boolean
  */
-function add_admin_to_file($netid)
-{
+function add_admin_to_file($netid) {
     if (!file_exists('admin.inc')) {
         file_put_contents('admin.inc', "<?php" . PHP_EOL);
         file_put_contents('admin.inc', "?>", FILE_APPEND);
@@ -376,8 +342,7 @@ function add_admin_to_file($netid)
  * @param type $netid
  * @return boolean
  */
-function remove_admin_from_file($netid)
-{
+function remove_admin_from_file($netid) {
     if (!file_exists('admin.inc')) {
         return false;
     }
@@ -401,8 +366,7 @@ function remove_admin_from_file($netid)
  * @param string $ipstr
  * @desc ckeck ip syntax
  */
-function checkipsyntax($ipstr)
-{
+function checkipsyntax($ipstr) {
     $res = ipstr2num($ipstr, $net1, $net2, $subnet, $node);
     if ($res > 0) {
         return "Not a valid IP address ($res)";
@@ -421,8 +385,7 @@ function checkipsyntax($ipstr)
  * @param $nodenum ip4
  * @desc converts ip string to 4 numbers
  */
-function ipstr2num($ipstr, &$net1, &$net2, &$subnet, &$node)
-{
+function ipstr2num($ipstr, &$net1, &$net2, &$subnet, &$node) {
     $res = preg_match("/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/", $ipstr, $regs);
     if (!$res) {
         return 1;
@@ -430,44 +393,38 @@ function ipstr2num($ipstr, &$net1, &$net2, &$subnet, &$node)
     $returncode = 0;
     $net1 = $regs[1];
     if ($net1 + 0 > 255) {
-        $returncode+=2;
+        $returncode += 2;
     }
     $net2 = $regs[2];
     if ($net2 + 0 > 255) {
-        $returncode+=4;
+        $returncode += 4;
     }
     $subnet = $regs[3];
     if ($subnet + 0 > 255) {
-        $returncode+=8;
+        $returncode += 8;
     }
     $node = $regs[4];
     if ($node + 0 > 255) {
-        $returncode+=16;
+        $returncode += 16;
     }
     return $returncode;
 }
 
-function ssh_connection_test($username, $hostname, $timeout, $update_known_hosts = true)
-{
+function ssh_connection_test($username, $hostname, $timeout, $update_known_hosts = true) {
     include 'config.inc';
     //check if hostname is real
-    $ip_int=  ip2long($hostname); //is it an IP address?
-    if($ip_int===false){
-      //its not an IP, check if hostname exists  
-      $ip =  gethostbyname($hostname);
-      if($ip==$hostname){
-        //hostname doesn't resolve
-        return "hostname_error";
-      }
+    $ip_int = ip2long($hostname); //is it an IP address?
+    if ($ip_int === false) {
+        //its not an IP, check if hostname exists  
+        $ip = gethostbyname($hostname);
+        if ($ip == $hostname) {
+            //hostname doesn't resolve
+            return "hostname_error";
+        }
     }
     // test the SSH connection
     exec(
-  
-        "ssh -o ConnectTimeout=$timeout -o BatchMode=yes " . $username . "@" . $hostname . " \"echo ok\"",
-            $output,
-  
-        $returncode
-  
+            "ssh -o ConnectTimeout=$timeout -o BatchMode=yes " . $username . "@" . $hostname . " \"echo ok\"", $output, $returncode
     );
 
     if ($update_known_hosts && $returncode) {
@@ -504,9 +461,7 @@ function ssh_connection_test($username, $hostname, $timeout, $update_known_hosts
         }
         // tests the SSH connection
         exec(
-            "ssh -o ConnectTimeout=$timeout -o BatchMode=yes " . $username . "@" . $hostname . " \"echo ok\"",
-                $output,
-            $returncode
+                "ssh -o ConnectTimeout=$timeout -o BatchMode=yes " . $username . "@" . $hostname . " \"echo ok\"", $output, $returncode
         );
         return $returncode ? false : true;
     } elseif ($returncode) {
@@ -516,10 +471,9 @@ function ssh_connection_test($username, $hostname, $timeout, $update_known_hosts
     }
 }
 
-function test_php_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_php)
-{
+function test_php_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_php) {
     if (exec("ssh -o ConnectTimeout=$ssh_timeout -o BatchMode=yes " . $ssh_user . "@" . $ssh_host .
-            " \"if [ -e " . $remote_php . " ]; then echo 'exists'; fi;\"") != 'exists') {
+                    " \"if [ -e " . $remote_php . " ]; then echo 'exists'; fi;\"") != 'exists') {
         // PHP binary doesn't exist on remote renderer
         return "php_not_found";
     } else {
@@ -556,10 +510,9 @@ function test_php_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_php)
     }
 }
 
-function test_ffmpeg_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_ffmpeg, $built_in_aac = true)
-{
+function test_ffmpeg_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_ffmpeg, $built_in_aac = true) {
     if (exec("ssh -o ConnectTimeout=$ssh_timeout -o BatchMode=yes " . $ssh_user . "@" . $ssh_host . " \"if [ -e " .
-            $remote_ffmpeg . " ]; then echo 'exists'; fi;\"") != 'exists') {
+                    $remote_ffmpeg . " ]; then echo 'exists'; fi;\"") != 'exists') {
         // FFMPEG binary doesn't exist on remote renderer
         return "ffmpeg_not_found";
     } else {
@@ -586,10 +539,9 @@ function test_ffmpeg_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_ffmpeg
     }
 }
 
-function test_ffprobe_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_ffprobe)
-{
+function test_ffprobe_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_ffprobe) {
     if (exec("ssh -o ConnectTimeout=$ssh_timeout -o BatchMode=yes " . $ssh_user . "@" . $ssh_host .
-            " \"if [ -e " . $remote_ffprobe . " ]; then echo 'exists'; fi;\"") != 'exists') {
+                    " \"if [ -e " . $remote_ffprobe . " ]; then echo 'exists'; fi;\"") != 'exists') {
         // FFPROBE binary doesn't exist on remote renderer
         return "ffprobe_not_found";
     } else {
@@ -603,8 +555,7 @@ function test_ffprobe_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_ffpro
     }
 }
 
-function test_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_php, $remote_test_script, &$error)
-{
+function test_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_php, $remote_test_script, &$error) {
     if (ssh_connection_test($ssh_user, $ssh_host, $ssh_timeout)) {
         exec("ssh -o ConnectTimeout=$ssh_timeout -o BatchMode=yes " . $ssh_user . "@" . $ssh_host .
                 " \"$remote_php $remote_test_script\"", $output, $returncode);
@@ -626,17 +577,14 @@ function test_over_ssh($ssh_user, $ssh_host, $ssh_timeout, $remote_php, $remote_
  * @param Array $array to test
  * @return mixed the value of the array key or empty string if not exist
  */
-function empty_str_if_not_def($key, $array)
-{
+function empty_str_if_not_def($key, $array) {
     if (array_key_exists($key, $array)) {
         return $array[$key];
     }
     return "";
 }
 
-
-function array_increment_or_init_static(&$array, $key)
-{
+function array_increment_or_init_static(&$array, $key) {
     if (array_key_exists($key, $array)) {
         ++$array[$key];
     } else {
@@ -644,12 +592,10 @@ function array_increment_or_init_static(&$array, $key)
     }
 }
 
-function array_increment_or_init(&$array, &$key)
-{
+function array_increment_or_init(&$array, &$key) {
     if (array_key_exists($key, $array)) {
         ++$array[$key];
     } else {
         $array[$key] = 1;
     }
 }
-

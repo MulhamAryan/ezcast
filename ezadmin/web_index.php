@@ -423,3 +423,12 @@ function user_login($login, $passwd)
     header("Location: " . $ezadmin_url);
     albums_view();
 }
+function notify_changes($enable = true)
+{
+    if ($enable) {
+        $_SESSION['changes_to_push'] = true;
+    } else {
+        unset($_SESSION['changes_to_push']);
+    }
+}
+

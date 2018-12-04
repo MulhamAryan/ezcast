@@ -3,19 +3,17 @@
 require_once(__DIR__ . '/../commons/config.inc');
 require_once(__DIR__ . '/../commons/lib_sql_management.php');
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-
 //return errors in array
-function push_changes() 
-{
+function push_changes() {
     global $logger;
     $failed_cmd = array();
-    
+
     // Save additional users into ezmanager
     push_users_to_ezmanager($failed_cmd);
     // Save changes to classroom into ezmanager
@@ -25,7 +23,7 @@ function push_changes()
 
     // Save admins into ezmanager & recorders
     push_admins_to_recorders_ezmanager($failed_cmd);
-    
+
     $logger->log(EventType::TEST, LogLevel::NOTICE, "Pushed changes to manager & recorders", array(basename(__FILE__)));
     return $failed_cmd;
 }
@@ -39,8 +37,7 @@ function push_changes()
  * @global type $basedir
  * @return boolean
  */
-function push_users_to_ezmanager(&$errors = array())
-{
+function push_users_to_ezmanager(&$errors = array()) {
     global $ezmanager_host;
     global $ezmanager_user;
     global $ezmanager_basedir;
@@ -56,12 +53,12 @@ function push_users_to_ezmanager(&$errors = array())
         $pwfile .= '$users[\'' . $u['user_ID'] . '\'][\'email\']=\'\';' . PHP_EOL . PHP_EOL;
     }
 
-    $ok = file_put_contents(__DIR__.'/var/pwfile.inc', $pwfile);
-    if(!$ok) {
+    $ok = file_put_contents(__DIR__ . '/var/pwfile.inc', $pwfile);
+    if (!$ok) {
         array_push($errors, "Failed to write var/pwfile.inc ");
         return false;
     }
-        
+
 
     // Copying on ezmanager
     if (empty($ezmanager_host) || !isset($ezmanager_host)) {
@@ -74,7 +71,7 @@ function push_users_to_ezmanager(&$errors = array())
         }
     } else {
         // Remote copy
-        $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes '.__DIR__.'/var/pwfile.inc ' . $ezmanager_user . '@' . $ezmanager_host .
+        $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes ' . __DIR__ . '/var/pwfile.inc ' . $ezmanager_user . '@' . $ezmanager_host .
                 ':' . $ezmanager_basedir . $ezmanager_subdir;
         exec($cmd, $output, $return_var);
 
@@ -89,8 +86,7 @@ function push_users_to_ezmanager(&$errors = array())
 /**
  * Overwrites classroom_recorder_ip.inc in ezmanager
  */
-function push_classrooms_to_ezmanager(&$errors = array())
-{
+function push_classrooms_to_ezmanager(&$errors = array()) {
     global $ezmanager_host;
     global $ezmanager_user;
     global $ezmanager_basedir;
@@ -115,7 +111,7 @@ function push_classrooms_to_ezmanager(&$errors = array())
 
     $incfile .= '?>';
 
-    file_put_contents(__DIR__.'/var/classroom_recorder_ip.inc', $incfile);
+    file_put_contents(__DIR__ . '/var/classroom_recorder_ip.inc', $incfile);
 
     // Copying on ezmanager
     if (empty($ezmanager_host) || !isset($ezmanager_host)) {
@@ -129,7 +125,7 @@ function push_classrooms_to_ezmanager(&$errors = array())
         // Remote copy
         exec('ping -c 1 ' . $ezmanager_host, $output, $return_val);
         if ($return_val == 0) {
-            $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes '.__DIR__.'/var/classroom_recorder_ip.inc ' . $ezmanager_user .
+            $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes ' . __DIR__ . '/var/classroom_recorder_ip.inc ' . $ezmanager_user .
                     '@' . $ezmanager_host . ':' . $ezmanager_basedir . $ezmanager_subdir;
             exec($cmd, $output, $return_var);
         }
@@ -146,8 +142,7 @@ function push_classrooms_to_ezmanager(&$errors = array())
 /**
  * Overwrites renderers.inc in ezmanager MB 8/4/2018 OBSOLETE
  */
-function push_renderers_to_ezmanager()
-{
+function push_renderers_to_ezmanager() {
     global $ezmanager_host;
     global $ezmanager_user;
     global $ezmanager_basedir;
@@ -157,7 +152,7 @@ function push_renderers_to_ezmanager()
     // Copying on ezmanager
     if (empty($ezmanager_host) || !isset($ezmanager_host)) {
         // Local copy
-        $res = copy(__DIR__.'/renderers.inc', $ezmanager_basedir . $ezmanager_subdir . '/renderers.inc');
+        $res = copy(__DIR__ . '/renderers.inc', $ezmanager_basedir . $ezmanager_subdir . '/renderers.inc');
         if ($res === false) {
             return false;
         }
@@ -165,7 +160,7 @@ function push_renderers_to_ezmanager()
         // Remote copy
         exec('ping -c 1 ' . $ezmanager_host, $output, $return_val);
         if ($return_val == 0) {
-            $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes '.__DIR__.'/renderers.inc ' . $ezmanager_user . '@' .
+            $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes ' . __DIR__ . '/renderers.inc ' . $ezmanager_user . '@' .
                     $ezmanager_host . ':' . $ezmanager_basedir . $ezmanager_subdir;
             exec($cmd, $output, $return_var);
         }
@@ -182,8 +177,7 @@ function push_renderers_to_ezmanager()
  * Overwrites the admin.inc files on the recorders and ezmanager
  * with the "new" admins as set in the DB
  */
-function push_admins_to_recorders_ezmanager(&$failed_cmd = array())
-{
+function push_admins_to_recorders_ezmanager(&$failed_cmd = array()) {
     global $recorder_user;
     global $recorder_basedir;
     global $recorder_subdir;
@@ -195,7 +189,7 @@ function push_admins_to_recorders_ezmanager(&$failed_cmd = array())
     global $ezplayer_subdir;
 
     $success = true;
-    
+
     if (!db_ready()) {
         require_once __DIR__ . '/../commons/lib_sql_management.php';
         $stmts = statements_get();
@@ -210,14 +204,14 @@ function push_admins_to_recorders_ezmanager(&$failed_cmd = array())
     foreach ($admins as $a) {
         $admins_str .= '$admin[\'' . $a['user_ID'] . '\']=true;' . PHP_EOL;
     }
-    
-    file_put_contents(__DIR__.'/var/admin.inc', $admins_str);
+
+    file_put_contents(__DIR__ . '/var/admin.inc', $admins_str);
 
     // Copying on recorders
     foreach ($classrooms as $c) {
         exec('ping -c 1 ' . $c['IP'], $output, $return_val);
         if ($return_val == 0) {
-            $cmd = 'scp -o ConnectTimeout=10 '.__DIR__.'/var/admin.inc ' . $recorder_user . '@' . $c['IP'] . ':' .
+            $cmd = 'scp -o ConnectTimeout=10 ' . __DIR__ . '/var/admin.inc ' . $recorder_user . '@' . $c['IP'] . ':' .
                     $recorder_basedir . $recorder_subdir;
             exec($cmd, $output, $return_var);
         }
@@ -229,18 +223,18 @@ function push_admins_to_recorders_ezmanager(&$failed_cmd = array())
         $filepath = $ezmanager_basedir . $ezmanager_subdir . '/admin.inc';
         $res = file_put_contents($filepath, $admins_str);
         if ($res === false) {
-            array_push($failed_cmd , "Failed to write to $filepath");
+            array_push($failed_cmd, "Failed to write to $filepath");
             $success = false;
         }
     } else {
         // Remote copy
         exec('ping -c 1 ' . $ezmanager_host, $output, $return_val);
         if ($return_val == 0) {
-            $cmd = 'scp -o ConnectTimeout=10 '.__DIR__.'/var/admin.inc ' . $ezmanager_user . '@' . $ezmanager_host . ':' .
+            $cmd = 'scp -o ConnectTimeout=10 ' . __DIR__ . '/var/admin.inc ' . $ezmanager_user . '@' . $ezmanager_host . ':' .
                     $ezmanager_basedir . $ezmanager_subdir;
             exec($cmd, $output, $return_var);
             if ($return_val == 0) {
-                array_push($failed_cmd , "Failed to copy to remote manager. Cmd: $cmd ");
+                array_push($failed_cmd, "Failed to copy to remote manager. Cmd: $cmd ");
                 $success = false;
             }
         }
@@ -250,7 +244,7 @@ function push_admins_to_recorders_ezmanager(&$failed_cmd = array())
     $player_filepath = $ezplayer_basedir . $ezplayer_subdir . '/admin.inc';
     $res = file_put_contents($ezplayer_basedir . $ezplayer_subdir . '/admin.inc', $admins_str);
     if ($res === false) {
-        array_push($failed_cmd , "Failed to copy to player. Cmd: $player_filepath ");
+        array_push($failed_cmd, "Failed to copy to player. Cmd: $player_filepath ");
         $success = false;
     }
 
@@ -260,13 +254,12 @@ function push_admins_to_recorders_ezmanager(&$failed_cmd = array())
 /**
  * Pushes users (htpasswd) and associations between users and courses (courselist.php)
  */
-function push_users_courses_to_recorder(&$failed_cmd = array())
-{
+function push_users_courses_to_recorder(&$failed_cmd = array()) {
     global $recorder_user;
     global $recorder_basedir;
     global $recorder_subdir;
     global $recorder_password_storage_enabled;
-        
+
     if (!db_ready()) {
         $statements = statements_get();
         db_prepare($statements);
@@ -278,43 +271,43 @@ function push_users_courses_to_recorder(&$failed_cmd = array())
     //htpasswd
     $htpasswd = '';
     $previous_user = "";
-    $user_added=array();
+    $user_added = array();
     foreach ($users as $u) {
         if (!isset($user_added[$u['user_ID']])) {
             $htpasswd .= $u['user_ID'] . ':' . $u['recorder_passwd'] . PHP_EOL;
-            $user_added[$u['user_ID']]=true;//prevent duplicate entries
+            $user_added[$u['user_ID']] = true; //prevent duplicate entries
         }
     }
-    file_put_contents(__DIR__.'/var/htpasswd', $htpasswd);
+    file_put_contents(__DIR__ . '/var/htpasswd', $htpasswd);
 
     //courselist.php
     $courselist = '<?php' . PHP_EOL;
-    
+
     foreach ($users as $u) {
         $courseCode = (isset($u['course_code_public']) && !empty($u['course_code_public'])) ? $u['course_code_public'] : $u['course_code'];
         $title = (isset($u['shortname']) && !empty($u['shortname'])) ? $u['shortname'] : $u['course_name'];
-        $courselist .= '$course[\'' . $u['user_ID'] . '\'][\'' . $u['course_code'] . '\'] = "' . $courseCode.'-'.$title . '";' . PHP_EOL;
+        $courselist .= '$course[\'' . $u['user_ID'] . '\'][\'' . $u['course_code'] . '\'] = "' . $courseCode . '-' . $title . '";' . PHP_EOL;
         $courselist .= '$users[\'' . $u['user_ID'] . '\'][\'full_name\']="' . $u['forename'] . ' ' . $u['surname'] . '";' . PHP_EOL;
         $courselist .= '$users[\'' . $u['user_ID'] . '\'][\'email\']="";' . PHP_EOL;
     }
-    
+
     $courselist .= '?>';
-    file_put_contents(__DIR__.'/var/courselist.php', $courselist);
-    
+    file_put_contents(__DIR__ . '/var/courselist.php', $courselist);
+
     // Upload all this on server
     $return_var = 0;
     $error = false;
     foreach ($classrooms as $c) {
         exec('ping -c 1 ' . $c['IP'], $output, $return_val);
         if ($return_val == 0) {
-            $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes '.__DIR__.'/var/htpasswd ' . $recorder_user . '@' . $c['IP'] . ':' .
+            $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes ' . __DIR__ . '/var/htpasswd ' . $recorder_user . '@' . $c['IP'] . ':' .
                     $recorder_basedir . $recorder_subdir;
             exec($cmd, $output, $return_var);
             if ($return_var != 0) {
                 array_push($failed_cmd, $cmd);
                 $error = true;
             }
-            $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes '.__DIR__.'/var/courselist.php ' . $recorder_user . '@' . $c['IP'] .
+            $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes ' . __DIR__ . '/var/courselist.php ' . $recorder_user . '@' . $c['IP'] .
                     ':' . $recorder_basedir . $recorder_subdir;
             exec($cmd, $output, $return_var);
             if ($return_var != 0) {
@@ -322,11 +315,11 @@ function push_users_courses_to_recorder(&$failed_cmd = array())
                 $error = true;
             }
         } else {
-            array_push($failed_cmd, "Failed to ping ". $c['IP']);
+            array_push($failed_cmd, "Failed to ping " . $c['IP']);
             $error = true;
         }
     }
-    
+
     return $error === false;
 }
 
@@ -337,28 +330,29 @@ function push_users_courses_to_recorder(&$failed_cmd = array())
  * @global string $ezrecorder_need_files_pushed_path
  * @param boolean $enable
  */
-function notify_changes($enable = true)
-{
+function notify_changes($enable = true) {
     global $ezrecorder_need_files_pushed_path;
     if ($enable) {
-        if(isset($_SESSION)) $_SESSION['changes_to_push'] = true;
+        if (isset($_SESSION))
+            $_SESSION['changes_to_push'] = true;
         //create file whose presence will trigger push (by a cron)
         touch($ezrecorder_need_files_pushed_path);
     } else {
-        if(isset($_SESSION)) unset($_SESSION['changes_to_push']);
+        if (isset($_SESSION))
+            unset($_SESSION['changes_to_push']);
         //remove file whose presence will trigger push (by a cron)
-        if(file_exists($ezrecorder_need_files_pushed_path))unlink($ezrecorder_need_files_pushed_path);
+        if (file_exists($ezrecorder_need_files_pushed_path))
+            unlink($ezrecorder_need_files_pushed_path);
     }
 }
+
 /**
  * indicate/clear Changes have been made but not saved yet and should be pushed to ezrecorders
  * @global string $ezrecorder_need_files_pushed_path
  * @param boolean $enable
  */
-function notify_changes_isset()
-{
+function notify_changes_isset() {
     global $ezrecorder_need_files_pushed_path;
-     
-    return file_exists($ezrecorder_need_files_pushed_path);//if file exists return true
-     
+
+    return file_exists($ezrecorder_need_files_pushed_path); //if file exists return true
 }

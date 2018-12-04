@@ -7,7 +7,7 @@
 
 <data>
     <!-- Labels are keywords that appear in templates 
-         Note: use the same label name as the keyword between ®'s that appears in the template -->
+    Note: use the same label name as the keyword between ®'s that appears in the template -->
     <labels>
         <!-- Product-wise stuff --> 
         <label id="service_name" lang="fr">EZadmin</label>
@@ -74,7 +74,7 @@
         <label id="new_recorder_admin" lang="en">Add admin</label>
         <label id="renderers_queue" lang="fr">Liste de jobs</label>
         <label id="renderers_queue" lang="en">Job queue</label>
-         <label id="renderers_log" lang="fr">Derniers messages</label>
+        <label id="renderers_log" lang="fr">Derniers messages</label>
         <label id="renderers_log" lang="en">Latest logs</label>
         <label id="renderers_list" lang="fr">Liste renderers</label>
         <label id="renderers_list" lang="en">Renderers list</label>
@@ -514,10 +514,11 @@
         <label id="monit_error_param" lang="en">An error occured with parameters</label>
         <label id="monit_nbr_week" lang="fr">Nombre de semaines</label>
         <label id="monit_nbr_week" lang="en">Number of weeks</label>
-        <label id="classroom_not_display_date" lang="fr">Les assets suivants ne sont pas être affiché car ils 
-            s'étalent sur plusieurs jours: </label>
-        <label id="classroom_not_display_date" lang="en">The following assets can not be displayed because 
-            they are spread over several days: </label>
+        <label id="monit_getinfo_video" lang="fr">Information sur l'asset</label>
+        <label id="monit_getinfo_video" lang="en">Asset information</label>
+
+        <label id="classroom_not_display_date" lang="fr">Les assets suivants ne sont pas être affiché car ils s'étalent sur plusieurs jours: </label>
+        <label id="classroom_not_display_date" lang="en">The following assets can not be displayed because they are spread over several days: </label>
         <label id="classroom_not_display_short_record" lang="fr">Les assets suivants ne sont pas être affiché car ils 
             sont trop courts: </label>
         <label id="classroom_not_display_short_record" lang="en">The following assets can not be displayed because 
@@ -813,7 +814,8 @@
         <label id="report_os_graphic" lang="en">Used operator system</label>
         <label id="report_browser_graphic" lang="fr">Navigateur utilisé</label>
         <label id="report_browser_graphic" lang="en">Used browser</label>
-        
+        <label id="report_no_char" lang="fr">Lettres et chiffres seulement</label>
+        <label id="report_no_char" lang="en">Letters and numbers only</label> 
         
         
         <!-- Long texts -->
@@ -1009,9 +1011,9 @@
         <message id="empty_username_password" lang="fr">Veuillez entrer votre netID et mot de passe.</message>
         <message id="empty_username_password" lang="en">Please enter your netID and password.</message>
         <message id="not_registered" lang="fr">Vous n\'avez aucun cours à votre nom. Si vous pensez qu\'il s\'agit d\'une 
-            erreur, contactez podcast@uclouvain.be</message>
+            erreur, contactez podcast@ulb.ac.be</message>
         <message id="not_registered" lang="en">You do no have the rights to manage any course. If you think this is a mistake, 
-            please contact podcast@uclouvain.be</message>
+            please contact podcast@ulb.ac.be</message>
         <message id="Unauthorized" lang="fr">Accès refusé: permissions insuffisantes.</message>
         <message id="Unauthorized" lang="en">Access denied: you don\'t have permission to access this element.</message>
         <message id="Non-existant_album" lang="fr">Accès refusé: album inexistant</message>
@@ -1020,8 +1022,8 @@
         <message id="Non-existant_asset" lang="en">Access denied: the record does not exist</message>
         <message id="File_not_found" lang="fr">Fichier introuvable</message>
         <message id="File_not_found" lang="en">Could not find your file, sorry</message>
-        <message id="Upload_error" lang="fr">Erreur lors de l\'envoi. Veuillez réessayer ou contacter podcast@uclouvain.be</message>
-        <message id="Upload_error" lang="en">Upload error. Please try again or contact podcast@uclouvain.be</message>
+        <message id="Upload_error" lang="fr">Erreur lors de l\'envoi. Veuillez réessayer ou contacter podcast@ulb.ac.be</message>
+        <message id="Upload_error" lang="en">Upload error. Please try again or contact podcast@ulb.ac.be</message>
         <message id="Invalid_token" lang="fr">Accès refusé</message>
         <message id="Invalid_token" lang="en">Access denied</message>
         <message id="Invalid_quality" lang="fr">Accès refusé: qualité non-valide</message>
@@ -1097,7 +1099,7 @@
             'known_hosts'.</message>
         <message id="ssh_known_hosts_error" lang="en">Could not add SSH public key from remote server (renderer) to the 
             'known_hosts' file.</message>
-            <message id="ssh_hostname_error" lang="fr">l'adresse du renderer est incorrete</message>
+        <message id="ssh_hostname_error" lang="fr">l'adresse du renderer est incorrete</message>
         <message id="ssh_hostname_error" lang="en">Incorrect renderer address</message>
         <message id="ssh_connection_failed" lang="fr">Impossible d'établir une connection SSH avec le serveur distant (renderer) 
             &lt;?php echo $_SESSION['renderer_address'];?&gt;. Vérifiez que l'adresse du renderer et le nom d'utilisateur sont corrects et 

@@ -9,7 +9,8 @@
             echo $appname;
             if (isset($_SESSION['changes_to_push'])) {
                 echo ' (®unsaved_changes®)';
-            }?></title>
+            }
+            ?></title>
         <meta name="description" content="EZAdmin is an application to manage EZCast" />
         <script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" src="js/moment.min.js"></script>
@@ -22,14 +23,14 @@
         <script type="text/javascript" src="bootstrap/js/bootstrap-select.min.js"></script>
         <script type="text/javascript" src="js/typeahead.min.js"></script>
         <script type="text/javascript" src="js/js_utils.js"></script>
-        
+
         <script src="js/stats.js"></script>
-        
+
         <!-- Calendar -->
         <script src="js/angular.min.js"></script>
         <script src="bootstrap/js/ui-bootstrap-tpls.min.js"></script>
         <script src="bootstrap/js/angular-bootstrap-calendar.min.js"></script>
-        
+
         <!-- HighCharts -->
         <!-- <script src="https://code.highcharts.com/stock/highstock.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script> -->
@@ -45,39 +46,42 @@
         <link type="text/css" href="commons/css/common_style.css" rel="stylesheet" />
         <link href="css/jquery.jqplot.min.css" rel="stylesheet"/>
         <link href="css/ezplayerStats.css" rel="stylesheet"/>
-        
+
         <?php
-            global $apache_documentroot;
-            $custom_folder = "$apache_documentroot/ezadmin/css/custom/";
-            $dir = new DirectoryIterator($custom_folder);
-            foreach ($dir as $fileinfo) {
-                if ($fileinfo->isFile()) {
-                    echo '<link rel="stylesheet" type="text/css" href="css/custom/'.$fileinfo->getFilename().'"/>';
-                }
+        global $apache_documentroot;
+        $custom_folder = "$apache_documentroot/ezadmin/css/custom/";
+        $dir = new DirectoryIterator($custom_folder);
+        foreach ($dir as $fileinfo) {
+            if ($fileinfo->isFile()) {
+                echo '<link rel="stylesheet" type="text/css" href="css/custom/' . $fileinfo->getFilename() . '"/>';
             }
+        }
         ?>
 
-        
+
     </head>
     <body link="#000088" vlink="#000044" alink="#0000ff" 
-        <?php if (isset($GLOBALS['debugmode']) && ($GLOBALS['debugmode'] == "devl")) {
-            echo 'background="#99ff99"';
-        } ?>>
+    <?php
+    if (isset($GLOBALS['debugmode']) && ($GLOBALS['debugmode'] == "devl")) {
+        echo 'background="#99ff99"';
+    }
+    ?>>
 
         <div class="container_ezplayer">
-        <?php include template_getpath('div_header.php'); ?>
+            <?php include template_getpath('div_header.php'); ?>
             <div id="global">
 
-        <div class="container">
-            <div class="row">
-<?php include template_getpath('div_main_menu.php'); ?>
-                <div class="col-md-10">
-                    <?php 
-                    global $sample_config_version;
-                    global $config_version;
-                    if ($sample_config_version > $config_version) {
-                        echo '<div class="alert alert-danger" role="alert">®new_config_version®</div>';
-                    } elseif ($sample_config_version < $config_version) {
-                        echo '<div class="alert alert-info" role="alert">®config_more_recent_version®</div>';
-                    } ?>
+                <div class="container">
+                    <div class="row">
+                        <?php include template_getpath('div_main_menu.php'); ?>
+                        <div class="col-md-10">
+                            <?php
+                            global $sample_config_version;
+                            global $config_version;
+                            if ($sample_config_version > $config_version) {
+                                echo '<div class="alert alert-danger" role="alert">®new_config_version®</div>';
+                            } elseif ($sample_config_version < $config_version) {
+                                echo '<div class="alert alert-info" role="alert">®config_more_recent_version®</div>';
+                            }
+                            ?>
 
