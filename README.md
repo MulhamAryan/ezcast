@@ -26,8 +26,8 @@ EZcast requires a UNIX/LINUX architecture to run. It will NOT work on Windows.
 In order to use EZrecorder, you need to install / enable several components:
 
 - Apache2 
-- MySQL 5.x
-- PHP5.6 ( or greater ) with following extensions activated:
+- MySQL 5.6 ( or greater )
+- PHP7 ( or greater ) with following extensions activated:
   -curl
   -ldap
   -pdo_mysql
