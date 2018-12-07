@@ -5,6 +5,7 @@ include_once '../commons/event_status.php';
 /// Define Helper ///
 include_once '../commons/view_helpers/helper_pagination.php';
 include_once '../commons/view_helpers/helper_sort_col.php';
+include_once '../ezmanager/lib_ezmam.php';
 
 global $MAX_TIME_NO_CRON;
 $MAX_TIME_NO_CRON = 3 * 24 * 60 * 60; //3 days
