@@ -395,7 +395,7 @@ html{
     position: fixed;
     right: 0px;
     top: 145px;
-    background: url('../images/Generale/contact-a.png') no-repeat center center;
+    background: url('/ezplayer/images/Generale/contact-a.png') no-repeat center center;
     z-index: 96;
     -moz-border-radius: 6px 0px 0px 6px;
     -webkit-border-radius: 6px 0px 0px 6px;
@@ -404,16 +404,16 @@ html{
 
 #help{
     top: 110px;
-    background: url('../images/Generale/help-a.png') no-repeat center center;
+    background: url('/ezplayer/images/Generale/help-a.png') no-repeat center center;
 }
 
 #help:hover{
-    background: url('../images/Generale/help-b.png') no-repeat center center;
+    background: url('/ezplayer/images/Generale/help-b.png') no-repeat center center;
 }
 
 #contact:active,
 #contact:hover{    
-    background: url('../images/Generale/contact-b.png') no-repeat center center;
+    background: url('/ezplayer/images/Generale/contact-b.png') no-repeat center center;
 }
 
 #settings_form_wrapper h2,
@@ -1582,7 +1582,7 @@ html{
 }
 
 .chat_msg .chat_private{
-    background: url('../images/Generale/chat_private.png') no-repeat center center;
+    background: url('/ezplayer/images/Generale/chat_private.png') no-repeat center center;
     width: 18px;
     height: 18px;
     float: right;
@@ -1653,7 +1653,7 @@ html{
 }
 
 #main_player.small_display .chat_button .button{
-    background-image: url('../images/Generale/chat_send.png');
+    background-image: url('/ezplayer/images/Generale/chat_send.png');
     background-position: center no-repeat;
     padding: 0px;
     width: 24px;
@@ -2147,11 +2147,11 @@ html{
     width: 22px; 
     margin-right: 14px; 
     margin-top: 4px;
-    background: transparent url('../images/Generale/A-back-threads.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/A-back-threads.png') no-repeat center center;
 }
 
 .back-button:hover{
-    background: transparent url('../images/Generale/B-back-threads.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/B-back-threads.png') no-repeat center center;
 }
 
 .refresh-button{
@@ -2159,11 +2159,11 @@ html{
     width: 22px;
     margin-right: 24px; 
     margin-top: 4px;
-    background: transparent url('../images/Generale/A-refresh.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/A-refresh.png') no-repeat center center;
 }
 
 .refresh-button:hover{
-    background: transparent url('../images/Generale/B-refresh.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/B-refresh.png') no-repeat center center;
 }
 
 .upvote-button{
@@ -2172,13 +2172,13 @@ html{
     padding: 2px;
     border-radius: 4px 0px 0px 4px;
     border: 1px solid #CCCCCC;
-    background: transparent url('../images/Generale/HandGoodBlack.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/HandGoodBlack.png') no-repeat center center;
 }
 
 .upvote-button:hover{
     cursor: pointer;
     border-color: #b8ca54;
-    background: transparent url('../images/Generale/HandGoodGreen.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/HandGoodGreen.png') no-repeat center center;
 }
 
 .downvote-button{
@@ -2187,13 +2187,13 @@ html{
     padding: 2px;
     border-radius: 0px 4px 4px 0px;
     border: 1px solid #CCCCCC;
-    background: transparent url('../images/Generale/HandBadBlack.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/HandBadBlack.png') no-repeat center center;
 }
 
 .downvote-button:hover{
     cursor: pointer;
     border-color: #c23328;
-    background: transparent url('../images/Generale/HandBadRed.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/HandBadRed.png') no-repeat center center;
 }
 
 .badge-score{
@@ -2206,31 +2206,31 @@ html{
     height: 29px;
     width: 20px;
     margin: 0px 8px 0px 8px;
-    background: url('../images/Generale/medaille.png') no-repeat center center;
+    background: url('/ezplayer/images/Generale/medaille.png') no-repeat center center;
 }
 
 .delete-button.green2{
     height: 20px;
     width: 20px;
     margin-top: 2px;
-    background: transparent url('../images/Generale/A-supprimer.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/A-supprimer.png') no-repeat center center;
 }
 
 .delete-button.green2:hover{
     cursor: pointer;
-    background: transparent url('../images/Generale/B-supprimer.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/B-supprimer.png') no-repeat center center;
 }
 
 .edit-button.green2{
     height: 20px;
     width: 20px;
     margin-top: 2px;
-    background: transparent url('../images/Generale/A-editer.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/A-editer.png') no-repeat center center;
 }
 
 .edit-button.green2:hover{
     cursor: pointer;
-    background: transparent url('../images/Generale/B-editer.png') no-repeat center center;
+    background: transparent url('/ezplayer/images/Generale/B-editer.png') no-repeat center center;
 }
 
 .warning_edit{
@@ -3541,13 +3541,13 @@ a.tooltip:hover div.tip{
 .checkbox-download-on{
     width: 32px;
     height: 20px;
-    background-image: url('../images/Generale/B-check.png');
+    background-image: url('/ezplayer/images/Generale/B-check.png');
 }
 
 .checkbox-download-off{
     width: 32px;
     height: 20px;
-    background-image: url('../images/Generale/A-check.png');
+    background-image: url('/ezplayer/images/Generale/A-check.png');
 }
 
 .custom-checkbox{
@@ -3559,20 +3559,20 @@ a.tooltip:hover div.tip{
     margin-right: 56px;
     width: 32px;
     height: 20px;
-    background: url('../images/Generale/A-check.png') no-repeat center center;
+    background: url('/ezplayer/images/Generale/A-check.png') no-repeat center center;
 }
 .custom-checkbox + label:hover{
-    /*background: url('../images/Generale/B-check.png') no-repeat center center;*/
+    /*background: url('/ezplayer/images/Generale/B-check.png') no-repeat center center;*/
     cursor: pointer;
 }
 .custom-checkbox:checked + label:hover{
-    /*background: url('../images/Generale/A-check.png') no-repeat center center;*/
+    /*background: url('/ezplayer/images/Generale/A-check.png') no-repeat center center;*/
 }
 
 .custom-checkbox:checked + label{
     width: 32px;
     height: 20px;
-    background: url('../images/Generale/B-check.png') no-repeat center center;
+    background: url('/ezplayer/images/Generale/B-check.png') no-repeat center center;
 }
 
 /* --- NOTIFICATION ----------------------------------------------------------*/
