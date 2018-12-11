@@ -1,8 +1,7 @@
 <?php
 
-class EventStatus
-{
-    
+class EventStatus {
+
     // All is ok
     const AUTO_SUCCESS = "AUTO_SUCCESS";
     // Finish but critical error
@@ -13,7 +12,6 @@ class EventStatus
     const AUTO_FAILURE = "AUTO_FAILURE";
     // Canceled
     const AUTO_IGNORE = "AUTO_IGNORE";
-    
     // All is ok
     const MANUAL_OK = "MANUAL_OK";
     // Ok but some losses
@@ -22,55 +20,49 @@ class EventStatus
     const MANUAL_FAILURE = "MANUAL_FAILURE";
     // Not important (link to an other asset)
     const MANUAL_IGNORE = "MANUAL_IGNORE";
-    
-    
-    public static function getAllEventStatus()
-    {
+
+    public static function getAllEventStatus() {
         return array(EventStatus::AUTO_SUCCESS, EventStatus::AUTO_SUCCESS_ERRORS,
             EventStatus::AUTO_SUCCESS_WARNINGS, EventStatus::AUTO_FAILURE,
             EventStatus::MANUAL_OK, EventStatus::MANUAL_PARTIAL_OK,
             EventStatus::MANUAL_FAILURE, EventStatus::MANUAL_IGNORE);
     }
-    
-    public static function getManualEventStatus()
-    {
+
+    public static function getManualEventStatus() {
         return array(EventStatus::MANUAL_OK, EventStatus::MANUAL_PARTIAL_OK,
             EventStatus::MANUAL_FAILURE, EventStatus::MANUAL_IGNORE);
     }
-    
-    
-    public static function getColorStatus($statut)
-    {
+
+    public static function getColorStatus($statut) {
         switch (strtoupper($statut)) {
             case EventStatus::AUTO_SUCCESS:
             case EventStatus::MANUAL_OK:
                 return "success";
-                
+
             case EventStatus::AUTO_SUCCESS_WARNINGS:
                 return "lightwarning";
-                
-                //return "danger";
-                
+
+            //return "danger";
+
             case EventStatus::AUTO_SUCCESS_ERRORS:
             case EventStatus::MANUAL_PARTIAL_OK:
                 return "warning";
-                
+
             case EventStatus::AUTO_FAILURE:
             case EventStatus::MANUAL_FAILURE:
                 return "alert";
-                
-                
+
+
             case EventStatus::MANUAL_IGNORE:
+            case EventStatus::AUTO_IGNORE:
                 return "default";
-                
+
             default:
                 return "";
-                
         }
     }
-           
-    public static function isSuccessStatus($status)
-    {
+
+    public static function isSuccessStatus($status) {
         $status = strtoupper($status);
         switch ($status) {
             case EventStatus::AUTO_SUCCESS:
@@ -83,4 +75,7 @@ class EventStatus
                 return false;
         }
     }
-};
+
+}
+
+;

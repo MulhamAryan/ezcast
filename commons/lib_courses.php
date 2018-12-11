@@ -36,33 +36,31 @@ require_once 'lib_database.php';
  * @param string $netid
  * @return array key: course code; value: course description
  */
-function courses_list($netid = "")
-{
-    
+function courses_list($netid = "") {
+
     // prepared requests
     $statements = array(
         'course_all_get' =>
-            'SELECT DISTINCT ' .
-            db_gettable('courses') . '.course_code AS mnemonic, ' .
-            db_gettable('courses') . '.course_name AS label ' .
-            'FROM ' . db_gettable('courses') . ' ' .
-            'ORDER BY mnemonic ASC',
-        
+        'SELECT DISTINCT ' .
+        db_gettable('courses') . '.course_code AS mnemonic, ' .
+        db_gettable('courses') . '.course_name AS label ' .
+        'FROM ' . db_gettable('courses') . ' ' .
+        'ORDER BY mnemonic ASC',
         'user_courses_get' =>
-            'SELECT DISTINCT ' .
-            db_gettable('users_courses') . '.ID, ' .
-            db_gettable('courses') . '.course_code, ' .
-            db_gettable('courses') . '.course_name, ' .
-            db_gettable('courses') . '.in_recorders, ' .
-            db_gettable('users_courses') . '.origin ' .
-            'FROM ' . db_gettable('courses') . ' ' .
-            'INNER JOIN ' . db_gettable('users_courses') . ' ON ' . db_gettable('courses') . '.course_code = ' .
-                db_gettable('users_courses') . '.course_code ' .
-            'WHERE user_ID = :user_ID'
+        'SELECT DISTINCT ' .
+        db_gettable('users_courses') . '.ID, ' .
+        db_gettable('courses') . '.course_code, ' .
+        db_gettable('courses') . '.course_name, ' .
+        db_gettable('courses') . '.in_recorders, ' .
+        db_gettable('users_courses') . '.origin ' .
+        'FROM ' . db_gettable('courses') . ' ' .
+        'INNER JOIN ' . db_gettable('users_courses') . ' ON ' . db_gettable('courses') . '.course_code = ' .
+        db_gettable('users_courses') . '.course_code ' .
+        'WHERE user_ID = :user_ID'
     );
-    
+
     $db = db_prepare($statements);
-    
+
     if (!$db) {
         debuglog("could not connect to sgbd:" . mysqli_error());
         die;
@@ -79,7 +77,7 @@ function courses_list($netid = "")
     } else {
         // retrieves all courses for a given netid
         $course_list = db_user_courses_get($netid);
-        
+
         $result = array();
         foreach ($course_list as $value) {
             $result[$value['course_code']] = $value['course_code'] . '|' . $value['course_name'];
@@ -89,8 +87,7 @@ function courses_list($netid = "")
     return $result;
 }
 
-function debuglog($message)
-{
+function debuglog($message) {
     global $commons_logfile, $_SERVER;
 
     $fp = fopen($commons_logfile, "a+");
@@ -112,16 +109,14 @@ function debuglog($message)
  * @param Stirng $origin
  *
  */
-function db_courses_all_get()
-{
+function db_courses_all_get() {
     global $statements; // from lib_database
 
     $statements['course_all_get']->execute();
     return $statements['course_all_get']->fetchAll();
 }
 
-function db_user_courses_get($user_ID)
-{
+function db_user_courses_get($user_ID) {
     global $statements; // from lib_database
 
     $statements['user_courses_get']->bindParam(':user_ID', $user_ID);
