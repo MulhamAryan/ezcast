@@ -1,24 +1,5 @@
 
 /* ---------------- GENERAL ----------------- */
-
-img, a, fieldset, ul, li, p, h1, h2, h3, h4, h5, h6, div{
-    border:0pt none;
-    margin:0pt;
-    padding:0pt;
-}
-
-a{
-    cursor: pointer;
-}
-b{
-    font-weight: bold;
-}
-
-*{
-    margin:0;
-    padding:0;
-}
-
 .white{
     color: white;
 }
@@ -51,17 +32,6 @@ b{
 
 html{
     height:100%;
-}
-
-body {
-    background-image: url("../images/Generale/background.png");
-    background-repeat: repeat;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 0.75em;
-    height:100%;
-    color: #333333;
-    font-weight: lighter;
-
 }
 
 .container{
