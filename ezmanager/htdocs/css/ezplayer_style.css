@@ -3386,58 +3386,6 @@ a.tooltip:hover div.tip{
     width: 150px; 
 }
 
-/* ------------------ FOOTER -------------------- */
-
-
-.footer {
-    position: absolute;
-    clear: both;
-    background-image: url("../images/Generale/backgroundFooter.png");
-    background-repeat: repeat-x;
-/*    height: 35px;*/
-    width: 100%;
-    bottom: 0px;
-}
-
-.footer_content {
-    margin: auto;
-    width: 934px;
-}
-
-.footer_mention{
-    font-size: 10px; 
-    color: #7BB3B6; 
-    margin: 13px 0px; 
-    float: left;
-}
-.footer_mention a {
-    text-decoration: none; 
-    color: #BBBBBB; 
-    padding: 0px; 
-    margin: 0px;
-}
-.footer_mention a:hover {
-    color: #7BB3B6; 
-}
-
-
-.copyright {
-    margin: 13px 0px;
-    font-size: 10px;
-    color: #7bb3b6;
-    float: right;
-}
-
-.copyright a {
-    text-decoration: none;
-    color: #7bb3b6;
-}
-
-.copyright a:hover {
-    color: #ffffff;
-}
-
-
 /* --------------------------- HELP PAGE ------------------------ */
 
 #help-content,
