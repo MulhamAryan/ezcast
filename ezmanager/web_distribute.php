@@ -33,10 +33,9 @@
 /**
  * @package ezcast.ezmanager.distribute
  */
-
 require_once 'config.inc';
 require_once 'lib_ezmam.php';
-require_once __DIR__.'/../commons/lib_error.php';
+require_once __DIR__ . '/../commons/lib_error.php';
 require_once '../commons/lib_template.php';
 require_once 'lib_various.php';
 require_once 'external_products/rangeDownload.php';
@@ -75,28 +74,26 @@ switch ($input['action']) {
     case 'embed_link':
         view_embed_link();
         break;
-    
+
     // The user wants to view a media in streaming. Send an iframe containing the videos.
     case 'embed':
         view_embed();
         break;
-    
+
     case 'embed_player':
         view_embed_player();
         break;
-    
+
     default:
         error_print_http(400);
         break;
-    
 }
 
 //
 // Functions
 //
 
-function view_rss()
-{
+function view_rss() {
     global $input;
 
     // 0) Sanity checks
@@ -133,61 +130,59 @@ function view_rss()
     readfile($feed_handle);
 }
 
-function view_embed_player()
-{
+function view_embed_player() {
     /* Not working at all
-    global $input;
-    global $template_folder;
-    global $appname;
+      global $input;
+      global $template_folder;
+      global $appname;
 
-    //todo: check for $input sanity
-    $asset = $input['asset'];
-    $album = $input['album'];
-    $token = $input['token'];
+      //todo: check for $input sanity
+      $asset = $input['asset'];
+      $album = $input['album'];
+      $token = $input['token'];
 
-    // 0) Sanity checks
-    if (!ezmam_album_exists($album)) {
-        error_print_http(404);
-        log_append('warning', 'view_player: tried to access non-existant album ' . $album);
-        exit;
-    }
+      // 0) Sanity checks
+      if (!ezmam_album_exists($album)) {
+      error_print_http(404);
+      log_append('warning', 'view_player: tried to access non-existant album ' . $album);
+      exit;
+      }
 
-    if (!ezmam_album_token_check($input['album'], $token)) {
-        error_print_http(403);
-        log_append('warning', 'view_player: tried to acces album ' . $input['album'] . ' with invalid token ' . $input['token']);
-        die;
-    }
+      if (!ezmam_album_token_check($input['album'], $token)) {
+      error_print_http(403);
+      log_append('warning', 'view_player: tried to acces album ' . $input['album'] . ' with invalid token ' . $input['token']);
+      die;
+      }
 
 
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
+      error_reporting(E_ALL);
+      ini_set("display_errors", 1);
 
-    $asset_metadata = ezmam_asset_metadata_get($album, $asset);
-    $media_metadata = ezmam_media_list_metadata_assoc($album, $asset);
+      $asset_metadata = ezmam_asset_metadata_get($album, $asset);
+      $media_metadata = ezmam_media_list_metadata_assoc($album, $asset);
 
-     // prepares the different sources for the video HTML5 tag
-    if ($asset_metadata['record_type'] == 'camslide' || $asset_meta['record_type'] == 'cam') {
-        $asset_metadata['high_cam_src'] = get_link_to_media($album, $asset, 'high_cam');
-        $asset_metadata['low_cam_src'] = get_link_to_media($album, $asset, 'low_cam');
-        // #t=$timecode stands for W3C temporal Media Fragments URI (working in Firefox and Chrome)
-        $video_src = $asset_metadata['low_cam_src'] . '&origin=' . $appname . "#t=" . $timecode;
-    }
+      // prepares the different sources for the video HTML5 tag
+      if ($asset_metadata['record_type'] == 'camslide' || $asset_meta['record_type'] == 'cam') {
+      $asset_metadata['high_cam_src'] = get_link_to_media($album, $asset, 'high_cam');
+      $asset_metadata['low_cam_src'] = get_link_to_media($album, $asset, 'low_cam');
+      // #t=$timecode stands for W3C temporal Media Fragments URI (working in Firefox and Chrome)
+      $video_src = $asset_metadata['low_cam_src'] . '&origin=' . $appname . "#t=" . $timecode;
+      }
 
-    if ($asset_metadata['record_type'] == 'camslide' || $asset_meta['record_type'] == 'slide') {
-        $asset_metadata['high_slide_src'] = get_link_to_media($album, $asset, 'high_slide');
-        $asset_metadata['low_slide_src'] = get_link_to_media($album, $asset, 'low_slide');
-        if ($asset_metadata['record_type'] == 'slide') {
-            $video_src = $asset_metadata['low_slide_src'] . '&origin=' . $appname . "#t=" . $timecode;
-        }
-    }
+      if ($asset_metadata['record_type'] == 'camslide' || $asset_meta['record_type'] == 'slide') {
+      $asset_metadata['high_slide_src'] = get_link_to_media($album, $asset, 'high_slide');
+      $asset_metadata['low_slide_src'] = get_link_to_media($album, $asset, 'low_slide');
+      if ($asset_metadata['record_type'] == 'slide') {
+      $video_src = $asset_metadata['low_slide_src'] . '&origin=' . $appname . "#t=" . $timecode;
+      }
+      }
 
-    template_repository_path($template_folder . get_lang());
-    require_once template_getpath('embed_player.php');
+      template_repository_path($template_folder . get_lang());
+      require_once template_getpath('embed_player.php');
      */
 }
 
-function view_media()
-{
+function view_media() {
     global $accepted_media_qualities;
     global $accepted_media_types;
     global $input;
@@ -245,7 +240,7 @@ function view_media()
         $media_name = $quality . '_' . $type;
 
         $media_handle = ezmam_media_getpath($input['album'], $input['asset'], $media_name, false);
-        
+
 
         // If we still can't find a file, we just tell the users so
         if (!$media_handle) {
@@ -289,7 +284,7 @@ function view_media()
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Content-Length: ' . filesize($media_handle));
         header('Accept-Ranges: bytes');
-        
+
         //fpassthru($fh);
         // flush();
         // readfile($file);
@@ -297,7 +292,7 @@ function view_media()
 
         ob_clean();
         passthru('/bin/cat ' . escapeshellarg($media_handle));
-       // fclose($fh);
+        // fclose($fh);
     }
 }
 
@@ -306,8 +301,7 @@ function view_media()
  * @global type $input
  * @global type $distribute_url
  */
-function view_embed_link()
-{
+function view_embed_link() {
     global $input;
     global $distribute_url;
     global $ezmanager_url;
@@ -315,10 +309,10 @@ function view_embed_link()
     // Sanity checks
     if (!isset($input['album']) || !isset($input['asset']) || !isset($input['quality']) || !isset($input['type']) ||
             !isset($input['token'])) {
-        echo "Usage: distribute.php?action=embed&amp;album=ALBUM&amp;asset=ASSET&amp;type=TYPE&amp;".
-                "quality=QUALITY&amp;token=TOKEN<br/>";
-        echo "Optional parameters: width: Video width in pixels. height: video height in pixels. iframe: set to true ".
-                "if you want the return code to be an iframe instead of a full HTML page";
+        echo "Usage: distribute.php?action=embed&amp;album=ALBUM&amp;asset=ASSET&amp;type=TYPE&amp;" .
+        "quality=QUALITY&amp;token=TOKEN<br/>";
+        echo "Optional parameters: width: Video width in pixels. height: video height in pixels. iframe: set to true " .
+        "if you want the return code to be an iframe instead of a full HTML page";
         die;
     }
     $lang = $input['lang'];
@@ -337,8 +331,7 @@ function view_embed_link()
  * Displays the flash player
  * @global type $input
  */
-function view_embed()
-{
+function view_embed() {
     global $input;
     global $repository_path;
     global $template_folder;
@@ -348,7 +341,7 @@ function view_embed()
     if (!isset($input['album']) || !isset($input['asset']) || !isset($input['quality']) ||
             !isset($input['type']) || !isset($input['token'])) {
         echo "Usage: distribute.php?action=embed&amp;album=ALBUM&amp;asset=ASSET&amp;type=TYPE&amp;quality=QUALITY"
-            . "&amp;token=TOKEN<br/>";
+        . "&amp;token=TOKEN<br/>";
         echo "Optional parameters: <br/>";
         echo "    width: Video width in pixels.  <br/>";
         echo "    height: video height in pixels.  <br/>";
@@ -430,10 +423,10 @@ function view_embed()
     if (isset($input['iframe']) && $input['iframe'] == 'true') {
         $origin = (isset($input['origin']) && $input['origin'] == 'ezmanager') ? 'ezmanager' : 'embed';
         echo '<iframe style="padding: 0; z-index: 100;" frameborder="0" scrolling="no" src="distribute.php?' .
-                'action=embed&amp;album=' . $input['album'] . '&amp;asset=' . $input['asset'] . '&amp;type=' .
-                $input['type'] . '&amp;quality=' . $input['quality'] . '&amp;token=' . $input['token'] . '&amp;width=' .
-                $width . '&amp;height=' . $height . '&amp;origin=' . $origin . '" width="' . $width . '" height="' .
-                $height . '"></iframe>';
+        'action=embed&amp;album=' . $input['album'] . '&amp;asset=' . $input['asset'] . '&amp;type=' .
+        $input['type'] . '&amp;quality=' . $input['quality'] . '&amp;token=' . $input['token'] . '&amp;width=' .
+        $width . '&amp;height=' . $height . '&amp;origin=' . $origin . '" width="' . $width . '" height="' .
+        $height . '"></iframe>';
     } else {
         template_repository_path($template_folder . 'en');
         require_once template_getpath('embed_header.php');
@@ -449,7 +442,7 @@ function view_embed()
         } else { // Otherwise, if it accepts HTML5, we display the HTML5 browser
             require_once template_getpath('embed_html5.php');
         }
-        
+
         require_once template_getpath('embed_footer.php');
     }
 }
@@ -458,14 +451,12 @@ function view_embed()
 // Helper functions
 //
 
-function accepted_quality($quality)
-{
+function accepted_quality($quality) {
     global $accepted_media_qualities;
     return in_array($quality, $accepted_media_qualities);
 }
 
-function accepted_type($type)
-{
+function accepted_type($type) {
     global $accepted_media_types;
     return in_array($type, $accepted_media_types);
 }

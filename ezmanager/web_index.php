@@ -8,7 +8,7 @@ require_once 'config.inc';
 session_name($appname);
 session_start();
 require_once 'lib_acl.php';
-require_once __DIR__.'/../commons/lib_error.php';
+require_once __DIR__ . '/../commons/lib_error.php';
 require_once 'lib_ezmam.php';
 require_once '../commons/lib_auth.php';
 require_once '../commons/lib_various.php';
@@ -31,7 +31,7 @@ template_load_dictionnary('translations.xml');
 //
 // If we're not logged in, we try to log in or display the login form
 if (!user_logged_in()) {
-    
+
 //    if( ((isset($_SESSION['termsOfUses']) && $_SESSION['termsOfUses']!=1) ||  !isset($_SESSION['termsOfUses']))  && $enable_termsOfUse){
 //        view_termsOfUses_form();
 //        $_SESSION['redirect']=json_encode($input);
@@ -79,10 +79,9 @@ if (!user_logged_in()) {
             view_login_form();
         }
     }
-}
-else if(isset($_SESSION['termsOfUses']) && $_SESSION['termsOfUses']!=1 && ($input['action']!='acceptTermsOfUses') && $enable_termsOfUse){
+} else if (isset($_SESSION['termsOfUses']) && $_SESSION['termsOfUses'] != 1 && ($input['action'] != 'acceptTermsOfUses') && $enable_termsOfUse) {
     view_termsOfUses_form();
-    $_SESSION['redirect']=json_encode($input);
+    $_SESSION['redirect'] = json_encode($input);
     die();
 }
 
@@ -92,8 +91,8 @@ else if(isset($_SESSION['termsOfUses']) && $_SESSION['termsOfUses']!=1 && ($inpu
 elseif (((isset($_SESSION['podman_logged']) && (!isset($input['action']) || empty($input['action']))) &&
         (!isset($_SESSION['add_moderator']) || $_SESSION['add_moderator'] != 'true')) ||
         ((isset($_SESSION['podman_logged']) && (!isset($input['action']) || empty($input['action']))) &&
-                isset($_SESSION['add_moderator']) && $_SESSION['add_moderator'] != 'true')
-        ) {
+        isset($_SESSION['add_moderator']) && $_SESSION['add_moderator'] != 'true')
+) {
     redraw_page();
 }
 
@@ -106,8 +105,8 @@ else {
         $input['tokenmanager'] = $_SESSION['add_moderator_token'];
         $_SESSION['add_moderator'] = 'false';
     }
-        
-        
+
+
     $action = $input['action'];
     $redraw = false;
     /**
@@ -117,13 +116,13 @@ else {
      */
     global $service; //true if we're currently running a service.
     $service = false;
-    
+
     //
     // Actions
     //
     // Controller goes here
-    
-    
+
+
     $paramController = array();
     switch ($action) {
         // The user clicked on an album, we display its content to them
@@ -150,7 +149,7 @@ else {
             $service = true;
             requireController('update_ezrecorder.php');
             break;
-        
+
         // Display the update page
         case 'view_update':
             requireController('view_update.php');
@@ -174,19 +173,19 @@ else {
             $service = true;
             requireController('reset_rss.php');
             break;
-        
+
         case 'view_stats':
             requireController('view_stats.php');
             break;
-        
+
         case 'view_ezplayer_link':
             requireController('view_ezplayer_link.php');
             break;
-        
+
         case 'view_ezmanager_link':
             requireController('view_ezmanager_link.php');
             break;
-        
+
         //The users wants to upload an asset into the current album, show lets show him the upload form
         case 'submit_media_progress_bar':
             $service = true;
@@ -200,7 +199,7 @@ else {
         case 'view_edit_album':
             requireController('view_edit_album.php');
             break;
-            
+
         case 'view_list_moderator':
             requireController('moderator_management.php');
             break;
@@ -249,6 +248,10 @@ else {
         case 'asset_downloadable_set':
             $service = true;
             requireController('asset_downloadable_set.php');
+            break;
+
+        case 'asset_disable_media':
+            requireController('asset_disable_media.php');
             break;
 
         case 'delete_asset':
@@ -314,16 +317,16 @@ else {
             requireController('album_add_moderator.php');
             // redraw_page();
             break;
-            
+
         case 'regen_title':
             $service = true;
             requireController('asset_title_regen.php');
             break;
-            
+
         case 'delete_user_course':
             requireController('moderator_delete.php');
             break;
-        
+
         case 'album_stats_reset':
             requireController('album_stats_reset.php');
             break;
@@ -334,9 +337,9 @@ else {
             // TODO: check session var here
             albums_view();
     }
-    
+
     // Call the function to view the page
- //   print "action:".$action;die;
+    //   print "action:".$action;die;
     index($paramController);
 }
 
@@ -348,8 +351,7 @@ else {
  * Helper function
  * @return bool true if the user is already logged in; false otherwise
  */
-function user_logged_in()
-{
+function user_logged_in() {
     return isset($_SESSION['podman_logged']);
 }
 
@@ -360,8 +362,7 @@ function user_logged_in()
 /**
  * Displays the login form
  */
-function view_login_form()
-{
+function view_login_form() {
     global $lang;
     global $ezmanager_url;
     global $error, $input;
@@ -375,16 +376,15 @@ function view_login_form()
     $url = $ezmanager_url;
     // template include goes here    
     $sso_enabled = in_array("sso", $auth_methods);
-    $file_enabled = ((in_array("file", $auth_methods) && !$sso_only)  || ($sso_only && isset($_GET["local"])) || (!$sso_enabled && in_array("file", $auth_methods)) );
-    
+    $file_enabled = ((in_array("file", $auth_methods) && !$sso_only) || ($sso_only && isset($_GET["local"])) || (!$sso_enabled && in_array("file", $auth_methods)) );
+
     include_once template_getpath('login.php');
 }
 
 /**
  * Displays the main frame, without anything on the right side
  */
-function albums_view()
-{
+function albums_view() {
     global $url;
     // Used in redraw mode only
     global $enable_moderator;
@@ -418,8 +418,7 @@ function albums_view()
  * It loads the last album viewed, but not the asset details.
  * @global type $repository_path
  */
-function redraw_page()
-{
+function redraw_page() {
     global $repository_path;
     global $action;
     global $redraw;
@@ -453,14 +452,14 @@ function redraw_page()
         $album_name_full = $_SESSION['podman_album'];
         $metadata = ezmam_album_metadata_get($_SESSION['podman_album']);
         $title = choose_title_from_metadata($metadata);
-        
+
         if (isset($metadata['id'])) {
             $album_id = $metadata['id'];
         } else {
             $album_id = $metadata['name'];
         }
-        
-        if (isset($metadata['course_code_public']) && $metadata['course_code_public']!="") {
+
+        if (isset($metadata['course_code_public']) && $metadata['course_code_public'] != "") {
             $course_code_public = $metadata['course_code_public'];
         }
         $public_album = $current_album_is_public;
@@ -477,7 +476,7 @@ function redraw_page()
                 ezmam_album_token_get($album_name_full);
         ezmam_album_token_manager_set($current_album);
         $manager_full_url = $ezmanager_url . "?action=add_moderator&album=" . $current_album . "&tokenmanager=" .
-        ezmam_album_token_manager_get($album_name_full);
+                ezmam_album_token_manager_get($album_name_full);
     }
 
     // Whatever happens, the first thing to do is display the whole page.
@@ -487,18 +486,15 @@ function redraw_page()
 /**
  * Reloads the whole page
  */
-function refresh_page()
-{
+function refresh_page() {
     global $ezmanager_url;
     // reload the page
     echo '<script>window.location.reload();</script>';
     die;
 }
 
-
-function view_termsOfUses_form(){
+function view_termsOfUses_form() {
     include_once template_getpath('div_termsOfUses.php');
-
 }
 
 //
@@ -510,8 +506,7 @@ function view_termsOfUses_form(){
  * @param string $login
  * @param string $passwd
  */
-function user_login($login, $passwd)
-{
+function user_login($login, $passwd) {
     global $input;
     global $template_folder;
     global $error;
@@ -524,30 +519,29 @@ function user_login($login, $passwd)
         die;
     }
     $res = checkauth(strtolower($login), $passwd);
-    if($res){
-      //auth succeeded but if it is a runas, we still need to check if user is in admin.inc  
-      $login_parts = explode("/", $login);
-    
-      // checks if runas
-      if (count($login_parts) == 2) {
-        if (!file_exists('admin.inc')) {
-            $error = "Not admin. runas login failed";
-            view_login_form();
-            die;
-        }
-        include 'admin.inc'; //file containing an assoc array of admin users
-        if (!isset($admin[$login_parts[0]])) {
-            var_dump($admin);
-            print "login_parts";
-                        var_dump($login_parts);die;
-            $error = "Not admin. runas login failed";
-            view_login_form();
-            die;
-        }
-    }
+    if ($res) {
+        //auth succeeded but if it is a runas, we still need to check if user is in admin.inc  
+        $login_parts = explode("/", $login);
 
-    }
-    else{
+        // checks if runas
+        if (count($login_parts) == 2) {
+            if (!file_exists('admin.inc')) {
+                $error = "Not admin. runas login failed";
+                view_login_form();
+                die;
+            }
+            include 'admin.inc'; //file containing an assoc array of admin users
+            if (!isset($admin[$login_parts[0]])) {
+                var_dump($admin);
+                print "login_parts";
+                var_dump($login_parts);
+                die;
+                $error = "Not admin. runas login failed";
+                view_login_form();
+                die;
+            }
+        }
+    } else {
         $error = checkauth_last_error();
         view_login_form();
         die;
@@ -575,7 +569,7 @@ function user_login($login, $passwd)
 
     // 3) Setting correct language
     set_lang($input['lang']);
-    if (count(acl_authorized_albums_list()) == 0 && (!isset($res['ismanager']) || $res['ismanager']!='true')) {
+    if (count(acl_authorized_albums_list()) == 0 && (!isset($res['ismanager']) || $res['ismanager'] != 'true')) {
         // if (count(acl_authorized_albums_list()) == 0) {
         error_print_message(template_get_message('not_registered', get_lang()), false);
         log_append('warning', $res['login'] . ' tried to access ezmanager but doesn\'t have permission to manage any album.');
@@ -596,10 +590,7 @@ function user_login($login, $passwd)
     albums_view();
 }
 
-
-
-function private_asset_schedule_remove($album, $asset)
-{
+function private_asset_schedule_remove($album, $asset) {
     global $repository_path;
     ezmam_repository_path($repository_path);
 
