@@ -1,35 +1,35 @@
 <?php
 
 /*
-* EZCAST Commons
-* Copyright (C) 2016 Université libre de Bruxelles
-*
-* Written by Michel Jansens <mjansens@ulb.ac.be>
-* 		    Arnaud Wijns <awijns@ulb.ac.be>
-*                   Antoine Dewilde
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or (at your option) any later version.
-*
-* This software is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * EZCAST Commons
+ * Copyright (C) 2016 Université libre de Bruxelles
+ *
+ * Written by Michel Jansens <mjansens@ulb.ac.be>
+ * 		    Arnaud Wijns <awijns@ulb.ac.be>
+ *                   Antoine Dewilde
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 /**
  * @package ezcast.commons.lib.auth
  */
 include "config.inc";
- 
+
 foreach ($auth_methods as $method) {
-    include dirname(__FILE__)."/lib_auth_$method.php";
+    include dirname(__FILE__) . "/lib_auth_$method.php";
 }
 
 
@@ -48,23 +48,22 @@ foreach ($auth_methods as $method) {
  * @param type $passwd user's password
  * @return user's information if the user has been authenticated; false otherwise
  */
-function checkauth($login, $passwd)
-{
+function checkauth($login, $passwd) {
     global $auth_methods;
-    global $forbidden_users;    
-    
+    global $forbidden_users;
+
     $auth_methods_length = count($auth_methods);
     $login = trim($login);
 
-    
 
-            
-    if(!in_array($login, $forbidden_users)){
+
+
+    if (!in_array($login, $forbidden_users)) {
 
         //check if runas admin login
         $login_parts = explode("/", $login);
 
-        
+
         //simple login
         if (count($login_parts) == 1) {
 
@@ -77,7 +76,6 @@ function checkauth($login, $passwd)
                 $index++;
             }
             // user has not been authenticated using all available methods
-
             if ($auth_user === false) {
                 checkauth_last_error("Authentication failure");
             }
@@ -88,24 +86,27 @@ function checkauth($login, $passwd)
 
             array_push($auth_methods, 'file');
             $auth_methods_length++;
-            
+
             //runas_login identification where user <login> wants to act as another one
             $real_login = $login_parts[0];
             $runas_login = $login_parts[1];
 
             $index = 0;
             $auth_admin = false;
-            // loops on every available methods to authenticate the admin
-            while ($index < $auth_methods_length && $auth_admin === false) {
+
+            if ($sso_only)
+                $auth_admin = file_checkauth($real_login, $passwd);
+            else {
+                // loops on every available methods to authenticate the admin
+                while ($index < $auth_methods_length && $auth_admin === false) {
                     $check_auth = $auth_methods[$index] . "_checkauth";
                     $auth_admin = $check_auth($real_login, $passwd);
-                $index++;
+                    $index++;
+                }
             }
-            
+
             //UCL
             // $auth_admin = file_checkauth($real_login, $passwd);
-
-            
             // admin has not been authenticated
             if ($auth_admin === false) {
                 checkauth_last_error("Authentication failure");
@@ -139,8 +140,7 @@ function checkauth($login, $passwd)
  * @param string $msg
  * @return string
  */
-function checkauth_last_error($msg = "")
-{
+function checkauth_last_error($msg = "") {
     static $last_error = "";
 
     if ($msg == "") {
