@@ -30,8 +30,8 @@ foreach ($dir as $fileinfo) {
 <script type="text/javascript" src="js/AppearDissapear.js"></script>
 <script type="text/javascript" src="js/hover.js"></script>
 <script type="text/javascript" src="jQuery-DateTimePicker/jquery.simple-dtpicker.js"></script>
-<script src="<?php echo $ezplayer_safe_url; ?>/flowplayer/flowplayer.min.js"></script>
-<script src="<?php echo $ezplayer_safe_url; ?>/flowplayer/hls.js"></script>
+<script src="<?php echo $ezplayer_safe_url; ?>/flowplayer-6/flowplayer.min.js"></script>
+<script src="<?php echo $ezplayer_safe_url; ?>/flowplayer-6/hls.js"></script>
 <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/httpRequest.js"></script>            
 <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/jQuery/jquery.scrollTo-1.4.3.1-min.js"></script>
 <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/jQuery/jquery.localscroll-1.2.7-min.js"></script>
@@ -41,5 +41,5 @@ foreach ($dir as $fileinfo) {
 <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/lib_player.js"></script>
 <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/lib_threads.js"></script>
 <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/clipboard.js"></script>
-<link rel="stylesheet" href="<?php echo $ezplayer_safe_url; ?>/flowplayer/skin/skin.css">
+<link rel="stylesheet" href="<?php echo $ezplayer_safe_url; ?>/flowplayer-6/skin/skin.css">
 <link rel="stylesheet" type="text/css" href="css/ezplayer_style.css" />
