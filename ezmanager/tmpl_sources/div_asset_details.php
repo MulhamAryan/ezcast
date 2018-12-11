@@ -41,14 +41,11 @@
 // - $urls An assoc array (indexes 'low' and 'high') with the URL to the asset (web_distribute.php)
 // - $embeds An assoc array with embed codes for the assets
 
-
-
 /**
  * Helper function, used for pretty print.
  * @param type $info
  */
-function print_info($info, $suffix = '')
-{
+function print_info($info, $suffix = '') {
     if (isset($info) && $info !== '') {
         echo htmlspecialchars($info) . $suffix;
     } else {
@@ -72,56 +69,62 @@ function print_info($info, $suffix = '')
 
 
                 <?php if ($public_album) {
-        ?>
+                    ?>
                     <li>
                         <span class="ButtonMoveAlbumPrive">
-                            <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=unpublish_asset&amp;title='.urlencode($title).
-                                    '&amp;album='.urlencode($album).'&amp;asset='.urlencode($asset_name).'" data-remove="false" data-toggle="modal" '.
-                                    'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
+                            <?php
+                            if ($status != 'processing' && $status != 'error') {
+                                echo '<a href="index.php?action=show_popup&amp;popup=unpublish_asset&amp;title=' . urlencode($title) .
+                                '&amp;album=' . urlencode($album) . '&amp;asset=' . urlencode($asset_name) . '" data-remove="false" data-toggle="modal" ' .
+                                'data-target="#modal">';
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
                                 ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                            }
+                            ?>
                             ®Unpublish®</a>
                         </span>
                     </li>
-                <?php
-    } else {
-        ?>
+                    <?php
+                } else {
+                    ?>
                     <li>
                         <span class="ButtonMoveAlbumPublic">
-                            <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=publish_asset&amp;title='.urlencode($title).
-                                    '&amp;album='.urlencode($album).'&amp;asset='.urlencode($asset_name).'" data-remove="false" data-toggle="modal" '.
-                                    'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
-                                    ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                            <?php
+                            if ($status != 'processing' && $status != 'error') {
+                                echo '<a href="index.php?action=show_popup&amp;popup=publish_asset&amp;title=' . urlencode($title) .
+                                '&amp;album=' . urlencode($album) . '&amp;asset=' . urlencode($asset_name) . '" data-remove="false" data-toggle="modal" ' .
+                                'data-target="#modal">';
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
+                                ' data-toggle="modal" data-target="#modal">';
+                            }
+                            ?>
                             ®Publish®</a>
                         </span>
                     </li>
-                <?php
-    } ?>
+                <?php }
+                ?>
 
                 <?php if ($trace_on && $display_trace_stats) {
-        ?>
+                    ?>
                     <li>
                         <span class="BoutonStatsTitle">
-                            <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=asset_stats&amp;album='.$album.
-                                '&amp;asset='.$asset_name.'" data-remove="false" data-toggle="modal" '.
+                            <?php
+                            if ($status != 'processing' && $status != 'error') {
+                                echo '<a href="index.php?action=show_popup&amp;popup=asset_stats&amp;album=' . $album .
+                                '&amp;asset=' . $asset_name . '" data-remove="false" data-toggle="modal" ' .
                                 'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
                                 ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                            }
+                            ?>
                             ®Stats_Descriptives®</a>
                         </span>
                     </li>
-                <?php
-    } ?>
+                <?php }
+                ?>
             </ul>
         </div>
 
@@ -134,89 +137,99 @@ function print_info($info, $suffix = '')
                 </span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
-              <li><span class="ButtonSuppAlbum">
-                        <?php if ($status != 'processing' && $status != 'error') {
-        echo '<a href="index.php?action=show_popup&amp;popup=delete_asset&amp;title='.urlencode($title).
-                                '&amp;album='.urlencode($album).'&amp;asset='.urlencode($asset_name).'" data-remove="false" data-toggle="modal" '.
-                                'data-target="#modal">';
-    } else {
-        echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
-                                ' data-toggle="modal" data-target="#modal">';
-    } ?>
+                <li><span class="ButtonSuppAlbum">
+                        <?php
+                        if ($status != 'processing' && $status != 'error') {
+                            echo '<a href="index.php?action=show_popup&amp;popup=delete_asset&amp;title=' . urlencode($title) .
+                            '&amp;album=' . urlencode($album) . '&amp;asset=' . urlencode($asset_name) . '" data-remove="false" data-toggle="modal" ' .
+                            'data-target="#modal">';
+                        } else {
+                            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
+                            ' data-toggle="modal" data-target="#modal">';
+                        }
+                        ?>
                         ®Delete®</a>
 
                     </span>
                 </li>
                 <li>
                     <span class="ButtonMove">
-                        <?php if ($status != 'processing' && $status != 'error') {
-        echo '<a href="index.php?action=show_popup&amp;popup=move_asset&amp;album='.urlencode($album).
-                                '&amp;asset='.urlencode($asset_name).'" data-remove="false" data-toggle="modal" '.
-                                'data-target="#modal">';
-    } else {
-        echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
-                                ' data-toggle="modal" data-target="#modal">';
-    } ?>
+                        <?php
+                        if ($status != 'processing' && $status != 'error') {
+                            echo '<a href="index.php?action=show_popup&amp;popup=move_asset&amp;album=' . urlencode($album) .
+                            '&amp;asset=' . urlencode($asset_name) . '" data-remove="false" data-toggle="modal" ' .
+                            'data-target="#modal">';
+                        } else {
+                            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
+                            ' data-toggle="modal" data-target="#modal">';
+                        }
+                        ?>
                         ®Move®</a>
                     </span>
                 </li>
-                <?php 
+                <?php
                 global $enable_copy_asset;
-    if ($enable_copy_asset) {
-        ?>
+                if ($enable_copy_asset) {
+                    ?>
                     <li>
                         <span class="ButtonCopy">
-                            <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=copy_asset&amp;album='.urlencode($album).
-                                    '&amp;asset='.urlencode($asset_name).'" data-remove="false" data-toggle="modal" '.
-                                    'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
-                                    ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                            <?php
+                            if ($status != 'processing' && $status != 'error') {
+                                echo '<a href="index.php?action=show_popup&amp;popup=copy_asset&amp;album=' . urlencode($album) .
+                                '&amp;asset=' . urlencode($asset_name) . '" data-remove="false" data-toggle="modal" ' .
+                                'data-target="#modal">';
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
+                                ' data-toggle="modal" data-target="#modal">';
+                            }
+                            ?>
                             ®Copy®</a>
                         </span>
                     </li>
-                <?php
-    } ?>
+                <?php }
+                ?>
                 <li>
                     <span class="ButtonProgrammer">
-                        <?php if ($status != 'processing' && $status != 'error') {
-        echo '<a href="index.php?action=show_popup&amp;popup=schedule_asset&amp;album='.urlencode($album).
-                                '&amp;asset='.urlencode($asset_name).'" data-remove="false" data-toggle="modal" '.
-                                'data-target="#modal">';
-    } else {
-        echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
+                        <?php
+                        if ($status != 'processing' && $status != 'error') {
+                            echo '<a href="index.php?action=show_popup&amp;popup=schedule_asset&amp;album=' . urlencode($album) .
+                            '&amp;asset=' . urlencode($asset_name) . '" data-remove="false" data-toggle="modal" ' .
+                            'data-target="#modal">';
+                        } else {
+                            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
                             ' data-toggle="modal" data-target="#modal">';
-    } ?>
+                        }
+                        ?>
                         ®Program®</a>
                     </span>
                 </li>
-                <?php 
+                <?php
                 // add flag title_up_to_date in metadata. get this info. If not show the button => do that in controller, not tmpl
                 global $regenerate_title_mode;
-    if ($regenerate_title_mode == 'manual' && isset($asset_metadata['add_title']) && ($asset_metadata['add_title']!="false") ) {
-        ?>
+                if ($regenerate_title_mode == 'manual' && isset($asset_metadata['add_title']) && ($asset_metadata['add_title'] != "false")) {
+                    ?>
                     <li>
                         <span class="ButtonRegenTitle">
-                            <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=regen_title&amp;album='.urlencode($album).
-                                '&amp;asset='.urlencode($asset_name).'&amp;title='.urlencode($title).'" data-remove="false" data-toggle="modal" '.
+                            <?php
+                            if ($status != 'processing' && $status != 'error') {
+                                echo '<a href="index.php?action=show_popup&amp;popup=regen_title&amp;album=' . urlencode($album) .
+                                '&amp;asset=' . urlencode($asset_name) . '&amp;title=' . urlencode($title) . '" data-remove="false" data-toggle="modal" ' .
                                 'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available" data-remove="false"' .
                                 ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                            }
+                            ?>
                             ®Regen_Intro®</a>
                         </span>
                     </li>
-                <?php
-    } ?>
+                <?php }
+                ?>
             </ul>
         </div>
     </div>
-<?php
-} ?>
+<?php }
+?>
 
 <!-- bouton supp + editer + 2 X Deplacer [Fin]  -->
 
@@ -239,16 +252,16 @@ function print_info($info, $suffix = '')
             <span id="description_<?php echo $asset; ?>_edit" style="display: none;">
                 <textarea name="description" class="form-control input-sm" style="resize: vertical;"
                           id="description_<?php echo $asset; ?>_input"><?php echo htmlentities($description, ENT_COMPAT, "UTF-8");
-                ?></textarea>
+?></textarea>
             </span>
         </li>
         <li class="text-right">
             <!-- Edit form (submit/cancel buttons) -->
             <div class="btn-group" role="group" id="<?php echo $asset; ?>_submit" style="display: none;margin-top: 5px;">
                 <input type="button" class="btn btn-default btn-xs" id="<?php echo $asset; ?>_cancel_button" 
-                    onclick="show_edit_form('<?php echo $asset; ?>');" value="®Cancel®" />
+                       onclick="show_edit_form('<?php echo $asset; ?>');" value="®Cancel®" />
                 <input type="button" class="btn btn-default btn-xs" id="<?php echo $asset ?>_submit_button" 
-                    onclick="edit_asset_data('<?php echo $album; ?>', '<?php echo $asset; ?>');" value="®Valid®" />
+                       onclick="edit_asset_data('<?php echo $album; ?>', '<?php echo $asset; ?>');" value="®Valid®" />
             </div>
         </li>
         <li>
@@ -261,39 +274,41 @@ function print_info($info, $suffix = '')
         </li>
         <li>
             <span class="infospodast">®Origin®</span><br />
-            <?php if ($origin == 'SUBMIT') {
-                    echo '®Manual_submit®';
-                } else {
-                    print_info($origin);
-                } ?>
+            <?php
+            if ($origin == 'SUBMIT') {
+                echo '®Manual_submit®';
+            } else {
+                print_info($origin);
+            }
+            ?>
         </li>
 
         <?php if ($status == 'processing') {
-                    ?>
+            ?>
             <li>
                 <span class="infospodast">®Status®</span><br />
                 <span style="color: #75940a;">®Processing®</span>
             </li>
-        <?php
-                } elseif ($status == 'failed') {
-                    ?>
+            <?php
+        } elseif ($status == 'failed') {
+            ?>
             <li>
                 <span class="infospodast">®Status®</span><br />
                 <span style="color: red;">®Processing_error®</span>
             </li>
-        <?php
-                } else {
-                    ?>
+            <?php
+        } else {
+            ?>
             <li>
                 <span class="infospodast">®Length®</span><br />
                 <?php print_info($duration); ?>
             </li>
             <li>
                 <span class="infospodast">®Type®</span><br /> 
-                <?php print_info($record_type); ?>
+                <span id="recordtype"><?php print_info($record_type); ?></span>
             </li>
-        <?php
-                }
+            <?php
+        }
 
         if ($origin == 'SUBMIT') {
             ?>
@@ -301,49 +316,203 @@ function print_info($info, $suffix = '')
                 <span class="infospodast">®Filename®</span><br />
                 <?php print_info($file_name); ?>
             </li>
-        <?php
+            <?php
         } elseif (strtolower($origin) === 'streaming') {
             ?>
             <li>
                 <span class="ButtonEZplayer"> 
-                    <a href="index.php?action=show_popup&amp;popup=ezplayer_link&amp;album=<?php echo $album; ?>&amp;asset=<?php 
-                        echo $asset; ?>" 
-                    data-remote="false" data-toggle="modal" data-target="#modal">
-                    EZplayer
+                    <a href="index.php?action=show_popup&amp;popup=ezplayer_link&amp;album=<?php echo $album; ?>&amp;asset=<?php echo $asset; ?>" 
+                       data-remote="false" data-toggle="modal" data-target="#modal">
+                        EZplayer
                     </a>
                 </span>
             </li>
-        <?php
-        } ?>
+        <?php }
+        ?>
     </ul>
     <br />
 </div>
 
-<?php 
+<?php
 // If there is only one media, we display it in the right column.
 // 3 possibles scenarios: there was only a slides video, or there were 2 videos
 //    That happens if $has_slides is true (inside the "if")
 // There was only a cam video. In that case $has_slides is false, so the content of the "else" is displayed
 if ($status != 'processing' && $status != 'failed' && strtolower($origin) !== 'streaming') {
-    echo '<div class="col-sm-4';
-    if ($has_cam && $has_slides) {
-        echo '">';
-        require 'div_media_details_camera.php';
-        echo '</div>';
-        echo '<div class="col-sm-4';
-    } else {
-        echo ' col-sm-offset-4';
-    }
-    
-    if ($has_slides) {
-        echo '">';
-        require 'div_media_details_slides.php';
-        echo '</div>';
-    } else {
-        echo '">';
-        require 'div_media_details_camera.php';
-        echo '</div>';
-    }
-} ?>
+    ?>
+    <div class="col-sm-8">
 
+        <script>
+            var current_asset;
+            var trace_on = false;
+            var display_threads_notif = false;
+            var current_album = <?php echo "'$album'" ?>;
+            var current_asset_name = <?php echo "'$asset'" ?>;
+            var lvl = 3;
+            function get_origin() {
+                if (from_shortcut) { // a key has been pressed to run the action
+                    from_shortcut = false;
+                    return "from_shortcut";
+                } else {
+                    return "from_button";
+                }
+            }
+            function server_trace(array) {
+
+                return true;
+            }
+            function player_resize() {
+                if (fullscreen) {
+                    $('body').css('overflow', 'hidden');
+                    $('#video_player').css('width', '100%');
+                    $('#video_player').css('height', '100%');
+                    $('#video_player').css('position', 'fixed');
+                    var window_height = $(window).height();
+                    var window_width = $(window).width();
+                    var extra_height = 41; // .video_controls = 39px
+                    var extra_width = 0;
+
+                    if (show_panel) { // bookmarks panel on the right
+                        extra_width += panel_width;
+                        $('#video_notifications').addClass('panel-active');
+                    }
+                    $('.video_controls').css('width', '100%');
+
+                    window_height -= extra_height;
+                    window_width -= extra_width;
+
+                    $('#bookmark_form, #thread_form').css('width', window_width + 'px');
+
+                    $('video').css('width', window_width + 'px');
+                    $('video').css('height', window_height + 'px');
+
+                } else {
+                    var width = 395;
+                    var height = 223;
+                    $('#video_player').css('height', height + 'px');
+                    $('#video_notifications').removeClass('panel-active');
+                    $('.video_controls').css('width', width + 'px');
+                    $('video').css('width', width + 'px');
+                    $('video').css('height', height + 'px');
+                    $('#video_player').css('width', width + 'px');
+                    $('#video_player').css('position', 'relative');
+                    $('body').css('overflow', 'visible');
+                }
+            }
+
+            function asset_disable_media(album, asset, media) {
+                var button = $("#has" + media + "_" + asset);
+                if (button.hasClass("btn-success")) {
+                    button.removeClass('btn-success');
+                    button.addClass('btn-danger');
+                    button.text("®remove_media® " + media);
+                } else {
+                    button.removeClass('btn-danger');
+                    button.addClass('btn-success');
+                    button.text("®add_media® " + media);
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: 'index.php?action=asset_disable_media',
+                    data: {
+                        'album': album,
+                        'asset': asset,
+                        'media': media
+                    }
+                });
+            }
+        </script>    
+        <div id="video_player" class="remove_full">
+            <!-- #main_video : HTML5 video player.
+                    There is no selected source by default.
+            -->
+            <video id="main_video" controls controlsList="nodownload" src="<?php echo $asset_metadata['src']; ?>" preload="auto" type="video/mp4">
+                <source id="main_video_source" 
+                        <?php if (array_key_exists('low_slide_src', $asset_metadata)) { ?> high_slide_src="<?php echo $asset_metadata['high_slide_src'] . '&origin=' . $appname; ?>" low_slide_src="<?php echo $asset_metadata['low_slide_src'] . '&origin=' . $appname; ?>"<?php } ?>
+
+                        <?php if (array_key_exists('low_cam_src', $asset_metadata)) { ?> high_cam_src="<?php echo $asset_metadata['high_cam_src'] . '&origin=' . $appname; ?>" low_cam_src="<?php echo $asset_metadata['low_cam_src'] . '&origin=' . $appname; ?>" <?php }
+                        ?>>  
+            </video>
+
+            <?php if ($asset_metadata['record_type'] == 'camslide') { ?>
+                <video id="secondary_video" controls 
+                       controlsList="nodownload" src="<?php echo $asset_metadata['low_slide_src'] . '&origin=' . $appname; ?>" 
+                       preload="metadata" type="video/mp4">
+                </video>
+            <?php } ?>
+            <div id="load_warn">®Load_for_switch®</div>
+
+            <script>
+                type = 'cam';
+    <?php if (isset($_SESSION['loaded_type'])) { ?>
+                    type = '<?php echo $_SESSION['loaded_type']; ?>';
+        <?php
+    } else {
+        if (isset($asset_metadata['record_type']) && $asset_metadata['record_type'] != 'camslide') {
+            ?>
+                        type = '<?php echo $asset_metadata['record_type'] ?>';
+            <?php
+        }
+    }
+    ?>
+                time = <?php echo(isset($timecode) ? $timecode : 0) ?>;
+
+                player_prepare('low', type, time);
+            </script>
+            <div class="video_controls">
+                <ul>
+                    <?php if ($playbackRate) {
+                        ?>
+                        <li>
+                            <a id="toggleRate" href="javascript:player_playbackspeed_toggle();" title="®Change_speedrate®">1.0x</a> 
+                        </li>
+                        <?php
+                    }
+                    if (isset($asset_metadata['record_type']) && $asset_metadata['record_type'] == 'camslide') {
+                        ?>
+                        <li>
+                            <a class="movie-button active" title="®Watch_video®" href="javascript:player_video_type_set('cam');"></a>
+                            <a class="slide-button" title="®Watch_slide®" href="javascript:player_video_type_set('slide');"></a>
+                        </li>
+                    <?php }
+                    ?>
+                    <li>
+                        <a class="high-button" title="®Watch_high®" href="javascript:player_video_quality_set('high');"></a>
+                        <a class="low-button active" title="®Watch_low®" href="javascript:player_video_quality_set('low');"></a>
+                    </li>                    
+                    <li>
+                        <a class="fullscreen-button" href="javascript:player_video_fullscreen(!fullscreen);" title="®Toggle_fullscreen®"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        <br><br>
+        <?php
+        if (ezmam_check_media_exist($album, $asset, 'high_cam') == true && ezmam_check_media_exist($album, $asset, 'high_slide') == true) {
+            if ($asset_metadata['record_type'] != 'slide') {
+                $camclass = 'danger';
+                $camstatus = '®remove_media®';
+            } else {
+                $camclass = 'success';
+                $camstatus = '®add_media®';
+            }
+            if ($asset_metadata['record_type'] != 'cam') {
+                $slideclass = 'danger';
+                $slidestatus = '®remove_media®';
+            } else {
+                $slideclass = 'success';
+                $slidestatus = '®add_media®';
+            }
+            echo '<button class="btn btn-xs btn-' . $camclass . '" onclick="asset_disable_media(\'' . $album . '\',\'' . $asset . '\',\'cam\')" id="hascam_' . $asset . '">' . $camstatus . ' cam</button> ';
+            echo '<button class="btn btn-xs btn-' . $slideclass . '" onclick="asset_disable_media(\'' . $album . '\',\'' . $asset . '\',\'slide\')" id="hasslide_' . $asset . '">' . $slidestatus . ' slide</button> ';
+            echo '<div style="clear: both;"></div>';
+        }
+        ?>
+    </div>
+    <div style="clear: both;"></div>
+
+    <?php
+}
+?>
 <div style="clear: both;"></div>
