@@ -1,14 +1,13 @@
 <?php
 
 //display asset details
-function asset_view()
-{
+function asset_view() {
     global $input;
     global $repository_path;
     global $ezmanager_url;
     global $trace_on;
     global $display_trace_stats;
-    
+
 
     // Setting up various variables we'll need later
     if (isset($input['album'])) {
@@ -72,9 +71,20 @@ function asset_view()
     $asset_sched_id = isset($asset_metadata['schedule_id']) ? $asset_metadata['schedule_id'] : false;
     // Filling in the data about the media
     // all you want to know about high res camera video
+    if ($asset_metadata['record_type'] == 'camslide' || $asset_metadata['record_type'] == 'cam') {
+        $asset_metadata['high_cam_src'] = get_link_to_media($album, $asset, 'high_cam');
+        $asset_metadata['low_cam_src'] = get_link_to_media($album, $asset, 'low_cam');
+        $asset_metadata['src'] = $asset_metadata['low_cam_src'] . '&origin=ezmanager';
+    }
+
+    if ($asset_metadata['record_type'] == 'camslide' || $asset_metadata['record_type'] == 'slide') {
+        $asset_metadata['high_slide_src'] = get_link_to_media($album, $asset, 'high_slide');
+        $asset_metadata['low_slide_src'] = get_link_to_media($album, $asset, 'low_slide');
+        $asset_metadata['src'] = $asset_metadata['low_slide_src'] . '&origin=ezmanager';
+    }
     if (isset($media_metadata['high_cam'])) {
         $filesize_cam['HD'] = (isset($media_metadata['high_cam']['file_size']) ?
-                                        $media_metadata['high_cam']['file_size'] : '');
+                $media_metadata['high_cam']['file_size'] : '');
         $dimensions_cam['HD'] = $media_metadata['high_cam']['width'] . ' x ' . $media_metadata['high_cam']['height'];
         //not used // $format_cam = $media_metadata['high_cam']['videocodec'];
     }
@@ -82,14 +92,14 @@ function asset_view()
     // Everything about the low-res version of the camera video
     if (isset($media_metadata['low_cam'])) {
         $filesize_cam['SD'] = (isset($media_metadata['low_cam']['file_size']) ?
-                                        $media_metadata['low_cam']['file_size'] : '');
+                $media_metadata['low_cam']['file_size'] : '');
         $dimensions_cam['SD'] = $media_metadata['low_cam']['width'] . ' x ' . $media_metadata['low_cam']['height'];
     }
 
     // Everything about the high-res slides video
     if (isset($media_metadata['high_slide'])) {
         $filesize_slides['HD'] = (isset($media_metadata['high_slide']['file_size']) ?
-                                        $media_metadata['high_slide']['file_size'] : '');
+                $media_metadata['high_slide']['file_size'] : '');
         $dimensions_slides['HD'] = $media_metadata['high_slide']['width'] . ' x ' . $media_metadata['high_slide']['height'];
         //not used// $format_slides = $media_metadata['high_slides']['videocodec'];
     }
@@ -97,7 +107,7 @@ function asset_view()
     // Everything about the low-res slides
     if (isset($media_metadata['low_slide'])) {
         $filesize_slides['SD'] = (isset($media_metadata['low_slide']['file_size']) ?
-                                        $media_metadata['low_slide']['file_size'] : '');
+                $media_metadata['low_slide']['file_size'] : '');
         $dimensions_slides['SD'] = $media_metadata['low_slide']['width'] . ' x ' . $media_metadata['low_slide']['height'];
     }
 
@@ -108,13 +118,13 @@ function asset_view()
     } elseif (isset($media_metadata['high_slide'])) {
         $duration = $media_metadata['high_slide']['duration'];
     }
-    
+
     if (!isset($duration) || empty($duration)) {
         $duration = "Error getting duration";
     } else {
         $duration = get_user_friendly_duration($duration);
     }
-    
+
     $record_type = $asset_metadata['record_type'];
 
     // Finally, we set up the URLs and view counts to the different media

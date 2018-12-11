@@ -4,8 +4,7 @@
 // The upload is serial which means that each slice of file is the sequel of
 // the previous one. We can then append each slice to the previous one to
 // create the movie file.
-function index($param = array())
-{
+function index($param = array()) {
     global $accepted_media_types;
     global $valid_mimeType;
     global $upload_slice_size;
@@ -24,7 +23,7 @@ function index($param = array())
         die;
     }
 
-     $path= $_SESSION[$id]['path'];
+    $path = $_SESSION[$id]['path'];
 
     // path must be in proper format
     if (!isset($path)) {
@@ -33,8 +32,8 @@ function index($param = array())
         echo json_encode($array);
         die;
     }
-    
-    
+
+
     // type must be in proper format
     if (!isset($type) || !in_array($type, $accepted_media_types)) {
         log_append('warning', 'upload_chunk: ' . $input['type'] . ' is not a valid media type');
@@ -88,7 +87,7 @@ function index($param = array())
     // the incoming stream is put at the end of the file
     $input = fopen("php://input", "r");
 
-    
+
     if ($input == false) {
         log_append('warning', "error opening php input stream");
         $array["error"] = template_get_message('write_error', get_lang());
@@ -103,7 +102,7 @@ function index($param = array())
 //        die;
 //    }
 //    
-    
+
     if (!file_exists($target) || filesize($target) <= 2048000000) {
         /*  $fp = fopen($target, "a");
           while ($data = fread($input, $upload_slice_size)) {
@@ -126,12 +125,11 @@ function index($param = array())
         $target = "$path/" . $type . '/' . $type . '-' . $index;
         $input = fopen("php://input", "r");
         file_put_contents($target, $input);
-        
     }
-    
-    if(!in_array(mime_content_type($target),$valid_mimeType)){
+
+    if (!in_array(mime_content_type($target), $valid_mimeType)) {
         log_append('error', "Mimetype is not valid");
-        $array["error"] = template_get_message('mimetype_error', get_lang()).' type:'.mime_content_type($target);
+        $array["error"] = template_get_message('mimetype_error', get_lang()) . ' type:' . mime_content_type($target);
         echo json_encode($array);
         die;
     }
