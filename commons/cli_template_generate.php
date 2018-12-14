@@ -40,8 +40,8 @@ if (!in_array($lang, $accepted_languages)) {
 template_set_errors_visible();
 template_set_warnings_visible();
 
-echo 'Translation of *all* templates in ' . $source_folder . ' will now start.' . PHP_EOL;
-echo 'Output language: ' . $lang . PHP_EOL;
+echo 'Translation of *all* templates in '.$source_folder.' will now start.' . PHP_EOL;
+echo 'Output language: '. $lang . PHP_EOL;
 
 $files = template_list_files($source_folder);
 

@@ -762,7 +762,7 @@ function db_user_create($user_ID, $surname, $forename, $recorder_passwd, $permis
     $statements['user_create']->bindParam(':user_ID', $lowered_user_id);
     $statements['user_create']->bindParam(':surname', $surname);
     $statements['user_create']->bindParam(':forename', $forename);
-    $statements['user_create']->bindParam(':recorder_passwd', $recorder_passwd);
+    $statements['user_create']->bindParam(':recorder_passwd', $encrypted_passwd);
     $statements['user_create']->bindParam(':origin', $origin);
     $statements['user_create']->bindParam(':permissions', $permissions);
     return $statements['user_create']->execute();
@@ -806,6 +806,8 @@ function db_user_set_recorder_passwd($user_ID, $recorder_passwd) {
     global $statements;
     require_once __DIR__ . '/lib_pw.php'; //for pw encryption
     $encrypted_passwd = pw_encrypt($user_ID, $recorder_passwd);
+    
+    
     $statements['user_update_recorder_passwd']->bindParam(':user_ID', $user_ID);
     $statements['user_update_recorder_passwd']->bindParam(':recorder_passwd', $encrypted_passwd);
     $ok = $statements['user_update_recorder_passwd']->execute();

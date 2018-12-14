@@ -27,9 +27,10 @@
 /**
  * @package ezcast.commons.lib.database
  */
-if(file_exists(__DIR__.'/config.inc'))
-    include_once __DIR__.'/config.inc'; //include instead of require because this file is used in installation where config may not be create yet
+if (file_exists(__DIR__ . '/config.inc'))
+    include_once __DIR__ . '/config.inc'; //include instead of require because this file is used in installation where config may not be create yet
 
+    
 // GLOBALS
 $db_object = null;
 //contains all prepared statements. Other libs may add new statement to it.
@@ -43,8 +44,7 @@ $db_prepared = false;
 /**
  * Verifies that the DB exists and answers correctly with the given credentials
  */
-function db_ping($type, $host, $login, $passwd, $dbname)
-{
+function db_ping($type, $host, $login, $passwd, $dbname) {
     try {
         $db = new PDO("$type:host=$host;dbname=$dbname;charset=utf8", $login, $passwd);
     } catch (PDOException $e) {
@@ -62,26 +62,28 @@ function db_ping($type, $host, $login, $passwd, $dbname)
  * Throws an exception if connection failed
  */
 
-function db_prepare(&$stmt_array = array())
-{
+function db_prepare(&$stmt_array = array()) {
     global $db_object;
     global $db_type;
     global $db_host;
+    global $db_port;
     global $db_login;
     global $db_passwd;
     global $db_name;
     global $db_prepared;
     global $statements;
     global $debug_mode;
-    
+
     if ($db_object == null) {
         try {
-            $db_object = new PDO("$db_type:host=$db_host;dbname=$db_name;charset=utf8", $db_login, $db_passwd);
+//            $db_object = new PDO("$db_type:host=$db_host;dbname=$db_name;charset=utf8", $db_login, $db_passwd);
+            $db_object = new PDO("$db_type:host=$db_host;port=$db_port;dbname=$db_name;charset=utf8", "$db_login", "$db_passwd");
         } catch (PDOException $e) {
-            throw new Exception("Could not connect to database $db_host, $db_name with login $db_login");
+//             throw new Exception("Could not connect to database $db_host, $db_name with login $db_login");
+            throw new Exception("Could not connect to database $db_host, $db_port, $db_name with login $db_login");
         }
     }
-    
+
     foreach ($stmt_array as $stmt_name => $stmt) {
         db_statement_prepare($stmt_name, $stmt);
     }
@@ -92,12 +94,11 @@ function db_prepare(&$stmt_array = array())
     if ($debug_mode) {
         $db_object->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-    
+
     return $db_object;
 }
 
-function db_close()
-{
+function db_close() {
     global $db_object;
     global $statements;
     global $db_prepared;
@@ -107,8 +108,7 @@ function db_close()
     $db_prepared = false;
 }
 
-function db_ready()
-{
+function db_ready() {
     global $db_prepared;
 
     return $db_prepared;
@@ -121,8 +121,7 @@ function db_ready()
  * @param type $statement_name
  * @param type $statement
  */
-function db_statement_prepare($statement_name, $statement)
-{
+function db_statement_prepare($statement_name, $statement) {
     global $statements;
     global $db_object;
 
@@ -134,13 +133,11 @@ function db_statement_prepare($statement_name, $statement)
  * @param type $input
  * @return type
  */
-function db_sanitize($input)
-{
+function db_sanitize($input) {
     return (empty($input)) ? '%' : '%' . $input . '%';
 }
 
-function db_gettable($tableID)
-{
+function db_gettable($tableID) {
     global $db_prefix;
     return $db_prefix . $tableID;
 }
