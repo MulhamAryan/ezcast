@@ -399,12 +399,11 @@ function db_course_create($course_id, $course_code_public, $course_name, $in_rec
  */
 function db_course_read($course_id) {
     global $statements;
-    //var_dump($statements['course_read']);die;
-    $statements['course_read']->bindParam(':course_code', $course_id);
 
+    $statements['course_read']->bindParam(':course_code', $course_id);
     $statements['course_read']->execute();
-    $res = $statements['course_read']->fetch();
-    return $res;
+
+    return $statements['course_read']->fetch();
 }
 
 /**

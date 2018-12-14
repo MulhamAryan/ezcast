@@ -1,8 +1,8 @@
 <?php
 
-function index($param = array())
-{
+function index($param = array()) {
     global $input;
+    global $input_validation_regex;
 
     $error = false;
     $room_ID = "";
@@ -11,8 +11,9 @@ function index($param = array())
     $ip_remote = "";
     $enabled = 0;
     $ignore_ssh_check = false;
-    
+
     if (isset($input) && isset($input['create']) && $input['create']) {
+
         $room_ID = $input['room_ID'];
         $name = $input['name'];
         $ip = $input['ip'];
@@ -20,14 +21,29 @@ function index($param = array())
         $enabled = (isset($input['enabled']) && $input['enabled']) ? 1 : 0;
         $ignore_ssh_check = (isset($input['ignore_ssh_check']) && $input['ignore_ssh_check']) ? 1 : 0;
         $success = false;
-        
+
+        if (mb_strlen($input['room_ID']) > 20) {
+            $error = template_get_message('error_validation_max_size_name', get_lang());
+        } elseif (!check_validation_text($room_ID)) {
+            $error = template_get_message('error_validation_roomID', get_lang());
+        }
+
+        if (!check_validation_text($name)) {
+            $newError = template_get_message('error_validation_name', get_lang());
+            if ($error) {
+                $error .= "<br>" . $newError;
+            } else {
+                $error = $newError;
+            }
+        }
+
         if (!$ignore_ssh_check) {
             $master_ok = check_classroom_ssh_access($ip);
             $slave_ok = true;
             if ($ip_remote != '') {
                 $slave_ok = check_classroom_ssh_access($ip_remote);
             }
-       
+
             if (!$master_ok) {
                 $error = template_get_message('cannot_ssh_recorder', get_lang()) . ' (' . $ip . ')';
             } elseif (!$slave_ok) {
@@ -64,10 +80,9 @@ function index($param = array())
     include template_getpath('div_main_footer.php');
 }
 
-function check_classroom_ssh_access($ip)
-{
+function check_classroom_ssh_access($ip) {
     global $recorder_user;
-    
+
     $return_status = false;
     system("ssh -o ConnectTimeout=5 -q $recorder_user@$ip exit", $return_status);
 
