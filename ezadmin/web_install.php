@@ -16,7 +16,7 @@ require_once __DIR__ . '/lib_various.php';
 require_once __DIR__ . '/../commons/lib_error.php';
 require_once __DIR__ . '/lib_push_changes.php';
 
-$template_folder = __DIR__. '/tmpl/' . get_lang();
+$template_folder = __DIR__ . '/tmpl/' . get_lang();
 date_default_timezone_set("Europe/Brussels"); //TODO: allow to change this
 template_repository_path($template_folder);
 if (template_repository_path() == "") {
@@ -75,7 +75,7 @@ if (!isset($_SESSION['user_logged'])) {
         die;
     }
 }
-  
+
 //if 'install' input is set, a form was submitted
 if (isset($input['install']) && !empty($input['install'])) {
     // saves organization logo if it exists
@@ -83,7 +83,7 @@ if (isset($input['install']) && !empty($input['install'])) {
     // installation form has been submitted and we verify the db to create the tables
     validate_form();
     create_config_files();
-    require __DIR__.'/../commons/config.inc'; //to get db users
+    require __DIR__ . '/../commons/config.inc'; //to get db users
     add_first_user();
     // submitted form but database already exists
 } elseif (isset($input['db_choice_submit']) && !empty($input['db_choice_submit'])) {
@@ -109,7 +109,7 @@ if (isset($input['install']) && !empty($input['install'])) {
             break;
     }
     create_config_files();
-    require __DIR__.'/../commons/config.inc'; //to get db users
+    require __DIR__ . '/../commons/config.inc'; //to get db users
     add_first_user();
 } else {
     // display the installation form
@@ -160,8 +160,7 @@ if (isset($input['install']) && !empty($input['install'])) {
     require template_getpath('install.php');
 }
 
-function view_login_form()
-{
+function view_login_form() {
     global $installer_mode;
     global $error, $input;
 
@@ -169,8 +168,7 @@ function view_login_form()
     include_once template_getpath('login.php');
 }
 
-function check_php_extensions()
-{
+function check_php_extensions() {
     $php_extensions = array('ldap', 'curl', "PDO", "pdo_mysql", "mysql", "json"); // , "apc");
 
     $all_dependences = true;
@@ -206,8 +204,7 @@ function check_php_extensions()
     }
 }
 
-function check_server_config()
-{
+function check_server_config() {
     $upload_max_filesize = ini_get("upload_max_filesize");
     $post_max_size = ini_get("post_max_size");
     $max_execution_time = ini_get("max_execution_time");
@@ -268,7 +265,7 @@ function check_server_config()
         template_display("div_header.php");
         print "<div id='login_form'>" . $display;
         print "</div><div style='width: 400px; margin: auto;'><br/>Edit the '<b>" . php_ini_loaded_file() .
-            "</b>' file to match your own needs.
+                "</b>' file to match your own needs.
             <br/><br/>If you want to continue anyway, click on the following button.
             <br/><br/><br/><a class='button' style='float: right;' href='install.php?skip_srv=true'>Continue</a></div>";
         template_display("div_footer.php");
@@ -277,8 +274,7 @@ function check_server_config()
     }
 }
 
-function convert_size($string)
-{
+function convert_size($string) {
     switch (substr($string, -1)) {
         case 'G':
             $int = (int) substr_replace($string, "", -1);
@@ -302,8 +298,7 @@ function convert_size($string)
     return $int;
 }
 
-function save_logo()
-{
+function save_logo() {
     global $input;
     global $apache_documentroot;
 
@@ -356,8 +351,7 @@ function save_logo()
     return true;
 }
 
-function file_get_extension($filename)
-{
+function file_get_extension($filename) {
     //search last dot in filename
     $pos_dot = strrpos($filename, '.');
     if ($pos_dot === false) {
@@ -371,15 +365,14 @@ function file_get_extension($filename)
     return $result_assoc;
 }
 
-function validate_form()
-{
+function validate_form() {
     global $input;
 
     // Test connection to DB
     $errors = array();
     $res = db_ping($input['db_type'], $input['db_host'], $input['db_login'], $input['db_passwd'], $input['db_name']);
     if (!$res) {
-        $errors['db_error'] = 'Could not connect to database ' . $input['db_host'] . '. Does the DB '.$input['db_name'].' exists?';
+        $errors['db_error'] = 'Could not connect to database ' . $input['db_host'] . '. Does the DB ' . $input['db_name'] . ' exists?';
     }
 
     if (count($errors) > 0) {
@@ -393,27 +386,22 @@ function validate_form()
             escapeshellarg($input['db_prefix'] . 'classrooms') => array(
                 escapeshellarg('room_id'), escapeshellarg('name'),
                 escapeshellarg('IP'), escapeshellarg('enabled')),
-            
             escapeshellarg($input['db_prefix'] . 'courses') => array(
                 escapeshellarg('course_code'), escapeshellarg('course_name'),
                 escapeshellarg('in_recorders'),
                 escapeshellarg('has_albums'), escapeshellarg('date_created'),
                 escapeshellarg('origin')),
-            
             escapeshellarg($input['db_prefix'] . 'logs') => array(
                 escapeshellarg('ID'), escapeshellarg('time'),
                 escapeshellarg('table'), escapeshellarg('message'), escapeshellarg('author')),
-            
             escapeshellarg($input['db_prefix'] . 'users') => array(
                 escapeshellarg('user_ID'), escapeshellarg('surname'),
                 escapeshellarg('forename'), escapeshellarg('passwd'),
                 escapeshellarg('recorder_passwd'), escapeshellarg('permissions'),
                 escapeshellarg('origin')),
-            
             escapeshellarg($input['db_prefix'] . 'users_courses') => array(
                 escapeshellarg('ID'), escapeshellarg('course_code'),
                 escapeshellarg('user_ID'), escapeshellarg('origin')),
-            
             escapeshellarg($input['db_prefix'] . 'threads') => array(
                 escapeshellarg('id'), escapeshellarg('authorId'),
                 escapeshellarg('authorFullName'), escapeshellarg('title'),
@@ -422,7 +410,6 @@ function validate_form()
                 escapeshellarg('albumName'), escapeshellarg('assetName'),
                 escapeshellarg('assetTitle'), escapeshellarg('lastEditDate'),
                 escapeshellarg('lastEditAuthor'), escapeshellarg('nbComments'), escapeshellarg('deleted')),
-            
             escapeshellarg($input['db_prefix'] . 'comments') => array(
                 escapeshellarg('id'), escapeshellarg('authorId'),
                 escapeshellarg('authorFullName'), escapeshellarg('message'),
@@ -431,22 +418,17 @@ function validate_form()
                 escapeshellarg('lastEditDate'), escapeshellarg('approval'),
                 escapeshellarg('score'), escapeshellarg('upvoteScore'),
                 escapeshellarg('downvoteScore'), escapeshellarg('deleted')),
-            
             escapeshellarg($input['db_prefix'] . 'votes') => array(
                 escapeshellarg('login'), escapeshellarg('comment'), escapeshellarg('voteType')),
-            
             escapeshellarg($input['db_prefix'] . 'messages') => array(
                 escapeshellarg('id'), escapeshellarg('authorId'),
                 escapeshellarg('authorFullName'), escapeshellarg('message'),
                 escapeshellarg('timecode'), escapeshellarg('creationDate'),
                 escapeshellarg('albumName'), escapeshellarg('assetName')),
-            
         );
 
         $db = new PDO(
-            $input['db_type'] . ':host=' . $input['db_host'] . ';dbname=' . $input['db_name'],
-                $input['db_login'],
-            $input['db_passwd']
+                $input['db_type'] . ':host=' . $input['db_host'] . ';dbname=' . $input['db_name'], $input['db_login'], $input['db_passwd']
         );
 
         // checks if tables already exist
@@ -466,9 +448,9 @@ function validate_form()
             // prepare radio buttons for next view
             $radio_buttons = array(
                 'replace' => '<b>Replace</b> the existing tables. <b style="color:red">All contents of the existing' .
-                    ' tables will be erased.</b>',
-                'prefix' => 'Choose another prefix for the tables of EZcast. This will create new tables for EZcast. '.
-                    '<br/><input type="text" name="new_prefix"/>',
+                ' tables will be erased.</b>',
+                'prefix' => 'Choose another prefix for the tables of EZcast. This will create new tables for EZcast. ' .
+                '<br/><input type="text" name="new_prefix"/>',
             );
             if (count($result) >= count(array_keys($tables))) {
                 // all tables already exist
@@ -502,8 +484,7 @@ function validate_form()
     }
 }
 
-function create_tables($drop = true)
-{
+function create_tables($drop = true) {
     global $input;
 
     // Create tables in DB
@@ -651,57 +632,57 @@ function create_tables($drop = true)
                 'PRIMARY KEY (`id`),' .
                 'FULLTEXT (`message`)' .
                 ') ENGINE=MyISAM  DEFAULT CHARSET=utf8;');
-        
+
         if ($drop) {
-            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_TABLE_NAME .'`;');
+            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_TABLE_NAME . '`;');
         }
         $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_TABLE_NAME . '` (' .
-                "`asset` varchar(50) NOT NULL,".
-                "`origin` enum('ezmanager','ezadmin','ezrecorder','ezrenderer','other') NOT NULL,".
+                "`asset` varchar(50) NOT NULL," .
+                "`origin` enum('ezmanager','ezadmin','ezrecorder','ezrenderer','other') NOT NULL," .
                 "`classroom_id` varchar(50) DEFAULT NULL," .
-                "`classroom_event_id` int(10) unsigned DEFAULT NULL,".
-                "`event_time` datetime NOT NULL,".
-                "`type_id` INT(10) UNSIGNED NOT NULL,".
-                "`context` varchar(30) NOT NULL,".
-                "`loglevel` tinyint(1) UNSIGNED NOT NULL COMMENT 'See logger.php for levels',".
-                "`message` text NOT NULL,".
-                "KEY `asset` (`asset`),".
-                "KEY `event_time` (`event_time`)".
+                "`classroom_event_id` int(10) unsigned DEFAULT NULL," .
+                "`event_time` datetime NOT NULL," .
+                "`type_id` INT(10) UNSIGNED NOT NULL," .
+                "`context` varchar(30) NOT NULL," .
+                "`loglevel` tinyint(1) UNSIGNED NOT NULL COMMENT 'See logger.php for levels'," .
+                "`message` text NOT NULL," .
+                "KEY `asset` (`asset`)," .
+                "KEY `event_time` (`event_time`)" .
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
         if ($drop) {
-            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_STATUS_TABLE_NAME .'`;');
+            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_STATUS_TABLE_NAME . '`;');
         }
         $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_STATUS_TABLE_NAME . '` (' .
                 "`asset` varchar(50) NOT NULL," .
-                "`status` enum('auto_success', 'auto_success_errors', 'auto_success_warnings', 'auto_failure', 'auto_ignore', ".
-                    "'manual_ok', 'manual_partial_ok', 'manual_failure', 'manual_ignore') NOT NULL," .
+                "`status` enum('auto_success', 'auto_success_errors', 'auto_success_warnings', 'auto_failure', 'auto_ignore', " .
+                "'manual_ok', 'manual_partial_ok', 'manual_failure', 'manual_ignore') NOT NULL," .
                 "`author` varchar(50) DEFAULT 'system'," .
                 "`status_time` datetime DEFAULT NULL," .
                 "`description` text," .
                 "KEY `asset` (`asset`)" .
                 ") ENGINE=InnoDB DEFAULT CHARSET=utf8");
-        
+
         if ($drop) {
-            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_LAST_INDEXES_TABLE_NAME .'`;');
+            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_LAST_INDEXES_TABLE_NAME . '`;');
         }
         $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_LAST_INDEXES_TABLE_NAME . '` (' .
                 "`source` varchar(20) NOT NULL," .
                 "`id` int(10) unsigned NOT NULL," .
                 " PRIMARY KEY (`source`) " .
                 " ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-        
+
         if ($drop) {
-            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_ASSET_PARENT_TABLE_NAME .'`;');
+            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_ASSET_PARENT_TABLE_NAME . '`;');
         }
         $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_ASSET_PARENT_TABLE_NAME . '` (' .
                 "`asset` varchar(50) NOT NULL," .
                 "`parent_asset` varchar(50) NOT NULL," .
                 " UNIQUE KEY `asset` (`asset`) " .
                 " ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-        
+
         if ($drop) {
-            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_ASSET_INFO_TABLE_NAME .'`;');
+            $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_ASSET_INFO_TABLE_NAME . '`;');
         }
         $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . ServerLogger::EVENT_ASSET_INFO_TABLE_NAME . '` (' .
                 "`asset` varchar(50) NOT NULL," .
@@ -734,76 +715,76 @@ function create_tables($drop = true)
                 "`server` varchar(255) NOT NULL," .
                 "`port` int(10) NOT NULL" .
                 " ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-        
+
         if ($drop) {
             $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . 'streams`;');
         }
         $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . 'streams` (' .
-            "`id` int(11) NOT NULL," .
-            "`cours_id` varchar(50) NOT NULL," .
-            "`asset` varchar(50) NOT NULL," .
-            "`module_type` varchar(15) NOT NULL," .
-            "`classroom` varchar(50) NOT NULL," .
-            "`record_type` varchar(10) NOT NULL COMMENT 'cam/slide'," .
-            "`netid` varchar(50) NOT NULL," .
-            "`stream_name` varchar(255) NOT NULL," .
-            "`token` varchar(50) NOT NULL," .
-            "`ip` varchar(50) NOT NULL," .
-            "`status` varchar(20) NOT NULL," .
-            "`quality` varchar(10) NOT NULL," .
-            "`protocol` varchar(10) NOT NULL," .
-            "`server` varchar(50)," .
-            "`port` int(5)" .
-            " ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
-        
+                "`id` int(11) NOT NULL," .
+                "`cours_id` varchar(50) NOT NULL," .
+                "`asset` varchar(50) NOT NULL," .
+                "`module_type` varchar(15) NOT NULL," .
+                "`classroom` varchar(50) NOT NULL," .
+                "`record_type` varchar(10) NOT NULL COMMENT 'cam/slide'," .
+                "`netid` varchar(50) NOT NULL," .
+                "`stream_name` varchar(255) NOT NULL," .
+                "`token` varchar(50) NOT NULL," .
+                "`ip` varchar(50) NOT NULL," .
+                "`status` varchar(20) NOT NULL," .
+                "`quality` varchar(10) NOT NULL," .
+                "`protocol` varchar(10) NOT NULL," .
+                "`server` varchar(50)," .
+                "`port` int(5)" .
+                " ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+
         if ($drop) {
             $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . 'stats_video_month_infos`;');
         }
-        $db->exec('CREATE TABLE IF NOT EXISTS `'. $input['db_prefix'] .'stats_video_month_infos` (' .
-            "`id` int(11) NOT NULL AUTO_INCREMENT, " .
-            "`visibility` tinyint(1) NOT NULL DEFAULT '1', " .
-            "`asset` varchar(30) NOT NULL, " .
-            "`asset_name` varchar(70) NOT NULL, " .
-            "`album` varchar(30) NOT NULL, " .
-            "`nbr_view_total` int(11) NOT NULL DEFAULT '0', " .
-            "`nbr_view_unique` int(11) NOT NULL DEFAULT '0', " .
-            "`month` varchar(7) NOT NULL, " .
-            "PRIMARY KEY (`id`), ".
-            "UNIQUE KEY(`visibility`, `asset`,`album`,`month`)".
-            ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-        
+        $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . 'stats_video_month_infos` (' .
+                "`id` int(11) NOT NULL AUTO_INCREMENT, " .
+                "`visibility` tinyint(1) NOT NULL DEFAULT '1', " .
+                "`asset` varchar(30) NOT NULL, " .
+                "`asset_name` varchar(70) NOT NULL, " .
+                "`album` varchar(30) NOT NULL, " .
+                "`nbr_view_total` int(11) NOT NULL DEFAULT '0', " .
+                "`nbr_view_unique` int(11) NOT NULL DEFAULT '0', " .
+                "`month` varchar(7) NOT NULL, " .
+                "PRIMARY KEY (`id`), " .
+                "UNIQUE KEY(`visibility`, `asset`,`album`,`month`)" .
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
         if ($drop) {
             $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . 'stats_video_view`;');
         }
-        $db->exec('CREATE TABLE IF NOT EXISTS `'. $input['db_prefix'] .'stats_video_view` (' .
-            "`id` int(11) NOT NULL AUTO_INCREMENT, " .
-            "`visibility` tinyint(1) NOT NULL DEFAULT '1', " .
-            "`asset` varchar(30) NOT NULL, " .
-            "`album` varchar(30) NOT NULL, " .
-            "`type` ENUM('cam', 'slide') NOT NULL, " .
-            "`nbr_view` int(11) NOT NULL, " .
-            "`video_time` int(11) NOT NULL, ".
-            "PRIMARY KEY (`id`), " .
-            "UNIQUE KEY(`visibility`, `asset`,`album`, `type`, `video_time`)" .
-            ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-        
+        $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . 'stats_video_view` (' .
+                "`id` int(11) NOT NULL AUTO_INCREMENT, " .
+                "`visibility` tinyint(1) NOT NULL DEFAULT '1', " .
+                "`asset` varchar(30) NOT NULL, " .
+                "`album` varchar(30) NOT NULL, " .
+                "`type` ENUM('cam', 'slide') NOT NULL, " .
+                "`nbr_view` int(11) NOT NULL, " .
+                "`video_time` int(11) NOT NULL, " .
+                "PRIMARY KEY (`id`), " .
+                "UNIQUE KEY(`visibility`, `asset`,`album`, `type`, `video_time`)" .
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
         if ($drop) {
             $db->exec('DROP TABLE IF EXISTS `' . $input['db_prefix'] . 'stats_video_infos`;');
         }
-        $db->exec('CREATE TABLE IF NOT EXISTS `'. $input['db_prefix'] .'stats_video_infos` (' .
-            "`id` int(11) NOT NULL AUTO_INCREMENT, " .
-            "`visibility` tinyint(1) NOT NULL DEFAULT '1', " .
-            "`asset` varchar(30) NOT NULL, " .
-            "`album` varchar(30) NOT NULL, " .
-            "`nbr_bookmark_personal` int(11) NOT NULL, " .
-            "`nbr_bookmark_official` int(11) NOT NULL, " .
-            "`nbr_thread` int(11) NOT NULL, " .
-            "`nbr_access` int(11) NOT NULL, " .
-            "PRIMARY KEY (`id`), " .
-            "UNIQUE KEY(`visibility`, `asset`,`album`)" .
-            ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-        
-        
+        $db->exec('CREATE TABLE IF NOT EXISTS `' . $input['db_prefix'] . 'stats_video_infos` (' .
+                "`id` int(11) NOT NULL AUTO_INCREMENT, " .
+                "`visibility` tinyint(1) NOT NULL DEFAULT '1', " .
+                "`asset` varchar(30) NOT NULL, " .
+                "`album` varchar(30) NOT NULL, " .
+                "`nbr_bookmark_personal` int(11) NOT NULL, " .
+                "`nbr_bookmark_official` int(11) NOT NULL, " .
+                "`nbr_thread` int(11) NOT NULL, " .
+                "`nbr_access` int(11) NOT NULL, " .
+                "PRIMARY KEY (`id`), " .
+                "UNIQUE KEY(`visibility`, `asset`,`album`)" .
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+
         // Creation of the indexes
         $db->exec('CREATE INDEX `albumname_ndx` ' .
                 'ON ' . $input['db_prefix'] . 'threads(`albumName`);');
@@ -823,41 +804,16 @@ function create_tables($drop = true)
     }
 }
 
-function create_config_files()
-{
+function create_config_files() {
     global $input;
 
     // Write config file
     edit_config_file(
-        $input['php_cli_cmd'],
-        $input['rsync_pgm'],
-        $input['application_url'],
-        $input['repository_basedir'],
-        $input['organization_name'],
-        $input['organization_url'],
-        $input['copyright'],
-        $input['mailto_alert'],
-        $input['ezcast_basedir'],
-        $input['db_type'],
-        $input['db_host'],
-        $input['db_login'],
-        $input['db_passwd'],
-        $input['db_name'],
-        $input['db_prefix'],
-        $input['recorder_user'],
-        $input['recorder_basedir'],
-        $input['ezmanager_host'],
-        $input['ezmanager_user'],
-        !empty($input['classrooms_category_enabled']) ? true : false,
-        !empty($input['add_users_enabled']) ? true : false,
-        !empty($input['recorder_password_storage_enabled']) ? true : false,
-        !empty($input['use_user_name']) ? true : false,
-        !empty($input['https_ready']) ? true : false
+            $input['php_cli_cmd'], $input['rsync_pgm'], $input['application_url'], $input['repository_basedir'], $input['organization_name'], $input['organization_url'], $input['copyright'], $input['mailto_alert'], $input['ezcast_basedir'], $input['db_type'], $input['db_host'], $input['db_login'], $input['db_passwd'], $input['db_name'], $input['db_prefix'], $input['recorder_user'], $input['recorder_basedir'], $input['ezmanager_host'], $input['ezmanager_user'], !empty($input['classrooms_category_enabled']) ? true : false, !empty($input['add_users_enabled']) ? true : false, !empty($input['recorder_password_storage_enabled']) ? true : false, !empty($input['use_user_name']) ? true : false, !empty($input['https_ready']) ? true : false
     );
 }
 
-function add_first_user()
-{
+function add_first_user() {
     // Add the first user in database
     $first_user = file_get_contents("../first_user");
     $first_user = explode(" , ", $first_user);

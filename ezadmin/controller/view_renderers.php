@@ -1,7 +1,7 @@
 <?php
+
 //Gets renderers info and return it (should be a function)
-function index($param = array())
-{
+function index($param = array()) {
     if (!file_exists('../commons/renderers.inc')) {
         $renderers = array();
     } else {

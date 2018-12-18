@@ -65,7 +65,7 @@ $has_slides = (strpos($asset_metadata['record_type'], 'slide') !== false); // Wh
                     } else {
                         ?>
                                 data-toggle="modal" data-target="#modal_link" data-asset="<?php echo $status['asset']; ?>"
-                                <?php }
+                            <?php }
                             ?>
                             >
                         <span class="glyphicon glyphicon-link" aria-hidden="true"></span>
@@ -77,7 +77,7 @@ $has_slides = (strpos($asset_metadata['record_type'], 'slide') !== false); // Wh
                 </td>
                 <td style="text-align: left;">
                     <a href="./index.php?action=view_track_asset&post=&startDate=1970-01-01+00%3A00&view_all=on&asset=<?php echo $status['asset']; ?>">
-    <?php echo $status['asset']; ?>
+                        <?php echo $status['asset']; ?>
                     </a>
                     <a style="float: right;" href="./index.php?action=view_events&post=&startDate=1970-01-01+00%3A00&asset=<?php echo $status['asset']; ?>">
                         <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>
@@ -107,12 +107,12 @@ $has_slides = (strpos($asset_metadata['record_type'], 'slide') !== false); // Wh
                 <td><?php echo $status['status_time']; ?></td>
                 <td><?php echo $status['author']; ?></td>
                 <td><span class="label label-<?php echo EventStatus::getColorStatus($status['status']); ?>">
-                <?php echo $status['status']; ?>
+                        <?php echo $status['status']; ?>
                     </span>
                 </td>
                 <td
-                        <?php if (array_key_exists('min_description', $status)) {
-                            ?>
+                <?php if (array_key_exists('min_description', $status)) {
+                    ?>
                         data-container="body" data-toggle="popover" data-trigger="hover" 
                         data-placement="right" data-content="<?php echo $status['description']; ?>"><?php
                             echo $status['min_description'];
@@ -122,8 +122,8 @@ $has_slides = (strpos($asset_metadata['record_type'], 'slide') !== false); // Wh
                         ?>    
                 </td>
             </tr>
-    <?php }
-?>
+        <?php }
+        ?>
     </table>
 
     <!-- Link an asset to an other -->
@@ -215,7 +215,7 @@ $has_slides = (strpos($asset_metadata['record_type'], 'slide') !== false); // Wh
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h4 class="modal-title">®monit_getinfo_video®</h4>
-</div>
+                </div>
                 <div class="modal-body">
                     <b>Titre : </b><?php echo $asset_metadata["title"]; ?><br>
                     <b>®author® : </b><?php echo $asset_metadata["author"]; ?><br>

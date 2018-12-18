@@ -13,7 +13,7 @@
                         <span aria-hidden="true">×</span></button> 
                     <?php echo $error; ?>
                 </div>
-                <?php }
+            <?php }
             ?>
 
             <input type="hidden" name="post"/>
@@ -41,7 +41,7 @@
                         </p>
                         <input type="hidden" name="forename" value="<?php echo htmlspecialchars($forename) ?>"/>
                         <input type="hidden" name="surname" value="<?php echo htmlspecialchars($surname) ?>"/>
-                        <?php }
+                    <?php }
                     ?>
                 </div>
             </div>
@@ -89,8 +89,8 @@
                     } else {
                         ?>
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ®no®
-        <?php }
-    ?>
+                    <?php }
+                    ?>
                 </p>
                 <div class="col-md-8">
                     <label class="edit">
@@ -110,8 +110,8 @@
                     } else {
                         ?>
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ®no®
-        <?php }
-    ?>
+                    <?php }
+                    ?>
                 </p>
                 <div class="col-md-8">
                     <label class="edit">
@@ -131,21 +131,21 @@
                     } else {
                         ?>
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ®no®
-        <?php }
-    ?>
+                    <?php }
+                    ?>
                 </p>
             </div>
 
 
-    <?php if ($passNotSet) {
-        ?>
+            <?php if ($passNotSet) {
+                ?>
                 <div class="alert alert-danger alert-dismissible fade in" role="alert"> 
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">×</span></button> 
                     ®alert_pass_not_defined®
                 </div>
-        <?php }
-    ?>
+            <?php }
+            ?>
 
             <!-- recorder passwd -->
             <div class="edit form-group">
@@ -168,13 +168,13 @@
             <button type="button" class="btn btn-block btn-primary edit_mode">®edit_button®</button>
             <button type="button" class="btn btn-block edit_cancel">®cancel®</button>
 
-    <?php if ($origin == 'internal') {
-        ?>
+            <?php if ($origin == 'internal') {
+                ?>
                 <button type="submit" name="delete" value="®delete®" onClick="confirm('®delete_confirm®')" class="btn btn-block btn-danger delete_button"/>
                 ®delete®
                 </button>
-        <?php }
-    ?>
+            <?php }
+            ?>
         </form>
     </div>
 
@@ -189,8 +189,8 @@
             </tr>
         </thead>
         <tbody>
-                    <?php foreach ($courses as $c) {
-                        ?>
+            <?php foreach ($courses as $c) {
+                ?>
                 <tr data-id="<?php echo $c['ID'] ?>" data-origin="<?php echo $userinfo['origin'] ?>">
                     <td><?php
                         if (isset($c['course_code_public']) && $c['course_code_public'] != "") {
@@ -202,10 +202,10 @@
                     <td><?php echo $c['course_name']; ?></td>
                     <td>
                         <span class="label <?php
-                                  if ($c['origin'] == 'internal') {
-                                      echo 'label-info';
-                                  }
-                                  ?>"><?php
+                        if ($c['origin'] == 'internal') {
+                            echo 'label-info';
+                        }
+                        ?>"><?php
                                   if ($c['origin'] == 'internal') {
                                       echo '®intern®';
                                   } else {
@@ -216,13 +216,13 @@
                     </td>
                     <td><?php echo $c['in_recorders'] ? '<span class="glyphicon glyphicon-ok"></span> ®yes®' : '<span class="glyphicon glyphicon-remove"></span> ®no®'; ?></td>
                     <td class="unlink" style="cursor: pointer;"><?php
-                                  if ($c['origin'] == 'internal') {
-                                      echo '<span class="glyphicon glyphicon-remove"></span> ®remove_link®';
-                                  }
-                                  ?></td>
+                        if ($c['origin'] == 'internal') {
+                            echo '<span class="glyphicon glyphicon-remove"></span> ®remove_link®';
+                        }
+                        ?></td>
                 </tr>
-        <?php }
-    ?>
+            <?php }
+            ?>
         </tbody>
     </table>
 
@@ -351,7 +351,5 @@
 
     <em><?php echo $input['user_ID'] ?></em> ®unknown_user®
 
-    <?php }
+<?php }
 ?>
-
-

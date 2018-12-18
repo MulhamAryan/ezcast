@@ -17,30 +17,30 @@
             <?php if ($input['page'] > 5) {
                 ?>
                 <li><a href="#" data-page="0">...</a></li>
-                <?php }
+            <?php }
             ?>
 
             <?php $start = $input['page'] > 4 ? $input['page'] - 3 : 2 ?>
 
-    <?php for ($i = $start; $i < $max && $i < $start + 7; ++$i) {
-        ?>
+            <?php for ($i = $start; $i < $max && $i < $start + 7; ++$i) {
+                ?>
                 <li <?php echo $input['page'] == $i ? 'class="active"' : '' ?>>
                     <a href="#" data-page="<?php echo $i ?>"><?php echo $i ?></a>
                 </li>
-                <?php }
+            <?php }
             ?>
 
             <?php if ($input['page'] + 7 < $max) {
                 ?>
                 <li><a href="#" data-page="0">...</a></li>
-                <?php }
+            <?php }
             ?> 
 
             <?php if ($max != 1) {
                 ?>
                 <li <?php echo $input['page'] == $max ? 'class="active"' : '' ?>><a href="#" data-page="<?php echo $max ?>"><?php echo $max ?></a></li>
-        <?php }
-    ?>
+            <?php }
+            ?>
             <li>
                 <a href="#" data-page="<?php echo $input['page'] + 1 ?>">
                     <span aria-hidden="true">&raquo;</span>
@@ -49,7 +49,7 @@
         </ul>
     </div>
 
-    <?php }
+<?php }
 ?>
 
 <table class="table table-striped table-hover table-condensed table-responsive users">
@@ -57,23 +57,23 @@
         <th data-col="user_ID" <?php echo $input['col'] == 'user_ID' ? 'data-order="' . $input["order"] . '"' : '' ?> style="cursor:pointer;">®user_ID®<?php echo ($input['col'] == 'user_ID') ? ($input['order'] == 'ASC' ? ' <span class="glyphicon glyphicon-chevron-down"></span>' : ' <span class="glyphicon glyphicon-chevron-up"></span>') : ' <span class="glyphicon glyphicon-chevron-up" style="visibility: hidden;"></span>' ?></th>
         <th>®fullname®</th>
         <th>®origin®</th>
-        <th>®is_admin_title®</th>
+        <th style="text-align: center;">®is_admin_title®</th>
     </tr>
 
-<?php foreach ($users as $user) {
-    ?>
+    <?php foreach ($users as $user) {
+        ?>
         <tr>
             <td><a href="index.php?action=view_user_details&amp;user_ID=<?php echo $user['user_ID']; ?>"><?php echo $user['user_ID']; ?></a></td>
             <td><a href="index.php?action=view_user_details&amp;user_ID=<?php echo $user['user_ID']; ?>"><?php echo $user['forename'] . ' ' . $user['surname']; ?></a></td>
             <td><span class="label <?php
-                      if ($user['origin'] == 'internal') {
-                          echo 'label-info';
-                      } elseif ($user['origin'] == 'external') {
-                          echo 'label-primary';
-                      } elseif ($user['origin'] == 'SSO') {
-                          echo 'label-success';
-                      }
-                      ?>"><?php
+                if ($user['origin'] == 'internal') {
+                    echo 'label-info';
+                } elseif ($user['origin'] == 'external') {
+                    echo 'label-primary';
+                } elseif ($user['origin'] == 'SSO') {
+                    echo 'label-success';
+                }
+                ?>"><?php
                           if ($user['origin'] == 'internal') {
                               echo '®intern®';
                           } elseif ($user['origin'] == 'external') {
@@ -82,11 +82,11 @@
                               echo '®sso®';
                           }
                           ?></span></td>
-            <td><?php echo ($user['permissions'] != 0) ? '<span class="glyphicon glyphicon-ok"></span>' : ''; ?></td>
+            <td style="text-align: center;"><?php echo ($user['permissions'] != 0) ? '<span class="glyphicon glyphicon-ok"></span>' : ''; ?></td>
         </tr>
-    <?php
-}
-?>
+        <?php
+    }
+    ?>
 
 </table>
 

@@ -16,8 +16,8 @@ if (isset($pagination)) {
             <?php echo $colOrder->insertThSort("event_time", "®monit_event_date®"); ?>
             <?php echo $colOrder->insertThSort("type_id", "®monit_type_id®"); ?>
             <?php echo $colOrder->insertThSort("context", "®monit_context®"); ?>
-<?php echo $colOrder->insertThSort("loglevel", "®monit_log_level®"); ?>
-        <?php echo $colOrder->insertThSort("message", "®monit_message®"); ?>
+            <?php echo $colOrder->insertThSort("loglevel", "®monit_log_level®"); ?>
+            <?php echo $colOrder->insertThSort("message", "®monit_message®"); ?>
         </tr>
 
         <?php
@@ -26,11 +26,11 @@ if (isset($pagination)) {
             <tr class="<?php echo $event['loglevel_name']; ?>">
                 <td>
                     <a style="" href="<?php
-                           echo url_post_replace_multiple(
-                                   array('asset' => $event['asset'], 'page' => 1)
-                           );
-                           ?>">
-    <?php echo $event['asset']; ?>
+                    echo url_post_replace_multiple(
+                            array('asset' => $event['asset'], 'page' => 1)
+                    );
+                    ?>">
+                           <?php echo $event['asset']; ?>
                     </a>
                 </td>
                 <td><?php echo $event['origin']; ?></td>
@@ -42,26 +42,27 @@ if (isset($pagination)) {
                 <td><?php echo str_replace("_", "-", $logger->get_type_name($event['type_id'])); ?></td>
                 <td><?php echo $event['context']; ?></td>
                 <td><span class="label label-<?php echo $event['loglevel_name']; ?>">
-                <?php echo $event['loglevel'] . " - " .
-                ucfirst($event['loglevel_name']);
-                ?>
+                        <?php
+                        echo $event['loglevel'] . " - " .
+                        ucfirst($event['loglevel_name']);
+                        ?>
                     </span>
                 </td>
                 <td
-                        <?php if (array_key_exists('min_message', $event)) {
-                            ?>
+                <?php if (array_key_exists('min_message', $event)) {
+                    ?>
                         tabindex="0" data-container="body" data-toggle="popover"
                         data-placement="left" data-content="<?php echo nl2br(htmlspecialchars($event['message'])); ?>">
-        <?php
-        echo $event['min_message'];
-    } else {
-        echo '>' . $event['message'];
-    }
-    ?>    
+                            <?php
+                            echo $event['min_message'];
+                        } else {
+                            echo '>' . $event['message'];
+                        }
+                        ?>    
                 </td>
             </tr>
-    <?php }
-?>
+        <?php }
+        ?>
     </table>
 </div>
 

@@ -5,26 +5,31 @@ require_once 'lib_sql_event.php';
 include_once '../commons/view_helpers/helper_pagination.php';
 include_once '../commons/view_helpers/helper_sort_col.php';
 
-
-function index($param = array())
-{
+function index($param = array()) {
     global $input;
     global $logger;
-    
+
     global $onlyRecording;
     global $onlyOnline;
-    
+
+    global $input_validation_regex;
+
     $MAX_CLASSROOMS_PER_PAGE = 50;
-    
+
     $onlyRecording = false;
     $onlyOnline = false;
 
-    
     if (isset($input['update'])) {
-        db_classroom_update(trim($input['a_room_ID']), $input['u_room_ID'], $input['u_name'], $input['u_ip'], $input['u_ip_remote']);
-        notify_changes(); //we must write new allowed classrooms IP's
+        if (!check_validation_text($input['a_room_ID']) || !check_validation_text($input['u_room_ID'])) {
+            $error = template_get_message('error_validation_roomID', get_lang());
+        } elseif (!check_validation_text($input['u_name'])) {
+            $error = template_get_message('error_validation_name', get_lang());
+        } elseif (empty($error)) {
+            db_classroom_update(trim($input['a_room_ID']), $input['u_room_ID'], $input['u_name'], $input['u_ip'], $input['u_ip_remote']);
+            notify_changes(); //we must write new allowed classrooms IP's
+        }
     }
-    
+
     if (array_key_exists('page', $input)) {
         $pagination = new Pagination($input['page'], $MAX_CLASSROOMS_PER_PAGE);
     } else {
@@ -35,20 +40,13 @@ function index($param = array())
     } else {
         $colOrder = new Sort_colonne('room_ID');
     }
-    
+
 
     if (isset($input['post'])) {
         $sqlListClassrooms = db_classrooms_search(
-            empty_str_if_not_def('room_ID', $input),
-                empty_str_if_not_def('name', $input),
-                empty_str_if_not_def('ip', $input),
-                empty_str_if_not_def('only_classroom_active', $input),
-                $colOrder->getCurrentSortCol(),
-            $colOrder->getOrderSort(),
-                $pagination->getStartElem(),
-            $pagination->getElemPerPage()
+                empty_str_if_not_def('room_ID', $input), empty_str_if_not_def('name', $input), empty_str_if_not_def('ip', $input), empty_str_if_not_def('only_classroom_active', $input), $colOrder->getCurrentSortCol(), $colOrder->getOrderSort(), $pagination->getStartElem(), $pagination->getElemPerPage()
         );
-        
+
         // If only recording
         if (array_key_exists('being_record', $input)) {
             $onlyRecording = true;
@@ -57,14 +55,14 @@ function index($param = array())
         } elseif (array_key_exists('only_online', $input)) {
             $onlyOnline = true;
         }
-        
+
         $listClassrooms = array();
         foreach ($sqlListClassrooms as &$classroom) {
             if (!$onlyOnline || $classroom['enabled']) {
                 $listClassrooms[] = $classroom;
             }
         }
-        
+
         $pagination->setTotalItem(db_found_rows());
     }
 

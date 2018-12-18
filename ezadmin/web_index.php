@@ -5,7 +5,6 @@
  *
  * @package ezcast.ezadmin.main
  */
-
 //
 // Check whether the product has been installed
 //
@@ -19,13 +18,13 @@ session_name($appname);
 session_start();
 require_once 'lib_statistics.php';
 require_once __DIR__ . '/../commons/lib_sql_management.php';
-require_once __DIR__.'/../commons/lib_error.php';
+require_once __DIR__ . '/../commons/lib_error.php';
 require_once '../commons/lib_auth.php';
 require_once '../commons/lib_template.php';
 require_once '../commons/lib_various.php';
 require_once 'lib_various.php';
-require_once 'lib_push_changes.php';
-require_once __DIR__.'/../commons/lib_scheduling.php';
+require_once __DIR__ . '/../commons/lib_scheduling.php';
+require_once __DIR__ . '/lib_push_changes.php';
 
 $input = array_merge($_GET, $_POST);
 
@@ -36,8 +35,13 @@ template_load_dictionnary('translations.xml');
 //
 // If we're not logged in, we try to log in or display the login form
 if (!user_logged_in()) {
+
+    if ($input['action'] == 'wake_up_mobile') {
+        requireController('wake_up_mobileUnit.php');
+        index(array());
+    }
     // Step 2: Logging in a user who already submitted the form
-    if (isset($input['action']) && $input['action'] == 'login') {
+    elseif (isset($input['action']) && $input['action'] == 'login') {
         if (!isset($input['login']) || !isset($input['passwd'])) {
             error_print_message(template_get_message('empty_username_password', get_lang()));
             die;
@@ -90,7 +94,7 @@ else {
         case 'login':
             redraw_page();
             break;
-        
+
         case 'view_logs':
             requireController('view_logs.php');
             break;
@@ -248,39 +252,48 @@ else {
         case 'view_report':
             requireController('view_report.php');
             break;
-        
+
         // Monitoring
         case 'view_events':
             requireController('view_list_event.php');
             break;
-        
+
         case 'view_track_asset':
             requireController('view_track_asset.php');
             break;
-        
+
         case 'view_classroom_calendar':
             requireController('view_classroom_calendar.php');
             break;
-        
+
         case 'view_event_calendar':
             requireController('view_event_calendar.php');
             break;
-        
+
         // Service ping classroom
         case 'get_classrooms_status':
             requireController('get_classrooms_status.php');
             break;
-        
-        
+
+        case 'controller_camera':
+            requireController('controller_camera.php');
+            break;
+        case 'view_camera':
+            requireController('view_camera.php');
+            break;
+        case 'wake_up_mobile':
+            requireController('wake_up_mobileUnit.php');
+            break;
+
         // No action selected: we choose to display the homepage again
         default:
             // TODO: check session var here
             albums_view();
     }
-    
+
     // Call the function to view the page
     index($paramController);
-    
+
     db_close();
 }
 
@@ -292,8 +305,7 @@ else {
  * Helper function
  * @return bool true if the user is already logged in; false otherwise
  */
-function user_logged_in()
-{
+function user_logged_in() {
     return isset($_SESSION['podcastcours_logged']);
 }
 
@@ -304,8 +316,7 @@ function user_logged_in()
 /**
  * Displays the login form
  */
-function view_login_form()
-{
+function view_login_form() {
     global $ezadmin_url;
     global $error, $input;
 
@@ -316,12 +327,10 @@ function view_login_form()
     //include_once "tmpl/fr/login.php";
 }
 
-
 /**
  * Displays the main frame, without anything on the right side
  */
-function albums_view()
-{
+function albums_view() {
     // TODO
     include_once template_getpath('main.php');
 }
@@ -330,14 +339,11 @@ function albums_view()
  * This function is called whenever the user chose to refresh the page.
  * It reloads the page as it was
  */
-function redraw_page()
-{
+function redraw_page() {
     // Update stuff
     // Whatever happens, the first thing to do is display the whole page.
     albums_view();
 }
-
-
 
 /**
  * Reloads the whole page
@@ -350,7 +356,6 @@ function redraw_page()
 //    echo '<script>window.location.reload();</script>';
 //    die;
 //}
-
 //
 // "Business logic" functions
 //
@@ -360,8 +365,7 @@ function redraw_page()
  * @param string $login
  * @param string $passwd
  */
-function user_login($login, $passwd)
-{
+function user_login($login, $passwd) {
     global $input;
     global $template_folder;
     global $error;
@@ -423,4 +427,3 @@ function user_login($login, $passwd)
     header("Location: " . $ezadmin_url);
     albums_view();
 }
-

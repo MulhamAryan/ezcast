@@ -10,25 +10,23 @@ include_once '../ezmanager/lib_ezmam.php';
 global $MAX_TIME_NO_CRON;
 $MAX_TIME_NO_CRON = 3 * 24 * 60 * 60; //3 days
 
-
-function index($param = array())
-{
+function index($param = array()) {
     global $input;
     global $MAX_TIME_NO_CRON;
     global $ezmanager_basedir;
     global $logger;
-    
+
     /// Make action from the modal ///
     if (isset($input) && array_key_exists('modal_action', $input) &&
             array_key_exists('current_asset', $input)) {
         $errorActionMsg = actionFromModal($input);
     }
-    
+
     $date_last_insert = db_event_status_last_insert();
     if (time() - strtotime($date_last_insert[0]) > $MAX_TIME_NO_CRON) {
         $cronWarningMsg = true;
     }
-    
+
     if (array_key_exists('page', $input)) {
         $pagination = new Pagination($input['page'], 50);
     } else {
@@ -39,47 +37,39 @@ function index($param = array())
     } else {
         $colOrder = new Sort_colonne('status_time');
     }
-    
+
     // Get Status
     if (isset($input['post'])) {
         $listStatus = db_event_status_get(
-            empty_str_if_not_def('startDate', $input),
-                empty_str_if_not_def('endDate', $input),
-                empty_str_if_not_def('status', $input),
-                empty_str_if_not_def('asset', $input),
-                $colOrder->getCurrentSortCol(),
-            $colOrder->getOrderSort(),
-                $pagination->getStartElem(),
-            $pagination->getElemPerPage(),
-                get_courses_excluded_from_stats()
+                empty_str_if_not_def('startDate', $input), empty_str_if_not_def('endDate', $input), empty_str_if_not_def('status', $input), empty_str_if_not_def('asset', $input), $colOrder->getCurrentSortCol(), $colOrder->getOrderSort(), $pagination->getStartElem(), $pagination->getElemPerPage(), get_courses_excluded_from_stats()
         );
         $pagination->setTotalItem(db_found_rows());
-        
+
         $view_all = array_key_exists('view_all', $input) && $input['view_all'] == 'on';
-        
+
         // Get children and parent
         $allParent = db_event_get_asset_parent(empty_str_if_not_def('asset', $input));
-        
+
         // List of the children (key = an asset and in value his children)
         $listChildren = array();
         $listAssetWithParent = array(); // List of asset who have an parent
         foreach ($allParent as $parentInfo) {
             $parentAsset = $parentInfo['parent_asset'];
             $asset = $parentInfo['asset'];
-            
+
             array_push($listAssetWithParent, $asset);
             if (!array_key_exists($parentAsset, $listChildren)) {
                 $listChildren[$parentAsset] = array();
             }
             array_push($listChildren[$parentAsset], $asset);
         }
-        
+
         // List of status who must be viewed
         // If view_all is define, this is just an array list
         // If view_all is turn off, it's a dictionnary
         $resStatus = array();
-        
-        
+
+
         foreach ($listStatus as $status) {
             // If not in array or if we will see all
             if (!in_array($status['asset'], $listAssetWithParent) || $view_all) {
@@ -93,7 +83,7 @@ function index($param = array())
             }
         }
     }
-    
+
     // Display page
     include template_getpath('div_main_header.php');
     include template_getpath('div_monit_search_status.php');
@@ -103,13 +93,11 @@ function index($param = array())
     include template_getpath('div_main_footer.php');
 }
 
-
-function status_listStatus_add($listToAdd, $status, $view_all)
-{
+function status_listStatus_add($listToAdd, $status, $view_all) {
     if ($view_all) {
         array_push($listToAdd, $status);
     } else {
-        
+
         // If not in array or if newer than the old saved
         if (!array_key_exists($status['asset'], $listToAdd) ||
                 strtotime($listToAdd[$status['asset']]['status_time']) < strtotime($status['status_time'])) {
@@ -125,35 +113,31 @@ function status_listStatus_add($listToAdd, $status, $view_all)
  * @param Array $input All informations about this action
  * @return int Error code (NULL if all is ok)
  */
-function actionFromModal($input)
-{
+function actionFromModal($input) {
     global $logger;
-    
+
     $error = null;
-    
+
     if (!isset($input['current_asset']) || $input['current_asset'] == "") {
         //invalid input asset
         $error = 1;
         return $error;
     }
     $current_asset = $input['current_asset'];
-            
+
     if (!isset($input['modal_action']) || $input['modal_action'] == "") {
         //invalid input action
         $error = 2;
         return $error;
     }
-    
+
     switch ($input['modal_action']) {
         case "new_parent":
             if (array_key_exists('parent_asset', $input)) {
                 $parent_asset = $input['parent_asset'];
                 if (db_event_asset_status_exist($parent_asset)) {
                     db_event_status_add(
-                        $current_asset,
-                        EventStatus::MANUAL_IGNORE,
-                            "Define a new parent: ".$parent_asset,
-                        $_SESSION['user_login']
+                            $current_asset, EventStatus::MANUAL_IGNORE, "Define a new parent: " . $parent_asset, $_SESSION['user_login']
                     );
                     db_event_asset_parent_add($current_asset, $parent_asset);
                 } else {
@@ -163,17 +147,14 @@ function actionFromModal($input)
                 $error = 4;
             }
             break;
-        case  "new_status":
+        case "new_status":
 
             if (array_key_exists('new_status', $input) && array_key_exists('new_description', $input)) {
                 $new_status = $input['new_status'];
                 $description = $input['new_description'];
 
                 db_event_status_add(
-                    $current_asset,
-                    $new_status,
-                    $description,
-                        $_SESSION['user_login']
+                        $current_asset, $new_status, $description, $_SESSION['user_login']
                 );
             } else {
                 $error = 10;
@@ -182,15 +163,12 @@ function actionFromModal($input)
         case "remove_parent":
             db_event_asset_parent_remove($current_asset);
             db_event_status_add(
-                $current_asset,
-                EventStatus::MANUAL_IGNORE,
-                "Remove parent",
-                $_SESSION['user_login']
+                    $current_asset, EventStatus::MANUAL_IGNORE, "Remove parent", $_SESSION['user_login']
             );
             break;
         default:
             return "Invalid input action " . $input['modal_action'];
     }
-   
+
     return $error;
 }

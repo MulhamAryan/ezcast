@@ -1,3 +1,4 @@
+    
 <div class="page_title">®create_user®</div>
 
 <form method="POST" class="form-horizontal">
@@ -9,7 +10,7 @@
                 <span aria-hidden="true">×</span></button> 
             <?php echo $error; ?>
         </div>
-        <?php }
+    <?php }
     ?>
 
     <div class="form-group">
@@ -18,7 +19,7 @@
             <input type="text" class="form-control" name="user_ID" 
                    value="<?php
                    if (isset($input) && array_key_exists('user_ID', $input)) {
-                       echo $input['user_ID'];
+                       echo htmlentities($input['user_ID']);
                    }
                    ?>" pattern="[A-Za-z0-9]+" required/>
             <br><font color="red">®report_no_char®</font>
@@ -31,7 +32,7 @@
             <input type="text" class="form-control" name="surname" 
                    value="<?php
                    if (isset($input) && array_key_exists('surname', $input)) {
-                       echo $input['surname'];
+                       echo htmlentities($input['surname']);
                    }
                    ?>"/>
         </div>
@@ -43,7 +44,7 @@
             <input type="text" class="form-control" name="forename" 
                    value="<?php
                    if (isset($input) && array_key_exists('forename', $input)) {
-                       echo $input['forename'];
+                       echo htmlentities($input['forename']);
                    }
                    ?>"/>
         </div>
@@ -66,11 +67,11 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox" name="permissions" 
-<?php
-if (isset($input) && array_key_exists('permissions', $input)) {
-    echo $input['permissions'] == 1 ? 'checked' : '';
-}
-?>/>
+                    <?php
+                    if (isset($input) && array_key_exists('permissions', $input)) {
+                        echo $input['permissions'] == 1 ? 'checked' : '';
+                    }
+                    ?>/>
                     ®is_admin_title®
                 </label>
             </div>
@@ -82,11 +83,11 @@ if (isset($input) && array_key_exists('permissions', $input)) {
             <div class="checkbox">
                 <label>
                     <input type="checkbox" name="is_ezadmin" 
-<?php
-if (isset($input) && array_key_exists('is_ezadmin', $input)) {
-    echo $input['is_ezadmin'] == 1 ? 'checked' : '';
-}
-?>/>
+                    <?php
+                    if (isset($input) && array_key_exists('is_ezadmin', $input)) {
+                        echo $input['is_ezadmin'] == 1 ? 'checked' : '';
+                    }
+                    ?>/>
                     ®is_ezadmin_title®
                 </label>
             </div>

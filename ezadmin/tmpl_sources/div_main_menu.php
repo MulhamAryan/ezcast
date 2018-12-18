@@ -4,7 +4,6 @@ global $classrooms_category_enabled;
 global $recorders_category_enabled;
 
 $threshold_num_options = 100; // The number of options in the sidebar above which we choose to collapse the categories together
-
 // Each element is a category in the list; each element of the subarray
 // is an entry in the category. Syntax: $options[category][webobject]=text (shown)
 // IMPORTANT NOTE: webobjects ending in _list means the page is a list
@@ -14,7 +13,7 @@ $options['Courses'] = array(
     array(
         'name' => '®list_courses®',
         'action' => 'view_courses'
-        //'args' => array('table' => 'podcastcours_users_courses')
+    //'args' => array('table' => 'podcastcours_users_courses')
     ),
     array(
         'name' => '®create_course®',
@@ -103,14 +102,18 @@ $options['Monitoring'] = array(
     )
 );
 
+if ($enable_control_panel) {
+    array_push($options['Monitoring'], array('name' => '®list_cam®', 'action' => 'controller_camera'));
+}
+
 $options['Stats'] = array(
     array(
-       'name' => '®stats_ezplayer_threads®',
-       'action' => 'view_stats_ezplayer_threads'
+        'name' => '®stats_ezplayer_threads®',
+        'action' => 'view_stats_ezplayer_threads'
     ),
     array(
-       'name' => '®stats_ezplayer_bookmarks®',
-       'action' => 'view_stats_ezplayer_bookmarks'
+        'name' => '®stats_ezplayer_bookmarks®',
+        'action' => 'view_stats_ezplayer_bookmarks'
     ),
     array(
         'name' => '®stats_view_report®',
@@ -130,41 +133,44 @@ $category_names = array(
     'Renderers' => '®renderers_category®',
     'Monitoring' => '®monitoring_category®'
 );
-
 ?>
 
 <div class="col-md-2 hidden-print">
-<ul class="nav nav-list">
-    <?php foreach ($options as $cat => $suboptions) {
-    ?>
-        <li class="nav-header">
-            <?php echo $category_names[$cat]; ?>
-        </li>
-        <?php $nb_options = count($options, COUNT_RECURSIVE) - count($options); ?>
-        <?php foreach ($suboptions as $option) {
-        ?>
-            <li <?php if ($nb_options > $threshold_num_options) {
-            echo 'style="display: none;"';
-        } ?> 
-                class="sidebar <?php // TODO not work when no operation with input in this page
-                if (isset($input) && isset($input['action']) && ($option['action'] == $input['action'])) {
-                    echo ' active ';
-                } ?> ">
-                
-                <a href="index.php?&action=<?php echo $option['action'] ?>">
-                    <?php echo $option['name']; ?>
-                </a>
-                
+    <ul class="nav nav-list">
+        <?php foreach ($options as $cat => $suboptions) {
+            ?>
+            <li class="nav-header">
+                <?php echo $category_names[$cat]; ?>
             </li>
-            <?php
-    } // end foreach?>
-    <?php
-} // end foreach?>
-    <li class="nav-header" style="cursor: pointer;">®additional_options®</li>
-    <li class="sidebar" title="®push_changes_title®"><a style="<?php echo (isset($_SESSION['changes_to_push']) && $_SESSION['changes_to_push']) ? 'color: #dd0000;' : ''; ?>" href="index.php?action=push_changes">®push_changes®</a></li>
-    <li class="sidebar"><a href="index.php?action=sync_externals">®sync_externals®</a></li>
-    <li class="sidebar"><a href="index.php?action=db_updater">®db_updater®</a></li>
-    <li class="sidebar"><a href="?<?php echo SID."&action=logout"?>">®logout®</a></li>
-</ul>
-<!-- <a class="btn" style="margin-top: 10px; width: 80%;" href="?<?php echo SID."&action=logout"?>">®logout®</a> -->
+            <?php $nb_options = count($options, COUNT_RECURSIVE) - count($options); ?>
+            <?php foreach ($suboptions as $option) {
+                ?>
+                <li <?php
+                if ($nb_options > $threshold_num_options) {
+                    echo 'style="display: none;"';
+                }
+                ?> 
+                    class="sidebar <?php
+                    // TODO not work when no operation with input in this page
+                    if (isset($input) && isset($input['action']) && ($option['action'] == $input['action'])) {
+                        echo ' active ';
+                    }
+                    ?> ">
+
+                    <a href="index.php?&action=<?php echo $option['action'] ?>">
+                        <?php echo $option['name']; ?>
+                    </a>
+
+                </li>
+            <?php } // end foreach
+            ?>
+        <?php } // end foreach
+        ?>
+        <li class="nav-header" style="cursor: pointer;">®additional_options®</li>
+        <li class="sidebar" title="®push_changes_title®"><a style="<?php echo (isset($_SESSION['changes_to_push']) && $_SESSION['changes_to_push']) ? 'color: #dd0000;' : ''; ?>" href="index.php?action=push_changes">®push_changes®</a></li>
+        <li class="sidebar"><a href="index.php?action=sync_externals">®sync_externals®</a></li>
+        <li class="sidebar"><a href="index.php?action=db_updater">®db_updater®</a></li>
+        <li class="sidebar"><a href="?<?php echo SID . "&action=logout" ?>">®logout®</a></li>
+    </ul>
+    <!-- <a class="btn" style="margin-top: 10px; width: 80%;" href="?<?php echo SID . "&action=logout" ?>">®logout®</a> -->
 </div>

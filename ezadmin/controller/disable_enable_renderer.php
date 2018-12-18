@@ -1,7 +1,6 @@
 <?php
 
-function index($param = array())
-{
+function index($param = array()) {
     global $input;
     global $error;
     $enable = (count($param) == 1 && $param[0]);
@@ -9,9 +8,9 @@ function index($param = array())
     if (empty($input['name'])) {
         die;
     }
-    
+
     $name = trim($input['name']);
-    
+
     if (renderer_update_enabled($name, $enable, $error)) {
         echo json_encode(array('succes' => '1'));
     } else {
@@ -23,5 +22,6 @@ function index($param = array())
     } else {
         db_log("renderers", 'Disabled renderer ' . $input['name'], $_SESSION['user_login']);
     }
+    push_renderers_to_ezmanager();
     //   notify_changes();
 }
