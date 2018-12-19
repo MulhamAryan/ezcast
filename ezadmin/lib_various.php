@@ -676,7 +676,8 @@ function getRecordingStatus($ip) {
 
 function check_validation_text($text) {
     include 'config.inc';
-
+    global $input_validation_regex;
+    
     $text = trim($text);
 
     if ($text == "") {
