@@ -805,8 +805,8 @@ function db_user_set_recorder_passwd($user_ID, $recorder_passwd) {
     global $statements;
     require_once __DIR__ . '/lib_pw.php'; //for pw encryption
     $encrypted_passwd = pw_encrypt($user_ID, $recorder_passwd);
-    
-    
+
+
     $statements['user_update_recorder_passwd']->bindParam(':user_ID', $user_ID);
     $statements['user_update_recorder_passwd']->bindParam(':recorder_passwd', $encrypted_passwd);
     $ok = $statements['user_update_recorder_passwd']->execute();

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * EZCAST EZmanager
  *
@@ -27,66 +28,96 @@
 /**
  * @package ezcast.ezmanager.lib.upload
  */
-
-function media_submit_create_metadata($tmp_name, $metadata)
-{
+function media_submit_create_metadata($tmp_name, $metadata) {
     global $submit_upload_dir;
-    
-   
+
+
     // Sanity checks
     if (!is_dir($submit_upload_dir)) {
-        ezmam_last_error($submit_upload_dir.' is not a directory');
+        ezmam_last_error($submit_upload_dir . ' is not a directory');
         return false;
     }
-    
+
     if (!$metadata) {
         ezmam_last_error('not metadata provided');
         return false;
     }
-    
+
     // 1) create directory
-    $folder_path = $submit_upload_dir.'/'.$tmp_name;
-    
+    $folder_path = $submit_upload_dir . '/' . $tmp_name;
+
     if (file_exists($folder_path)) {
         ezmam_last_error('Asset already exists. Wait one minute before retrying.');
         return false;
     }
-    
+
     mkdir($folder_path);
-    
+
     // 2) put metadata into xml file
-    $res = assoc_array2metadata_file($metadata, $folder_path.'/metadata.xml');
+    $res = assoc_array2metadata_file($metadata, $folder_path . '/metadata.xml');
     if (!$res) {
         ezmam_last_error('ezmam_media_submit_create_metadata: could not save metadata');
         return false;
     }
-    
+
     return true;
 }
 
-function media_submit_error($tmp_name)
-{
+function media_submit_error($tmp_name) {
     global $submit_upload_dir;
     global $submit_upload_failed_dir;
-    
+
     // Sanity checks
     if (!is_dir($submit_upload_dir)) {
-        ezmam_last_error($submit_upload_dir.' is not a directory');
+        ezmam_last_error($submit_upload_dir . ' is not a directory');
         return false;
     }
-    
+
     if (!is_dir($submit_upload_failed_dir)) {
-        ezmam_last_error($submit_upload_failed_dir.' is not a directory');
+        ezmam_last_error($submit_upload_failed_dir . ' is not a directory');
         return false;
     }
-    
-    $folder_path = $submit_upload_dir.'/'.$tmp_name;
-    
+
+    $folder_path = $submit_upload_dir . '/' . $tmp_name;
+
     if (file_exists($folder_path)) {
-        rename($folder_path, $submit_upload_failed_dir.'/'.$tmp_name);
+        rename($folder_path, $submit_upload_failed_dir . '/' . $tmp_name);
     } else {
         ezmam_last_error('Asset does not exist.');
         return false;
     }
     return true;
+}
+
+function checkInitSubmitServiceVar(&$input, $ratio = "auto", $downloadable = "true", $add_title = "false", $credits = "false", $intro = "", $keepQuality = "", $type = "cam", $moderation = "false") {
+    global $TokenUploadServcice;
+    global $valid_extensions;
+
+    if (isset($input['user_full_name']) && $input['user_full_name'] != '' &&
+            isset($input['user_login']) && $input['user_login'] != '' &&
+            isset($input['album']) && $input['album'] != '' && ezmam_album_exists($input['album'] . "-pub") &&
+            isset($input['title']) && $input['title'] != '' &&
+            isset($input['description']) && $input['description'] != '' &&
+            isset($input['token']) && $TokenUploadServcice != "" && $input['token'] == md5($TokenUploadServcice . $input['user_login'])) {
+
+        //Check if user has the right to post video in this album
+        $users = db_course_get_users($input['album']);
+        for ($i = 0; $i < count($users); $i++) {
+            $authorizedUsers[$i] = $users[$i]['user_ID'];
+        }
+        $_SESSION['user_full_name'] = $input['user_full_name'];
+        $_SESSION['user_login'] = $input['user_login'];
+
+        //init by default
+        $input['ratio'] = $ratio;
+        $input['downloadable'] = $downloadable;
+        $input['add_title'] = $add_title;
+        $input['credits'] = $credits;
+        $input['intro'] = $intro;
+        $input['keepQuality'] = $keepQuality;
+        $input['type'] = $type;
+        $input['moderation'] = $moderation;
+        return true;
+    } else
+        return false;
 }

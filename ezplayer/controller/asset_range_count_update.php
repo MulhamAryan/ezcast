@@ -3,8 +3,7 @@
 /**
  * Increments the view count for a specific range of the video
  */
-function index($param = array())
-{
+function index($param = array()) {
     global $input;
     global $repository_path;
 
@@ -34,7 +33,9 @@ function index($param = array())
     }
 
     $range_count_path = $repository_path . '/' . $album . '/' . $asset . '/range_count';
+    if (!file_exists($range_count_path))
     mkdir($range_count_path, 0755);
+
     $date = date('Ymd');
     $array = array();
     if (file_exists($range_count_path . '/' . $date . '_' . $type . '.php')) {

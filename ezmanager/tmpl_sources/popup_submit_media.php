@@ -32,9 +32,9 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER
     $domain_name = $ezmanager_url;
 }
 
-$album_path = $repository_path . "/" . $album."-pub";
+$album_path = $repository_path . "/" . $album . "-pub";
 $album_metadata = metadata2assoc_array($album_path . "/_metadata.xml");
-if (isset($album_metadata['course_code_public']) && $album_metadata['course_code_public']!='') {
+if (isset($album_metadata['course_code_public']) && $album_metadata['course_code_public'] != '') {
     $course_code_public = $album_metadata['course_code_public'];
 } else {
     $course_code_public = $album;
@@ -42,10 +42,10 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
 ?>
 
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="force_close=true;">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="force_close = true;">
         <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title">®Submit_record®</h4>
+    <h4 class="modal-title"><?php echo ($enable_audio_submit) ? '®Submit_record_media®' : '®Submit_record®'; ?></h4>
 </div>
 <form action="<?php echo $domain_name; ?>/index.php" method="post" id="submit_form" enctype="multipart/form-data" 
       onsubmit="return false" target="uploadFrame">
@@ -56,7 +56,7 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
         <script> // Render and style the file input 
             initFileUploads()
         </script>
-        
+
         <div class="form-group">
             <label class="col-sm-3 control-label">®Album®</label>
             <div class="col-sm-9">
@@ -66,18 +66,44 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 </p>
             </div>
         </div>
-        
-        <div class="form-group">
-            <label for="type" id="submit_type" class="col-sm-3 control-label">®Type®</label>
-            <div class="col-sm-9">
-                <select class="form-control" name="type" id="type" onchange="show_file_input();">
-                    <option selected="selected"  value="cam">®cam®</option>
-                    <option value="slide">®slide®</option>
-                    <option value="camslide">®camslide®</option>
-                </select>
+
+        <?php if ($enable_audio_submit) { ?>
+            <div class="form-group">
+                <label for="type" class="col-sm-3 control-label">®Type®</label>
+                <div class="btn-group col-sm-9" data-toggle="buttons">
+                    <label class="btn btn-success active">
+                        <input type="radio" name="type_media" id="type_media" onchange="change_radio_button();" value="video" autocomplete="off" checked="checked"> ®Video®
+                        <span class="glyphicon glyphicon-facetime-video"></span>
+                    </label>
+                    <label class="btn btn-success">
+                        <input type="radio" name="type_media" id="type_media" onchange="change_radio_button();" value="audio" autocomplete="off"> ®Audio®
+                        <span class="glyphicon glyphicon-music"></span>
+                    </label>
+                </div>
             </div>
-        </div>
-        
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <div>
+                        Le type sélectionné : <b id="type_selected"></b>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+
+        <!--<div class="form-group">
+            <label for="type" class="col-sm-3 control-label">®Type®</label>
+            <div class="col-sm-9">
+                <label class="radio-inline">
+                    <input type="radio" name="type_media" id="type_media" onchange="change_radio_button();" value="video" checked="checked"> Vidéo
+                    <span class="glyphicon glyphicon-facetime-video"></span>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="type_media" id="type_media" onchange="change_radio_button();" value="audio"> Audio
+                    <span class="glyphicon glyphicon-music"></span>
+                </label>
+            </div>
+        </div>-->
+
         <div class="form-group">
             <label for="title" class="col-sm-3 control-label">
                 ®Title®
@@ -87,7 +113,7 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 <input id="title" name="title" class="form-control" type="text" maxlength="70"/>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label for="title" class="col-sm-3 control-label">
                 ®Description®
@@ -97,8 +123,8 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 <textarea id="description" class="form-control" name="description" rows="4" style="resize: vertical;"></textarea>
             </div>
         </div>
-        
-        <div class="form-group">
+
+        <div class="form-group" id='options' style="display: none;">
             <div class="col-sm-offset-3 col-sm-9">
                 <button class="btn btn-default" type="button" data-toggle="collapse" 
                         data-target="#more_options_div" aria-expanded="false" aria-controls="more_options_div">
@@ -106,8 +132,18 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 </button>
             </div>
         </div>
-        
+
         <div class="collapse" id="more_options_div">
+            <div class="form-group">
+                <label for="type" id="submit_type" class="col-sm-3 control-label">®Type®</label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="type" id="type" onchange="show_file_input();">
+                        <option selected="selected" value="cam">®cam®</option>
+                        <option value="slide">®slide®</option>
+                        <option value="camslide">®camslide®</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group">
                 <label for="title" class="col-sm-3 control-label">
                     ®Jingle®
@@ -118,17 +154,19 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 <div class="col-sm-9">
                     <select class="form-control" name="intro" id="intro">
                         <option value="">®None_intro®</option>
-                        <?php foreach ($intros as $intro) {
-    echo '<option ';
-    if ($intro['value'] == $album_intro) {
-        echo 'selected="selected" ';
-    }
-    echo 'value="'.$intro['value'].'">'.$intro['label'].'</option>';
-} ?>
+                        <?php
+                        foreach ($intros as $intro) {
+                            echo '<option ';
+                            if ($intro['value'] == $album_intro) {
+                                echo 'selected="selected" ';
+                            }
+                            echo 'value="' . $intro['value'] . '">' . $intro['label'] . '</option>';
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label for="title" class="col-sm-3 control-label">
                     ®Titling®
@@ -139,17 +177,19 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 <div class="col-sm-9">
                     <select class="form-control" name="add_title" id="add_title">
                         <option value="false">®None_titling®</option>
-                        <?php foreach ($titlings as $titling) {
-    echo '<option ';
-    if ($titling['value'] == $add_title) {
-        echo 'selected="selected" ';
-    }
-    echo 'value="'.$titling['value'].'">'.$titling['label'].'</option>';
-} ?>
+                        <?php
+                        foreach ($titlings as $titling) {
+                            echo '<option ';
+                            if ($titling['value'] == $add_title) {
+                                echo 'selected="selected" ';
+                            }
+                            echo 'value="' . $titling['value'] . '">' . $titling['label'] . '</option>';
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label for="title" class="col-sm-3 control-label">
                     ®Credits®
@@ -160,17 +200,19 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 <div class="col-sm-9">
                     <select class="form-control" name="credits" id="credits">
                         <option value="false">®None_credits®</option>
-                        <?php foreach ($credits as $credit) {
-    echo '<option ';
-    if ($credit['value'] == $album_credits) {
-        echo 'selected="selected" ';
-    }
-    echo 'value="'.$credit['value'].'">'.$credit['label'].'</option>';
-} ?>
+                        <?php
+                        foreach ($credits as $credit) {
+                            echo '<option ';
+                            if ($credit['value'] == $album_credits) {
+                                echo 'selected="selected" ';
+                            }
+                            echo 'value="' . $credit['value'] . '">' . $credit['label'] . '</option>';
+                        }
+                        ?>
                     </select>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label for="ratio" class="col-sm-3 control-label">
                     ®Ratio®
@@ -194,7 +236,7 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                     </label>
                 </div>
             </div>
-        
+
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <div class="checkbox">
@@ -209,13 +251,13 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" id="downloadable" name="downloadable" 
-                                <?php echo ($downloadable !== 'false') ? 'checked' : '' ?>> 
+<?php echo ($downloadable !== 'false') ? 'checked' : '' ?>> 
                             <a class="info">®Downloadable_submit®<span>®Download_info_submit®</span></a>
                         </label>
                     </div>
@@ -223,7 +265,7 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
             </div>
 
         </div>
-        
+
         <div class="form-group" id="submit_cam">
             <label for="loadingfile_label" class="col-sm-3 control-label">
                 <span id="file_info">®File®</span>
@@ -233,7 +275,7 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 <input id="loadingfile" type="file" name="media"/>
             </div>
         </div>
-        
+
         <div class="form-group" id='submit_slide' style="display: none;">
             <label for="loadingfile_label" class="col-sm-3 control-label">
                 <span id="file_info2">®slide®</span>
@@ -243,25 +285,26 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 <input id="loadingfile2" type="file" name="media2"/>
             </div>
         </div>
-        
+
         <div class="progress" id="progressbar_container" style="display: none">
             <div class="progress-bar" id="progressbar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 
                  style="width: 0%;">
             </div>
         </div>
-        
+
         <iframe id="uploadFrame" src='' name="uploadFrame" style="display:none;"></iframe>
-        
+
     </div>
-    
+
     <div class="modal-footer">
-        <button class="btn btn-primary" id="submitButton" onclick="if (check_form()) sendRequest()">®Submit®</button>
+        <button class="btn btn-primary" id="submitButton" onclick="if (check_form())
+                    sendRequest()">®Submit®</button>
     </div>
 </form>
 
 <script type="text/javascript">
     var force_close = true; // variable to allow or not to close the popup
-    
+
     var is_xhr2 = supportAjaxUploadProgressEvents();
 
     if (is_xhr2) {
@@ -270,19 +313,97 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
         document.getElementById('submit_type').innerHTML = '<input type="hidden" id="type" name="type" value="cam" />';
     }
 
-    function show_file_input() {
-        if (document.getElementById('type').value === 'camslide') {
+    $(document).ready(function ()
+    {
+        change_radio_button();
+
+        var type_media = $("input:radio[name=type_media]:checked").val();
+
+        $("#type_selected").text(type_media);
+
+    });
+
+    function show_file_input()
+    {
+        var type_media = $("input:radio[name=type_media]:checked").val();
+
+        if (typeof type_media === "undefined")
+        {
+            type_media = 'video';
+        }
+
+        if (document.getElementById('type').value === 'camslide')
+        {
             document.getElementById('submit_slide').style.display = 'block';
             document.getElementById('file_info').innerHTML = '®cam®';
-        } else {
+        } else
+        {
             document.getElementById('submit_slide').style.display = 'none';
-            type = (document.getElementById('type').value == 'cam') ? '®cam®' : '®slide®';
+            if (type_media == 'video')
+            {
+                type = (document.getElementById('type').value == 'cam') ? '®cam®' : '®slide®';
+            } else if (type_media == 'audio')
+            {
+                type = '®file_audio®';
+            }
             document.getElementById('file_info').innerHTML = type;
         }
     }
 
+    function change_radio_button()
+    {
+        var type_media = $("input:radio[name=type_media]:checked").val();
 
-    function check_form() {
+        if (typeof type_media === "undefined")
+        {
+            type_media = 'video';
+        }
+
+        if (type_media == 'video')
+        {
+            $('#options').css('display', 'block');
+            $('#more_options_div').css('display', '');
+            $("#type_selected").text(type_media);
+            change_color_options();
+        } else
+        {
+            $('#options').css('display', 'none');
+            $('#more_options_div').css('display', 'none');
+            $('#type option').removeAttr('selected');
+            $('#type').find('option:eq(0)').prop('selected', true);
+            $("#type_selected").text(type_media);
+            change_color_options();
+        }
+
+        show_file_input();
+    }
+
+    function change_color_options()
+    {
+        $("input[name=type_media]:not(:checked)").parent()
+                .css({
+                    'background-color': '#D3D3D3',
+                    'border-color': '#808080'
+                });
+        $("input[name=type_media]:checked").parent()
+                .css({
+                    'background-color': '#5cb85c',
+                    'border-color': '#4cae4c'
+                });
+    }
+
+    function check_form()
+    {
+        var extensions_video = <?php echo json_encode($valid_extensions_video); ?>;
+        var extensions_audio = <?php echo json_encode($valid_extensions_audio); ?>;
+        var enable_verify_mimeType_extension = <?php echo $enable_verify_mimeType_extension; ?>;
+
+        var type_media = $("input:radio[name=type_media]:checked").val();
+
+        if (typeof type_media === "undefined")
+        {
+            type_media = 'video';
+        }
 
         if (document.getElementById('title').value == '') {
             window.alert('®No_title®');
@@ -298,21 +419,30 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
             //        Regex doesn't work in IE
             //        var ext = file.match(/^.+\.([^.]+)$/)[1];
             var ext = file.split('.').pop();
-            var extensions = <?php
-                global $valid_extensions;
-                echo json_encode($valid_extensions);
-                ?>;
 
             // check if extension is accepted
-            var found = false;
-            for (var i = 0; i < extensions.length; i++) {
-                if (found = (extensions[i] == ext.toLowerCase()))
-                    break;
+            if (enable_verify_mimeType_extension == true) {
+                var found = false;
+                if (type_media == 'video') {
+                    //check if extension is accepted
+                    for (var i = 0; i < extensions_video.length; i++) {
+                        if (found = (extensions_video[i] == ext.toLowerCase()))
+                            break;
+                    }
+                } else if (type_media == 'audio') {
+                    //check if extension is accepted
+                    for (var i = 0; i < extensions_audio.length; i++) {
+                        if (found = (extensions_audio[i] == ext.toLowerCase()))
+                            break;
+                    }
+                }
+
+                if (!found) {
+                    window.alert('®bad_extension®');
+                    return false;
+                }
             }
-            if (!found) {
-                window.alert('®bad_extension®');
-                return false;
-            }
+
 
             if (document.getElementById('type').value === 'camslide') {
                 var file2 = document.getElementById('loadingfile2').value;
@@ -322,14 +452,20 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 }
                 var ext2 = file2.split('.').pop();
 
-                var found = false;
-                for (var i = 0; i < extensions.length; i++) {
-                    if (found = (extensions[i] == ext2.toLowerCase()))
-                        break;
-                }
-                if (!found) {
-                    window.alert('®bad_extension® (®slide®)');
-                    return false;
+                if (enable_verify_mimeType_extension == true) {
+                    var found = false;
+                    if (type_media == 'video') {
+                        //check if extension is accepted
+                        for (var i = 0; i < extensions_video.length; i++) {
+                            if (found = (extensions_video[i] == ext2.toLowerCase()))
+                                break;
+                        }
+                    }
+
+                    if (!found) {
+                        window.alert('®bad_extension® (®slide®)');
+                        return false;
+                    }
                 }
             }
         }
@@ -346,10 +482,14 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
         }
 
         if (progressRate >= 100) {
+            var ablum_refresh = "<?php echo $album; ?>";
+            var visible = "<?php echo $visibility; ?>";
+            ablum_refresh = ablum_refresh + '' + visible;
             $('.modal-title').text("®Upload_finished_title®");
             $('.modal-body').text("®Upload_finished®");
-            $('.modal-footer').html('<button type="button" class="btn btn-primary" ' + 
+            $('.modal-footer').html('<button type="button" id="close_btn" class="btn btn-primary" ' +
                     'data-dismiss="modal">®Close_and_return_to_index®</button>');
+            $('#close_btn').attr('onclick', 'show_album_details("' + ablum_refresh + '")');
             force_close = true;
         } else {
             document.getElementById('submit_cam').style.display = 'none';
@@ -358,7 +498,7 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
             document.getElementById('progressbar_container').style.display = 'block';
             document.getElementById('progressbar').style.width = progressRate + '%';
             $('#submitButton').prop('disabled', true);
-            document.getElementById('submitButton').innerHTML = type + '®Upload_in_progress® (' + 
+            document.getElementById('submitButton').innerHTML = type + '®Upload_in_progress® (' +
                     (isNaN(progressRate) ? '0' : progressRate) + '%)';
         }
     }
@@ -371,7 +511,7 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
     // When the iframe is loaded after a file submit, its content
     // is not empty and we can change the display
     document.getElementById('uploadFrame').addEventListener('load', uploadFinished());
-    
+
     function uploadFinished() {
         var frame = document.getElementById('uploadFrame');
         if (frame) {
@@ -401,16 +541,26 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
             // the file(s) will be added in second step
             fd = new FormData();
             var type = document.getElementById('type').value;
+            var type_media = $("input:radio[name=type_media]:checked").val();
+
+            if (typeof type_media === "undefined")
+            {
+                type_media = 'video';
+            }
+
             if (type === 'camslide') {
                 var file2 = document.getElementById('loadingfile2');
                 fd.append("cam_filename", file.files[0].name);
                 fd.append("slide_filename", file2.files[0].name);
             } else {
+                console.log('passe ici => ' + type);
+                console.log(file.files[0].name);
                 fd.append(type + "_filename", file.files[0].name);
             }
             fd.append('album', document.getElementById('album').value);
             fd.append('moderation', document.getElementById('moderation').value);
             fd.append('type', type);
+            fd.append('type_media', type_media);
             fd.append('title', document.getElementById('title').value);
             fd.append('description', document.getElementById('description').value);
             fd.append('intro', document.getElementById('intro').value);
@@ -444,7 +594,7 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                             case 'console': // defined in js/fileupload.js
                                 console.log(e.data.message);
                                 break;
-                                
+
                             case 'error':
                                 window.alert(e.data.message);
                                 // ends the upload process
@@ -457,13 +607,20 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                                 fd2.append("id", id);
                                 xhr2.open("POST", "index.php?action=upload_error", true);
                                 xhr2.send(fd2);
-                                
+
+                                var ablum_refresh = "<?php echo $album; ?>";
+                                var visible = "<?php echo $visibility; ?>";
+                                ablum_refresh = ablum_refresh + '' + visible;
+
                                 $('.modal-title').text("®Upload_failed_title®");
                                 $('.modal-body').text("®Upload_failed®");
-                                $('.modal-footer').html('<button type="button" class="btn btn-primary" ' + 
+                                $('.modal-footer').html('<button type="button" id="close_btn_error" class="btn btn-primary" ' +
                                         'data-dismiss="modal">®Close_and_return_to_index®</button>');
+                                $('#close_btn_error').attr('onclick', 'show_album_details("' + ablum_refresh + '")');
+
+                                force_close = true;
                                 break;
-                                
+
                             case 'exec':
                                 eval(e.data.message);
                                 break;
@@ -474,11 +631,19 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                     worker.postMessage({'fct': 'pushValue', 'args': {'key': 'id', 'value': id}});
                     worker.postMessage({'fct': 'pushValue', 'args': {'key': 'url', 'value': '<?php echo $domain_name; ?>'}});
                     worker.postMessage({'fct': 'pushValue', 'args': {'key': 'chunkSize', 'value': chunkSize}});
-                    if (type === 'camslide') {
-                        worker.postMessage({'fct': 'process', 'args': {'blob': file.files[0], 'type': 'cam'}});
-                        worker.postMessage({'fct': 'process', 'args': {'blob': file2.files[0], 'type': 'slide'}});
-                    } else {
-                        worker.postMessage({'fct': 'process', 'args': {'blob': file.files[0], 'type': type}});
+                    if (type_media === 'video')
+                    {
+                        if (type === 'camslide')
+                        {
+                            worker.postMessage({'fct': 'process', 'args': {'blob': file.files[0], 'type': 'cam'}});
+                            worker.postMessage({'fct': 'process', 'args': {'blob': file2.files[0], 'type': 'slide'}});
+                        } else
+                        {
+                            worker.postMessage({'fct': 'process', 'args': {'blob': file.files[0], 'type': type}});
+                        }
+                    } else if (type_media === 'audio')
+                    {
+                        worker.postMessage({'fct': 'process', 'args': {'blob': file.files[0], 'type': type, 'type_media': type_media}});
                     }
 
                 }
@@ -508,14 +673,14 @@ if (isset($album_metadata['course_code_public']) && $album_metadata['course_code
                 && (typeof (Worker) !== "undefined")
                 && (typeof (blob.slice) === 'function' || typeof (blob.mozSlice) === 'function');
     }
-    
+
     // When modal will close
     $('#modal').on('hide.bs.modal', function (event) {
-        if(!force_close) { // Cancel if not forced
+        if (!force_close) { // Cancel if not forced
             event.preventDefault();
             event.stopImmediatePropagation();
-            return false; 
-        } else if(worker != null && worker != 'undefined') {
+            return false;
+        } else if (worker != null && worker != 'undefined') {
             worker.terminate();
         }
     });

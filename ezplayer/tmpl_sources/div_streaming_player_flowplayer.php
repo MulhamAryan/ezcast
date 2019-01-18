@@ -23,27 +23,25 @@
  * License along with this software; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 ?>
 <div id="streaming_config">
-
     <link rel="stylesheet" href="flowplayer-6/skin/skin.css">
-    <?php if($_SESSION['isPhone']){  ?>
+    <?php if ($_SESSION['isPhone']) { ?>
         <link rel="stylesheet" type="text/css" href="css/smartphone.css" />
-	<?php } ?>	
+    <?php } ?>	
     <div id="video_player" class="streaming remove_full">
         <div id="streaming_video"></div>
         <div class="video_controls streaming">
             <ul>
 
                 <?php if ($asset_meta['record_type'] === 'camslide') {
-    ?>
+                    ?>
                     <li>
                         <a class="movie-button <?php echo ($_SESSION['current_type'] === 'cam') ? 'active' : ''; ?>" title="®Watch_video®" href="javascript:switch_prepare('cam');"></a>
                         <a class="slide-button <?php echo ($_SESSION['current_type'] === 'slide') ? 'active' : ''; ?>" title="®Watch_slide®" href="javascript:switch_prepare('slide');"></a>
                     </li>
-                <?php
-} ?>
+                    <?php }
+                ?>
                 <li>
                     <a class="fullscreen-button" href="javascript:player_streaming_fullscreen(!fullscreen);" title="®Toggle_fullscreen®" ></a>
                 </li>   
@@ -68,95 +66,89 @@
 
     // saves when user pauses the video (for poping warning on switch)
     flowplayer(function (api, root) {
-        api.on("pause", function () {
-            paused = true;
-        });        
-        api.on("progress", function (e, api, current_time) {
-            time = current_time
-        });
+    api.on("pause", function () {
+    paused = true;
+    });
+    api.on("progress", function (e, api, current_time) {
+    time = current_time
+    });
     });
 
     // install flowplayer into selected container
     flowplayer(container, {
-        clip: {
-            sources: [
-                {type: "application/x-mpegurl",
-                    src: main_stream_url}
-            ],
+    clip: {
+    sources: [
+    {type: "application/x-mpegurl",
+            src: main_stream_url}
+    ],
             flashls: {
-                //   debug: true,
-                // debug2: true
+            //   debug: true,
+            // debug2: true
             }
-        },
-        poster: poster,
-        swfHls: 'flowplayer-6/flowplayerhls.swf',
-        live: true,
-        autoplay: true,
-<<<<<<< HEAD
-        fullscreen: false,
-        share: false,
-        embed: false
-=======
-        fullscreen: true,
-        embed: false,
-        share:false
->>>>>>> prod_UCL
-
+    },
+            poster: poster,
+            swfHls: 'flowplayer-6/flowplayerhls.swf',
+            live: true,
+            autoplay: true,
+    fullscreen: true,
+    embed: false,
+        share: false
+    
     });
-
-    // prevents memory leak in Safari
+    
+        // prevents memory leak in Safari
     function player_kill() {
-        var api = flowplayer();
-        if (typeof api !== "undefined") {
-            api.unload();
-            api.shutdown();
-        }
-        $("video").each(function () {
+            var api = flowplayer();
+    if (typeof api !== "undefined") {
+    api.unload();
+    api.shutdown();
+                }
+                $("video").each(function () {
             this.pause(); // can't hurt
-            this.src = '';
-            delete this; // @sparkey reports that this did the trick (even though it makes no sense!)
-            $(this).remove(); // this is probably what actually does the trick
-        });
-        $("#streaming_video_wrapper").empty();
-    }
-
-    function switch_prepare(new_type) {
-        if (new_type === current_type)
+    this.src = '';
+    delete this; // @sparkey reports that this did the trick (even though it makes no sense!)
+    $(this).remove(); // this is probably what actually does the trick
+                    });
+                    $("#streaming_video_wrapper").empty();
+                    }
+                    
+                    function switch_prepare(new_type) {
+            if (new_type === current_type)
             return;
-        if (paused) {
-            popup_streaming_live();
-        } else {
+    if (paused) {
+    popup_streaming_live();
+                    } else {
             switch_do();
-        }
-    }
-
-    function switch_do() {
-        // Request to the server
-        close_popup();
-        player_kill();
-        $('#div_popup').html('<div style="text-align: center;"><img src="images/loading_white.gif" alt="loading..." /></div>');
-        $.ajax({
-            type: 'POST',
+                    }
+                    }
+                
+                function switch_do() {
+            // Request to the server
+            close_popup();
+    player_kill();
+    $('#div_popup').html('<div style="text-align: center;"><img src="images/loading_white.gif" alt="loading..." /></div>');
+    $.ajax({
+    type: 'POST',
             url: 'index.php?action=streaming_config_update' + '&type=' + ((current_type == 'cam') ? 'slide' : 'cam'),
             success: function (response) {
-                $('#streaming_config_wrapper').html(response);
-                player_streaming_fullscreen(fullscreen);
-            }
-        });
+            $('#streaming_config_wrapper').html(response);
+            player_streaming_fullscreen(fullscreen);
     }
-
+    });
+    }
+    
     function popup_streaming_live() {
-        $('#div_popup').html('<div style="text-align: center;"><img src="images/loading_white.gif" alt="loading..." /></div>');
-        $.ajax({
+                    $('#div_popup').html('<div style="text-align: center;"><img src="images/loading_white.gif" alt="loading..." /></div>');
+            $.ajax({
             type: 'POST',
-            url: 'index.php?action=live_stream_popup&display=video_switch',
-            success: function (response) {
-                $('#div_popup').html(response);
-            }
-        });
-        $('#div_popup').reveal($(this).data());
+                    url: 'index.php?action=live_stream_popup&display=video_switch',
+                    success: function (response) {
+                    $('#div_popup').html(response);
     }
-
+    });
+    $('#div_popup').reveal($(this).data());
+    }
+    
 </script>
 
 

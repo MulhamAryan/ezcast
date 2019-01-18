@@ -6,11 +6,11 @@ require_once(__DIR__ . '/includes/asset_view.php');
  * Edits asset data and re-draws the asset details
  * @global type $input
  */
-function index($param = array())
-{
+function index($param = array()) {
     global $input;
     global $repository_path;
     global $title_max_length;
+    $title = rawurldecode($input['title']);
 
     //
     // Usual sanity checks
@@ -37,7 +37,7 @@ function index($param = array())
     //
     $metadata = ezmam_asset_metadata_get($input['album'], $input['asset']);
 
-    $metadata['title'] = $input['title'];
+    $metadata['title'] = $title;
     $metadata['description'] = $input['description'];
 
     $res = ezmam_asset_metadata_set($input['album'], $input['asset'], $metadata);

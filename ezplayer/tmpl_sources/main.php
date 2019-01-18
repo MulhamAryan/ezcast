@@ -12,25 +12,25 @@
         <title>®ezplayer_page_title®</title>
         <meta name="description" content="EZPlayer is a video player to view EZCast video" />
         <?php include_once template_getpath('head_css_js.php'); ?>
-        
+
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="#EZPlayer" />
         <meta name="twitter:title" content="EZPlayer (from EZCast)" /> <!-- Personalize with translation -->
         <meta name="twitter:description" content="EZPlayer is propulsed by EZCast (ULB)" />
         <meta name="twitter:image" content="./images/Header/LogoEZplayer.png" />
-    
+
         <script>
 <?php
 global $trace_on;
 if ($trace_on) {
     ?>
                 var trace_on = true;
-<?php
+    <?php
 } else {
-        ?>
+    ?>
                 var trace_on = false;
-<?php
-    } ?>
+    <?php }
+?>
         </script>
         <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
         <script type="text/javascript" src="js/jQuery/jquery-2.1.3.min.js"></script>
@@ -45,7 +45,6 @@ if ($trace_on) {
                 break;
             case 'flowplayer':
                 ?>
-
                 <link rel="stylesheet" href="flowplayer-6/skin/skin.css">
                 <script src="flowplayer-6/flowplayer.min.js"></script>
                 <script src="flowplayer-6/hls.js"></script>
@@ -59,7 +58,8 @@ if ($trace_on) {
         <script type="text/javascript" src="js/jQuery/jquery.reveal.js"></script>
         <script type="text/javascript" src="js/jQuery/highlight-js.js"></script>
         <?php global $video_split_time;
-        echo '<script>var video_split_time = '.$video_split_time . '</script>'; ?>
+        echo '<script>var video_split_time = ' . $video_split_time . '</script>';
+        ?>
         <script type="text/javascript" src="js/lib_player.js"></script>
         <script type="text/javascript" src="js/lib_threads.js"></script>
         <script type="text/javascript" src="js/lib_bookmarks.js"></script>
@@ -78,7 +78,7 @@ if ($trace_on) {
             var display_threads_notif = false;
             var thread_to_display = null;
             var ezplayer_mode = '<?php echo $_SESSION['ezplayer_mode']; ?>';
-            
+
             $(document).ready(function () {
 
                 $('#assets_button, .bookmarks_button, .toc_button').localScroll({
@@ -87,11 +87,11 @@ if ($trace_on) {
                 });
                 // import/export menu closes when click outside
                 $("*", document.body).click(function (e) {
-                    if ((e.target.id != "bookmarks_actions") && !$(e.target).hasClass("menu-button") && 
+                    if ((e.target.id != "bookmarks_actions") && !$(e.target).hasClass("menu-button") &&
                             ($("#bookmarks_actions").css("display") != "none")) {
                         $("#bookmarks_actions").css("display", "none");
                         $(".settings.bookmarks a.menu-button").toggleClass('active')
-                    } else if ((e.target.id != "tocs_actions") && !$(e.target).hasClass("menu-button") && 
+                    } else if ((e.target.id != "tocs_actions") && !$(e.target).hasClass("menu-button") &&
                             ($("#tocs_actions").css("display") != "none")) {
                         $("#tocs_actions").css("display", "none");
                         $(".settings.toc a.menu-button").toggleClass('active')
@@ -160,7 +160,7 @@ if ($trace_on) {
                 current_asset = asset;
                 display_thread_details = false;
 
-                makeRequest('index.php', '?action=view_asset_details&album=' + album + '&asset=' + asset + '&asset_token=' + 
+                makeRequest('index.php', '?action=view_asset_details&album=' + album + '&asset=' + asset + '&asset_token=' +
                         asset_token + '&click=true', 'div_center');
                 //   history.pushState({"key": "show-asset-details", "function": "show_asset_details(" + album + "," + 
                 //      asset + "," + asset_token + ")", "url": "index.php?action=view_asset_details&album=" + album + 
@@ -178,8 +178,7 @@ if ($trace_on) {
                 current_album = album;
                 current_asset = asset;
                 display_thread_details = false;
-
-                makeRequest('index.php', '?action=view_asset_streaming&album=' + album + '&asset=' + asset + '&asset_token=' + 
+                makeRequest('index.php', '?action=view_asset_streaming&album=' + album + '&asset=' + asset + '&asset_token=' +
                         asset_token + '&click=true', 'div_center');
                 //   history.pushState({"key": "show-asset-details", "function": "show_asset_details(" + album + "," + 
                 //      asset + "," + asset_token + ")", "url": "index.php?action=view_asset_details&album=" + album + 
@@ -196,7 +195,8 @@ if ($trace_on) {
                     current_album = album;
                     current_asset = asset;
                 }
-                if (typeof fullscreen != 'undefined' && fullscreen) {
+                if (typeof fullscreen != 'undefined' && fullscreen)
+                {
                     video_fullscreen(false);
                 }
                 if (ezplayer_mode == 'view_asset_streaming')
@@ -251,7 +251,7 @@ if ($trace_on) {
                 if (ezplayer_mode == 'view_asset_streaming')
                     player_kill();
 
-                makeRequest('index.php', '?action=view_asset_bookmark&album=' + album + '&asset=' + asset + '&t=' + 
+                makeRequest('index.php', '?action=view_asset_bookmark&album=' + album + '&asset=' + asset + '&t=' +
                         timecode + '&type=' + type + '&click=true', 'div_center');
                 close_popup();
             }
@@ -384,21 +384,25 @@ if ($trace_on) {
                 var timecode = document.getElementById('bookmark_timecode');
                 var level = document.getElementById('bookmark_level');
                 var bookmark_source = document.getElementById('bookmark_source');
-                
+
                 if (isNaN(timecode.value)
                         || timecode.value == ''
                         || timecode.value < 0) {
                     window.alert('®Bad_timecode®');
                     return false;
                 }
-                
+
                 var liste = (bookmark_source.value === 'official') ? official_bookmarks_time_code : personal_bookmarks_time_code;
-                
-                if($.inArray(parseInt(timecode.value), liste) >= 0) {
+
+                if ($.inArray(parseInt(timecode.value), liste) >= 0) {
                     window.alert("®already_use_timecode®");
                     return false;
                 }
-                    
+
+                if (level.value !== parseInt(level.value, 10))
+                {
+                    level.value = parseInt(level.value, 10);
+                }
 
                 if (isNaN(level.value)
                         || level.value < 1
@@ -421,6 +425,11 @@ if ($trace_on) {
                         || timecode.value < 0) {
                     window.alert('®Bad_timecode®');
                     return false;
+                }
+
+                if (level.value !== parseInt(level.value, 10))
+                {
+                    level.value = parseInt(level.value, 10);
                 }
 
                 if (isNaN(level.value)
@@ -497,7 +506,7 @@ if ($trace_on) {
              * @param {type} id
              * @returns {undefined}             */
             function thread_edit_form_check(threadId) {
-                $("#edit_thread_message_" + threadId + "_tinyeditor").html(tinymce.get("edit_thread_message_" + 
+                $("#edit_thread_message_" + threadId + "_tinyeditor").html(tinymce.get("edit_thread_message_" +
                         threadId + "_tinyeditor").getContent());
                 var message = document.getElementById("edit_thread_message_" + threadId + "_tinyeditor").value;
                 var title = document.getElementById('edit_thread_title_' + threadId).value;
@@ -750,9 +759,11 @@ if ($trace_on) {
 
         </script>
 
-        <?php if (isset($head_code)) {
+        <?php
+        if (isset($head_code)) {
             echo $head_code;
-        } ?>
+        }
+        ?>
     </head>
     <body>
         <?php
@@ -798,19 +809,19 @@ if ($trace_on) {
                         <li><b>Google Chrome</b> | </li>
                         <li><b>Opera 26+</b> </li>
                         <?php if ($_SESSION['user_os'] == "Windows") {
-                ?>
+                            ?>
                             <li> | <b>Internet Explorer 9+</b> | </li>
                             <li><b>Firefox 22+</b></li>
-    <?php
-            } ?>
+        <?php }
+    ?>
                     </ul>
                 </div>       
             </div>
-                <?php
-        } ?>
+                    <?php }
+                ?>
         <div class="container">
             <div id="header_wrapper">
-<?php include_once template_getpath('div_main_header.php'); ?>
+                    <?php include_once template_getpath('div_main_header.php'); ?>
             </div>
             <div id="global">
                 <div id="div_center">
@@ -828,16 +839,17 @@ if ($trace_on) {
                 </div><!-- div_center END -->
             </div><!-- global -->
 
-            <?php
-            if ($_SESSION["show_message"]) {
-                include_once template_getpath('popup_message_of_day.php'); ?>
+<?php
+if ($_SESSION["show_message"]) {
+    include_once template_getpath('popup_message_of_day.php');
+    ?>
                 <script>
                     $('#popup_message_of_day').reveal($(this).data());
                 </script>           
-            <?php
-            } ?>
+    <?php }
+?>
             <!-- FOOTER - INFOS COPYRIGHT -->
-            <?php include_once template_getpath('div_main_footer.php'); ?>
+<?php include_once template_getpath('div_main_footer.php'); ?>
             <!-- FOOTER - INFOS COPYRIGHT [FIN] -->
         </div><!-- Container fin -->
 
@@ -849,9 +861,9 @@ if ($trace_on) {
     </body>
     <!-- scripts that must be loaded after document -->
     <script>
-         var clipboard = new Clipboard('.clipboard');
+        var clipboard = new Clipboard('.clipboard');
 
-        clipboard.on('success', function(e) {
+        clipboard.on('success', function (e) {
             alert("®Content_in_clipboard®");
             //todo: proper tooltip instead
         });

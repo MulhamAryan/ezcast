@@ -1,4 +1,5 @@
 <?php
+
 /*
  * EZCAST EZplayer
  *
@@ -24,20 +25,19 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-function bookmark_sort($bookmarks, $default_order = "chron")
-{
+function bookmark_sort($bookmarks, $default_order = "chron") {
     $order = acl_value_get("bookmarks_order");
     if (isset($order) && $order != '' && $order != $default_order) {
         array_reverse($bookmarks);
     }
     return $bookmarks;
 }
+
 /**
  * Helper function, used for pretty print.
  * @param type $info
  */
-function print_info($info, $suffix = '', $htmlspecialchars = true)
-{
+function print_info($info, $suffix = '', $htmlspecialchars = true) {
     if (isset($info) && !empty($info)) {
         echo replace_links(($htmlspecialchars ? htmlspecialchars($info) : $info) . $suffix);
     } else {
@@ -45,14 +45,12 @@ function print_info($info, $suffix = '', $htmlspecialchars = true)
     }
 }
 
-
-function print_search($keywords)
-{
+function print_search($keywords) {
     if (!isset($keywords) || empty($keywords)) {
         echo '®Not_available®';
         return;
     }
-    
+
     // split the string
     $keywords_array = explode(",", $keywords);
     $keywords = '';
@@ -65,16 +63,14 @@ function print_search($keywords)
     echo $keywords;
 }
 
-function print_time($timecode)
-{
+function print_time($timecode) {
     $time = str_pad((int) ($timecode / 3600), 1, "0", STR_PAD_LEFT);
     $time .= ':' . str_pad((int) (($timecode % 3600) / 60), 2, "0", STR_PAD_LEFT);
     $time .= ':' . str_pad((int) (($timecode % 3600) % 60), 2, "0", STR_PAD_LEFT);
     echo $time;
 }
 
-function print_bookmark_title($bookmark_title)
-{
+function print_bookmark_title($bookmark_title) {
     if (isset($bookmark_title) && !empty($bookmark_title)) {
         echo htmlspecialchars($bookmark_title);
     } else {
@@ -82,8 +78,7 @@ function print_bookmark_title($bookmark_title)
     }
 }
 
-function print_new_video($count)
-{
+function print_new_video($count) {
     if ($count < 0) {
         $count = 0;
     }
@@ -94,7 +89,6 @@ function print_new_video($count)
     }
 }
 
-
 /**
  * Adds a new syntax for supporting usage of external links in some text
  * the string is parsed following this rule:
@@ -103,10 +97,8 @@ function print_new_video($count)
  * @param type $string
  * @return type
  */
-function replace_links($string)
-{
-    // "\**" to remove old system with '*'
-    return preg_replace("/\**(https?\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?)\**/", '<a href="$1" ' . 'target="_blank" ' . 'onclick="server_trace(new Array(\'3\', \'description_link\', current_album, current_asset, current_tab));" ' .'>$1</a>', $string);
+function replace_links($string) {
+    return preg_replace("/\**((?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$]))\**/i", '<a href="$1" ' . 'target="_blank" ' . 'onclick="server_trace(new Array(\'3\', \'description_link\', current_album, current_asset, current_tab));" ' . '>$1</a>', $string);
 }
 
 /**
@@ -117,8 +109,7 @@ function replace_links($string)
  * @param type $index index of the first occurence of hashtag
  * @return type
  */
-function replace_hashtag($string, $hashtag, $href, $index = false)
-{
+function replace_hashtag($string, $hashtag, $href, $index = false) {
     if ($index === false) {
         $index = strpos($string, $hashtag);
     }

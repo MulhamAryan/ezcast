@@ -50,11 +50,13 @@
                     }
                 }
             }
+
             function is_touch_device() {
                 return !!('ontouchstart' in window) // works on most browsers 
                         || !!('onmsgesturechange' in window); // works on ie10
             }
             ;
+
             function refresh_album_view() {
                 switch (tab) {
                     case 'stats':
@@ -75,20 +77,24 @@
                         break;
                 }
             }
+
             function show_album_details(album) {
                 $('#album_' + current_album).removeClass('active');
                 $('#album_' + album).addClass('active');
                 current_album = album;
                 tab = 'list';
+
                 // Getting the content from the server, and filling the div_album_header with it
                 document.getElementById('div_content').innerHTML = '<div style="text-align: center;">' +
                         '<img src="images/loading_white.gif" alt="loading..." /></div>';
                 makeRequest('index.php', '?action=view_album&album=' + album, 'div_content');
             }
+
             function show_div(id) {
                 var el = document.getElementById(id);
                 el.style.display = (el.style.display != 'none' ? 'none' : '');
             }
+
             /**
              * This function is called whenever the user saves their change on an asset (Edit mode)
              */
@@ -97,6 +103,7 @@
                 var unencoded_title = document.getElementById('title_' + asset + '_input').value;
                 var title = encodeURIComponent(unencoded_title);
                 var description = encodeURIComponent(document.getElementById('description_' + asset + '_input').value);
+
                 if (unencoded_title.length > <?php
         global $title_max_length;
         echo $title_max_length;
@@ -104,13 +111,16 @@
                     window.alert('®Title_too_long®');
                     return false;
                 }
+
                 // Then we update them
                 makeRequest('index.php', '?action=edit_asset&album=' + album + '&asset=' + asset + '&title=' + title +
                         '&description=' + description, 'asset_' + asset + '_details');
+
                 // And finally we refresh the view
-                document.getElementById('asset_' + asset + '_title').innerHTML = ' | ' + decodeURIComponent(title);
-                document.getElementById('asset_' + asset + '_title_clic').innerHTML = ' | ' + decodeURIComponent(title);
+                document.getElementById('asset_' + asset + '_title').innerText = ' | ' + decodeURIComponent(title);
+                document.getElementById('asset_' + asset + '_title_clic').innerText = ' | ' + decodeURIComponent(title);
             }
+
             function asset_downloadable_set(album, asset) {
                 var valeur = $('.download_small_button#is_downloadable_' + asset + '.btn-success').length > 0;
                 $.ajax({
@@ -191,9 +201,9 @@
                 </div>
 
                 <script type="text/javascript">
-            $(document).ready(function () {
-                $('#modoAdded').modal('show');
-            });
+                $(document).ready(function () {
+                    $('#modoAdded').modal('show');
+                });
                 </script>
                 <?php
                 unset($_SESSION['modoAdded']);
@@ -225,7 +235,7 @@
                     </div>
                 </div>
                 <!-- <div class="button_new_album"> <a href="javascript:show_popup_from_inner_div('#popup_new_album')" 
-                    onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image5','','images/page4/BCreerAlbum_<?php // echo get_lang();   ?>.png',1)"><img src="images/page4/ACreerAlbum_<?php // echo get_lang();   ?>.png" name="Image5" 
+                    onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image5','','images/page4/BCreerAlbum_<?php // echo get_lang();    ?>.png',1)"><img src="images/page4/ACreerAlbum_<?php // echo get_lang();    ?>.png" name="Image5" 
                     width="101" height="14" border="0" id="Image5" title="®Create_album®" /></a></div> -->
                 <!-- "New album" button, END -->          
 

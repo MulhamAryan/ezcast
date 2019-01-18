@@ -17,7 +17,7 @@ function process(file) {
     // calculate the number of slices 
     slices[type] = Math.ceil(blob.size / globalObj.chunkSize);
     slicesTotal[type] = slices[type];
-    
+
     msg('console', 'start');
     msg("exec", 'updateProgress(' + 0 + ', "' + type + '");');
 
@@ -37,12 +37,12 @@ function process(file) {
 /**
  * Blob to ArrayBuffer (needed ex. on Android 4.0.4)
  **/
-var str2ab_blobreader = function(str, callback) {
+var str2ab_blobreader = function (str, callback) {
     var blob;
-    if (typeof(window) == 'undefined') {
+    if (typeof (window) == 'undefined') {
         BlobBuilder = window.MozBlobBuilder || window.WebKitBlobBuilder || window.BlobBuilder;
     }
-    if (typeof(BlobBuilder) !== 'undefined') {
+    if (typeof (BlobBuilder) !== 'undefined') {
         var bb = new BlobBuilder();
         bb.append(str);
         blob = bb.getBlob();
@@ -50,7 +50,7 @@ var str2ab_blobreader = function(str, callback) {
         blob = new Blob([str]);
     }
     var f = new FileReader();
-    f.onload = function(e) {
+    f.onload = function (e) {
         callback(e.target.result);
     };
     f.readAsArrayBuffer(blob);
@@ -69,7 +69,8 @@ function uploadFile(file, index, start, end) {
     var chunk;
     var blob = file.blob;
     var type = file.type;
-    
+    var type_media = file.type_media;
+
     xhr = new XMLHttpRequest();
 
     if (blob.slice) {
@@ -81,7 +82,7 @@ function uploadFile(file, index, start, end) {
     }
 
     // passes here each time a chunk of file has been fully uploaded
-    xhr.addEventListener("load", function(evt) {
+    xhr.addEventListener("load", function (evt) {
         response = eval("(" + xhr.responseText + ")");
         // if response.error is set, an error occured server side
         if (response.error) {
@@ -94,7 +95,7 @@ function uploadFile(file, index, start, end) {
 
         // updates the progress bar
         if (progressRate != 100)
-            msg("exec", "updateProgress(" + progressRate + ", '" + type +"');");
+            msg("exec", "updateProgress(" + progressRate + ", '" + type + "');");
 
         slices[type]--;
 
@@ -105,7 +106,7 @@ function uploadFile(file, index, start, end) {
 
     }, false);
 
-    xhr.addEventListener("error", function(e) {
+    xhr.addEventListener("error", function (e) {
         msg("error", "Error while uploading chunk " + index + " of " + slicesTotal[type]);
     }, false);
 
@@ -122,10 +123,15 @@ function uploadFile(file, index, start, end) {
     xhr.setRequestHeader("X-Index", index);                     // part identifier
     xhr.setRequestHeader("X-id", globalObj.id);
     xhr.setRequestHeader("X-type", type);
+    if (typeof type_media === "undefined")
+    {
+        type_media = 'video';
+    }
+    xhr.setRequestHeader("X-type-media", type_media);
 
     // android default browser in version 4.0.4 has webkitSlice instead of slice()
-    if (blob.webkitSlice && typeof(blob.slice) !== 'function') {                                     
-        var buffer = str2ab_blobreader(chunk, function(buf) {   // we cannot send a blob, because body payload will be empty
+    if (blob.webkitSlice && typeof (blob.slice) !== 'function') {
+        var buffer = str2ab_blobreader(chunk, function (buf) {   // we cannot send a blob, because body payload will be empty
             xhr.send(buf);                                      // thats why we send an ArrayBuffer
         });
     } else {
@@ -141,17 +147,17 @@ function mergeFile(file) {
     var blob = file.blob;
     var type = file.type;
     var params = "id=" + globalObj.id +
-            "&index=" + slicesTotal[type]+
+            "&index=" + slicesTotal[type] +
             "&type=" + type;
 
     xhr = new XMLHttpRequest();
 
-    xhr.addEventListener("load", function(evt) {
+    xhr.addEventListener("load", function (evt) {
         response = eval("(" + xhr.responseText + ")");
         // if response.error is set, an error occured server side
         if (response.error) {
             msg('error', response.error);
-        } else if (response.wait){
+        } else if (response.wait) {
             msg('console', '[' + type + ' uploaded] wait until all files are uploaded');
             return false;
         }
@@ -166,14 +172,14 @@ function mergeFile(file) {
     xhr.send(params);
 }
 
-self.onmessage = function(e) {
+self.onmessage = function (e) {
     switch (e.data.fct) {
         case 'pushValue':
             self.postMessage(e.data.fct);
             globalObj[e.data.args.key] = e.data.args.value;
             msg("console", "globalObj[" + e.data.args.key + "] : " + e.data.args.value);
             break;
-            
+
         case 'process':
             msg("console", e.data.fct);
             var file = e.data.args;

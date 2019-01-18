@@ -39,8 +39,7 @@ require_once dirname(__FILE__) . '/../commons/lib_template.php';
  * @param string $album_name
  * @return string
  */
-function suffix_remove($album_name)
-{
+function suffix_remove($album_name) {
     $res = $album_name;
 
     if (substr($album_name, -4) == "-pub") {
@@ -57,8 +56,7 @@ function suffix_remove($album_name)
  * @param type $album_name
  * @return string
  */
-function suffix_replace($album_name)
-{
+function suffix_replace($album_name) {
     $res = $album_name;
     $res = suffix_remove($album_name);
 
@@ -76,8 +74,7 @@ function suffix_replace($album_name)
  * @param type $album_name
  * @return string|false the suffix (with the initial hyphen) if all went well, false otherwise
  */
-function suffix_get($album_name)
-{
+function suffix_get($album_name) {
     if (substr($album_name, -4) == "-pub") {
         return '-pub';
     } elseif (substr($album_name, -5) == '-priv') {
@@ -92,8 +89,7 @@ function suffix_get($album_name)
  * @param type $album_name
  * @return bool true if album is private
  */
-function album_is_private($album_name)
-{
+function album_is_private($album_name) {
     return (suffix_get($album_name) == '-priv');
 }
 
@@ -102,8 +98,7 @@ function album_is_private($album_name)
  * @param type $album_name
  * @return bool true if album is public
  */
-function album_is_public($album_name)
-{
+function album_is_public($album_name) {
     return (suffix_get($album_name) == '-pub');
 }
 
@@ -116,8 +111,7 @@ function album_is_public($album_name)
  * @param bool $long_date if set to true, the date will be a "gramatically correct" date, instead of a "easily computable" one
  * @return string The date in format dd_mmmm_YYYY_HH:ii
  */
-function get_user_friendly_date($date, $space_char = '_', $long_months_names = true, $lang = 'fr', $long_date = false)
-{
+function get_user_friendly_date($date, $space_char = '_', $long_months_names = true, $lang = 'fr', $long_date = false) {
     if (!isset($date) || empty($date)) {
         return null;
     }
@@ -156,8 +150,7 @@ function get_user_friendly_date($date, $space_char = '_', $long_months_names = t
  * Returns a date in RFC822 format from a date in "our" format
  * @param type $date Date in format YYYY_mm_dd_HHhii
  */
-function get_RFC822_date($date)
-{
+function get_RFC822_date($date) {
     //$date_array = date_parse_from_format('Y_m_d_H:i', $date);
     list($year, $month, $day, $hourandminutes) = explode('_', $date);
     list($hours, $minutes) = explode('h', $hourandminutes);
@@ -171,8 +164,7 @@ function get_RFC822_date($date)
  * @param float $duration A duration in seconds
  * @return string A duration in hours, minutes, seconds
  */
-function get_user_friendly_duration($duration)
-{
+function get_user_friendly_duration($duration) {
     if (!isset($duration) || empty($duration)) {
         return null;
     }
@@ -192,8 +184,7 @@ function get_user_friendly_duration($duration)
  * @param string $month
  * @return A string of format currentYear-nextYear
  */
-function get_anac($year, $month)
-{
+function get_anac($year, $month) {
     $year_start = (int) $year;
     // Before July 2011, the academic year is 2010-2011, so the starting year is "one year before" current date
     if ((int) $month <= 6) {
@@ -212,8 +203,7 @@ function get_anac($year, $month)
  * @param type $asset the original asset name
  * @return boolean|string the asset full title if the asset exists ; false otherwise
  */
-function get_asset_title($album, $asset)
-{
+function get_asset_title($album, $asset) {
     global $repository_path;
     global $template_folder;
 
@@ -235,7 +225,6 @@ function get_asset_title($album, $asset)
     return $asset_title;
 }
 
-
 /**
  * Returns a URL that allows the user to view the media
  * @global type $url
@@ -246,8 +235,7 @@ function get_asset_title($album, $asset)
  * @param bool $itunes_friendly If set to true, the link will include a fake .m4v file
  * @return string Media
  */
-function get_link_to_media($album, $asset, $media, $htmlentities = true, $itunes_friendly = false)
-{
+function get_link_to_media($album, $asset, $media, $htmlentities = true, $itunes_friendly = false) {
     global $ezplayer_url;
     global $distribute_url;
     global $repository_path;
@@ -279,15 +267,20 @@ function get_link_to_media($album, $asset, $media, $htmlentities = true, $itunes
         return false;
     }
 
+    if (strpos($media, '_') !== false) {
     $media_infos = explode('_', $media); // 'media' is like high_cam, so we want to extract the "high" part (quality) and the "cam" part (type)
     $quality = $media_infos[0];
     $type = $media_infos[1];
+    } else {
+        $type = $media;
+        $quality = '';
+    }
 
     $resurl = $distribute_url;
     if ($itunes_friendly) {
-        $resurl.= '/' . $type . '.m4v';
+        $resurl .= '/' . $type . '.m4v';
     }
-    $resurl.= '?action=media&album=' . $album . '&asset=' . $asset . '&type=' . $type . '&quality=' . $quality . '&token=' . $token;
+    $resurl .= '?action=media&album=' . $album . '&asset=' . $asset . '&type=' . $type . '&quality=' . $quality . '&token=' . $token;
     if ($htmlentities) {
         return htmlentities($resurl);
     } else {
@@ -303,8 +296,7 @@ function get_link_to_media($album, $asset, $media, $htmlentities = true, $itunes
  * @param string $media
  * @return string Media
  */
-function get_code_to_media($album, $asset, $media)
-{
+function get_code_to_media($album, $asset, $media) {
     global $ezplayer_url;
     global $distribute_url;
     global $repository_path;
@@ -349,8 +341,7 @@ function get_code_to_media($album, $asset, $media)
  * @param string $beginning begins with
  * @return bool
  */
-function str_begins_with($string, $beginning)
-{
+function str_begins_with($string, $beginning) {
     $beglen = strlen($beginning);
     $stringbeg = substr($string, 0, $beglen);
 
@@ -366,8 +357,7 @@ function str_begins_with($string, $beginning)
  * @param <type> $filename
  * @return false|assoc_array
  */
-function file_get_extension($filename)
-{
+function file_get_extension($filename) {
     //search last dot in filename
     $pos_dot = strrpos($filename, '.');
     if ($pos_dot === false) {
@@ -408,8 +398,7 @@ function file_get_extension($filename)
  * @param type $string
  * @return string
  */
-function get_keywords(&$string)
-{
+function get_keywords(&$string) {
     $keywords = array();
     $string_length = strlen($string);
     // loop on the text
@@ -449,14 +438,13 @@ function get_keywords(&$string)
  * @param string $string
  * @return string
  */
-function surround_url($string)
-{
+function surround_url($string) {
     // checks for http url
     $pos = 0;
     // all prefixes we want to surround
     $patterns = array('http://', 'https://', 'www.', 'mailto:');
     $end_of_line = array(' ', PHP_EOL, '<', '>', '(', ')', '[', ']', '{', '}', '"', '\'');
-    
+
     while ($pos >= 0) {
         // finds the first occurence of each pattern
         $pos_array = array();
@@ -483,8 +471,8 @@ function surround_url($string)
                 }
                 // adds a '*' at the end of the url
                 $string = substr($string, 0, $pos) . "**" . substr($string, $pos);
-                
-                $pos+=2;
+
+                $pos += 2;
             } else { // the url is already surrounded, just move to the next '*' tag
                 $tmp_pos = stripos(substr($string, $pos), '**');
                 if ($tmp_pos !== false) {
@@ -505,12 +493,9 @@ function surround_url($string)
  * @param type $string
  * @return type
  */
-function safe_text($string)
-{
+function safe_text($string) {
     // remove php and javascript tags
     $string = preg_replace('/(<\?{1}[pP\s]{1}.+\?>)/Us', "", $string);
-    $string = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $string);
-    
     $string = str_replace('javascript', "-javascript-", $string);
     $string = str_replace('onmouseover', "-onmouseover-", $string);
     $string = str_replace('onclick', "-onclick-", $string);
@@ -521,12 +506,63 @@ function safe_text($string)
     $string = str_replace('onkeydown', "-onkeydown-", $string);
     $string = str_replace('onkeypress', "-onkeypress-", $string);
     $string = str_replace('onkeyup', "-onkeyup-", $string);
+
+    //encode all html entities tags unless exeptions
+
+    $string = str_replace('<', "&lt;", $string);
+
+    $string = str_replace('&lt;em', "<em", $string);
+    $string = str_replace('&lt;/em', "</em", $string);
+
+    $string = str_replace('&lt;strong', "<strong", $string);
+    $string = str_replace('&lt;/strong', "</strong", $string);
+
+    $string = str_replace('&lt;p', "<p", $string);
+    $string = str_replace('&lt;/p', "</p", $string);
+
+    $string = str_replace('&lt;span', '<span', $string);
+    $string = str_replace('&lt;/span', '</span', $string);
+
+    $string = str_replace('&lt;li', "<li", $string);
+    $string = str_replace('&lt;/li', "</li", $string);
+
+    $string = str_replace('&lt;ul', "<ul", $string);
+    $string = str_replace('&lt;/ul', "</ul", $string);
+
+    $string = str_replace('&lt;ol', "<ol", $string);
+    $string = str_replace('&lt;/ol', "</ol", $string);
+
+    $string = str_replace('&lt;p style="text-align: center;"', '<p style="text-align: center;"', $string);
+
+    $string = str_replace('&lt;p style="text-align: left;"', '<p style="text-align: left;"', $string);
+
+    $string = str_replace('&lt;p style="text-align: justify;"', '<p style="text-align: justify;"', $string);
+
+    $string = str_replace('&lt;h1', "<h1", $string);
+    $string = str_replace('&lt;/h1', "</h1", $string);
+
+    $string = str_replace('&lt;h2', "<h2", $string);
+    $string = str_replace('&lt;/h2', "</h2", $string);
+
+    $string = str_replace('&lt;h3', "<h3", $string);
+    $string = str_replace('&lt;/h3', "</h3", $string);
+
+    $string = str_replace('&lt;sub', "<sub", $string);
+    $string = str_replace('&lt;/sub', "</sub", $string);
+
+    $string = str_replace('&lt;sup', "<sup", $string);
+    $string = str_replace('&lt;/sup', "</sup", $string);
+
+    $string = str_replace('&lt;i style="font-size: 10px;"', '<i style="font-size: 10px;"', $string);
+    $string = str_replace('&lt;/i', "</i", $string);
+
+
     $string = str_replace('href', "-href-", $string);
     $string = preg_replace('/<div\b[^>]*>/is', '&lt;div&gt;', $string);
     $string = preg_replace('/<\/div>/is', '&lt;/div&gt;', $string);
     // prevent mysql injections
     $string = htmlspecialchars($string, ENT_QUOTES);
-     
+
     return $string;
 }
 
@@ -539,8 +575,7 @@ function safe_text($string)
  * @param type $value
  * @return type
  */
-function asset_meta_update($album, $asset, $key, $value)
-{
+function asset_meta_update($album, $asset, $key, $value) {
     global $repository_basedir;
     $path_to_metadata = $repository_basedir . "/repository/" . $album . "/" . $asset . "/_metadata.xml";
     $metadata = simplexml_load_file($path_to_metadata);
@@ -558,8 +593,7 @@ function asset_meta_update($album, $asset, $key, $value)
  * @param type $asset
  * @return type
  */
-function asset_meta_get($album, $asset)
-{
+function asset_meta_get($album, $asset) {
     global $repository_basedir;
     $path_to_metadata = $repository_basedir . "/repository/" . $album . "/" . $asset . "/_metadata.xml";
     $metadata = simplexml_load_file($path_to_metadata);
@@ -573,8 +607,7 @@ function asset_meta_get($album, $asset)
  * @anonymous_key the name of root tag we don't want to get for each item
  * @return type
  */
-function xml_file2assoc_array($xml, $anonymous_key = 'anon')
-{
+function xml_file2assoc_array($xml, $anonymous_key = 'anon') {
     if (is_string($xml)) {
         $xml = new SimpleXMLElement($xml);
     }
@@ -603,8 +636,7 @@ function xml_file2assoc_array($xml, $anonymous_key = 'anon')
     return $arr;
 }
 
-function simple_assoc_array2xml_file($assoc_array, $file_path, $global)
-{
+function simple_assoc_array2xml_file($assoc_array, $file_path, $global) {
     $xmlstr = "<?xml version='1.0' standalone='yes'?>\n<$global>\n</$global>\n";
     $xml = new SimpleXMLElement($xmlstr);
     foreach ($assoc_array as $key => $value) {
@@ -623,8 +655,7 @@ function simple_assoc_array2xml_file($assoc_array, $file_path, $global)
  * @param type $each each item of the xml file
  * @return boolean
  */
-function assoc_array2xml_file($array, $file_path, $global = 'bookmarks', $each = 'bookmark')
-{
+function assoc_array2xml_file($array, $file_path, $global = 'bookmarks', $each = 'bookmark') {
     $xmlstr = "<?xml version='1.0' standalone='yes'?>\n<$global>\n</$global>\n";
     $xml = new SimpleXMLElement($xmlstr);
     foreach ($array as $assoc_array) {
@@ -648,8 +679,7 @@ function assoc_array2xml_file($array, $file_path, $global = 'bookmarks', $each =
  * @param type $array the list of album tokens
  * @return boolean
  */
-function assoc_array2xml_string($array, $global = 'bookmarks', $each = 'bookmark')
-{
+function assoc_array2xml_string($array, $global = 'bookmarks', $each = 'bookmark') {
     $xmlstr = "<?xml version='1.0' standalone='yes'?>\n<$global>\n</$global>\n";
     $xml = new SimpleXMLElement($xmlstr);
     foreach ($array as $assoc_array) {
@@ -671,8 +701,7 @@ function assoc_array2xml_string($array, $global = 'bookmarks', $each = 'bookmark
  * it can be the title, the description and/or the keywords
  * @return the matching bookmarks list
  */
-function search_in_array($search, $bookmarks, $fields, $level)
-{
+function search_in_array($search, $bookmarks, $fields, $level) {
 
     // set $relevancy to true if the result is aimed to be sorted by relevancy.
     // With $relevancy = false, as soon as a word is found in any of the fields,
@@ -740,8 +769,7 @@ function search_in_array($search, $bookmarks, $fields, $level)
  * @param type $parent
  * @return array
  */
-function get_comment_childs($fullList, $parent)
-{
+function get_comment_childs($fullList, $parent) {
     $childs = array();
     foreach ($fullList as $child) {
         if ($child['parent'] == $parent['id']) {
@@ -765,8 +793,7 @@ function get_comment_childs($fullList, $parent)
  * @param type $fullList
  * @return array
  */
-function get_main_comments($fullList)
-{
+function get_main_comments($fullList) {
     $without_parents = array();
     foreach ($fullList as $comment) {
         if ($comment['parent'] == null) {
@@ -783,8 +810,7 @@ function get_main_comments($fullList)
  * @param type $all
  * @param type $asset
  */
-function threads_sort_get_by_asset($all, $asset)
-{
+function threads_sort_get_by_asset($all, $asset) {
     $ret = array();
     foreach ($all as $thread) {
         if ($thread['assetName'] == $asset) {
@@ -794,8 +820,7 @@ function threads_sort_get_by_asset($all, $asset)
     return $ret;
 }
 
-function thread_is_archive($album, $asset)
-{
+function thread_is_archive($album, $asset) {
     return !ezmam_asset_exists($album, $asset);
 }
 
@@ -807,8 +832,7 @@ function thread_is_archive($album, $asset)
  * @param string $needle
  * @return boolean
  */
-function startsWith($haystack, $needle)
-{
+function startsWith($haystack, $needle) {
     return $needle === "" || strpos($haystack, $needle) === 0;
 }
 
@@ -818,7 +842,6 @@ function startsWith($haystack, $needle)
  * @param string $needle
  * @return boolean
  */
-function endsWith($haystack, $needle)
-{
+function endsWith($haystack, $needle) {
     return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 }

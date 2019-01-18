@@ -11,6 +11,8 @@
 <?php
 global $apache_documentroot;
 global $ezplayer_safe_url;
+global $matomoScript;
+
 $custom_folder = "$apache_documentroot/ezmanager/css/custom/";
 $dir = new DirectoryIterator($custom_folder);
 foreach ($dir as $fileinfo) {
@@ -43,3 +45,5 @@ foreach ($dir as $fileinfo) {
 <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/clipboard.js"></script>
 <link rel="stylesheet" href="<?php echo $ezplayer_safe_url; ?>/flowplayer-6/skin/skin.css">
 <link rel="stylesheet" type="text/css" href="css/ezplayer_style.css" />
+
+<?php echo $matomoScript; ?>

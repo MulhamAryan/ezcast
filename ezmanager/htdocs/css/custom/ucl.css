@@ -7,13 +7,13 @@
 /*page d'accueil*/
 
 .accueilEzcast{
-	margin:auto;
+    margin:auto;
     position: absolute;
     top: 40%;
     left: 50%;
     margin-top: -50px;
     margin-left: -135px;
-	text-align: center;
+    text-align: center;
 }
 
 .logo img {
@@ -24,11 +24,11 @@
     height:50px;
 }
 #orga_logo{
-    height:66px;    
+    height:30px;    
 }
 
 #organisation_logo{
-   height:66px !important;
+    height:30px !important;
 }
 
 .header_content a {

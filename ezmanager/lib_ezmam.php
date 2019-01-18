@@ -480,6 +480,7 @@ function ezmam_rss_generate($album, $type) {
 
     // 2) We scan all the assets for the album
     $assets = ezmam_asset_list_metadata($album);
+
     foreach ($assets as $asset) {
         $metadata = $asset['metadata'];
 

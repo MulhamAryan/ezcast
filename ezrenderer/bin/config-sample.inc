@@ -1,4 +1,5 @@
 <?php
+
 /*
  * EZCAST EZrenderer
  *
@@ -49,7 +50,7 @@ $encoders_path = "$basedir/bin/encoders/";
 $encoding_pgm = array("name" => 'ffmpeg', "description" => 'ffmpeg command line', "file" => 'lib_ffmpeg.php');
 
 $accepted_video_sizes = array(
-    "16:9" => array( 640,854, 960, 1024, 1280, 1366, 1600, 1920),
+    "16:9" => array(640, 854, 960, 1024, 1280, 1366, 1600, 1920),
     "4:3" => array(320, 640, 720, 800, 960, 1024, 1280, 1600, 1920)); //sizes of videos supported by the renderer (for user submited videos, they will be downsized to one of these sizes)
 $video_high_transcoders = array(
     "16:9" => array(
@@ -75,7 +76,7 @@ $video_high_transcoders = array(
         '1600' => 'libx264_medium_1600x1200',
         '1920' => 'libx264_medium_1920x1440',
         'super_highres' => 'libx264_superhigh_')
-    );
+);
 
 $intro_movies = array(
     '16:9' => 'intro_16_9.mp4',
@@ -112,6 +113,13 @@ $fontratio = 1;
 // value used to determine the max line length to display for title and album name
 $linelength = 35;
 /////////////////////////////////////////////////////////////
-$copyright_enabled=true;
-$gpu_enabled=false;                           
+$copyright_enabled = true;
+$gpu_enabled = false;
+
+$enable_render_audio_from_video = false;      //Each video rendered create an audio file
+$imageAudioFilePath = "$basedir/bin/var/image.png";
+
+$enableMimeTypeCheck = false;
+$video_mimeTypes = array('audio/mp4', 'text/x-fortran', 'image/jp2', 'application/x-dosexec', 'application/octet-stream', 'video/quicktime', 'video/ogg', 'video/h264', 'video/x-f4v', 'video/x-m4v', 'video/x-flv', 'video/mp4', 'application/x-mpegURL', 'video/MP2T', 'video/3gpp', 'video/3gpp2', 'video/quicktime', '	video/x-msvideo', 'video/x-ms-wmv', 'video/x-msvideo', 'video/mpeg', 'video/ogg', 'video/webm');
+$audio_mimeTypes = array('audio/x-wav', 'audio/x-flac', 'audio/mpeg');
 ?>

@@ -18,17 +18,18 @@
                     }
                     ?>
 
-                           <?php if ($sso_enabled) { ?>
+                    <?php if ($sso_enabled) { ?>
                         <div class="login-choices btn-center" >
-                            <a class="btn-login btn-sso" href="<?php global $ezmanager_safe_url;
-                               echo $ezmanager_safe_url;
-                               ?>/index.php?sso"  id="btnSSO" title="Authentification SSO">®authSSO®</a>
-                        <?php if ($file_enabled) { ?>
+                            <a class="btn-login btn-sso" href="<?php
+                            global $ezmanager_safe_url;
+                            echo $ezmanager_safe_url;
+                            ?>/index.php?sso"  id="btnSSO" title="Authentification SSO">®authSSO®</a>
+                            <?php if ($file_enabled) { ?>
                                 <a class="btn-login btn-login-default btn-default" href="#" id="default_auth_button" title="">®authLocal®</a>
                         <?php } ?>
                         </div>
-    <?php }
-?>
+                    <?php }
+                    ?>
 
                     <br />
 
@@ -109,7 +110,7 @@
                         return false;
                     });
                 });
-    <?php }
+<?php }
 ?>
         </script>
     </body>

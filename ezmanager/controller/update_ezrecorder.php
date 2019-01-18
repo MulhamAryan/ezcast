@@ -21,7 +21,7 @@ function index($param = array()) {
     }
 
     $ezrecorder_pw = $input['ezrecorder_pw'];
-    if ($ezrecorder_pw != "" AND $ezrecorder_pw != "PASSWORD") {
+    if ($ezrecorder_pw != "" AND ! empty($ezrecorder_pw)) {
         //password changed
         if (!db_user_read($_SESSION['user_login'])) {
             //user doesn't exist yet, lets create it

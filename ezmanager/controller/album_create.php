@@ -4,7 +4,7 @@ require_once(__DIR__ . '/../../commons/lib_ezmam.php');
 
 /**
  * All the business logic related to the album creation: this function effectively creates the album and displays a confirmation message to the user
- */
+ */ 
 function index($param = array()) {
     global $input;
     global $max_course_code_size;
@@ -47,7 +47,8 @@ function index($param = array()) {
                 $label = substr($label, 0, $max_album_label_size);
             }
 
-            $course_id = ezmam_course_get_new_id($course_code_public);
+            $course_id = str_replace(".", "", $course_code_public);
+            $course_id = ezmam_course_get_new_id($course_id);
 
             break;
         case 'create_album': //user pick from a course already existing in db
@@ -57,6 +58,7 @@ function index($param = array()) {
                 die();
             }
             $course_code = htmlspecialchars($input['course_code']);
+            $course_code = str_replace(".", "", $course_code);
             // -
 
             if (!acl_has_album_permissions($course_code)) {

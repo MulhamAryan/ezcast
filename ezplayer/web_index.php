@@ -35,12 +35,13 @@
 require_once 'config.inc';
 session_name($appname);
 session_start();
-require_once __DIR__.'/../commons/lib_error.php';
+require_once __DIR__ . '/../commons/lib_error.php';
 require_once 'lib_ezmam.php';
 require_once '../commons/lib_auth.php';
 require_once '../commons/lib_template.php';
 require_once '../commons/lib_various.php';
 require_once '../commons/common.inc';
+require_once '../commons/config.inc';
 require_once 'lib_various.php';
 require_once 'lib_user_prefs.php';
 include_once 'lib_toc.php';
@@ -55,6 +56,11 @@ $detect = new Mobile_Detect();
 $_SESSION['isPhone'] = $detect->isMobile();
 
 $input = array_merge($_GET, $_POST);
+
+
+if (isset($input['lang']) && ($input['lang'] == "fr" || $input['lang'] == "en")) {
+    set_lang($input['lang']);
+}
 
 template_repository_path($template_folder . get_lang());
 template_load_dictionnary('translations.xml');
@@ -100,24 +106,22 @@ $logged_in = user_logged_in();
 $album_allow_anonymous = isset($input['album']) && ezmam_album_allow_anonymous($input['album']);
 //logout anon user if he tries to access an album which was not set as anonym allowed (except if we still
 // accept the anon=true option in the url, should be removed in the future)
-if ($logged_in && user_anonymous() && !$allow_url_anon
-   && isset($input['album']) && !$album_allow_anonymous) {
+if ($logged_in && user_anonymous() && !$allow_url_anon && isset($input['album']) && !$album_allow_anonymous) {
     logout();
     $logged_in = false;
 }
 
-if(isset($input['loging'])){
+if (isset($input['loging'])) {
     requireController('user_logout.php');
     logout();
     $logged_in = false;
-    view_login_form();   
+    view_login_form();
 }
 
 
 // If we're not logged in, we try to log in or display the login form
 if (!$logged_in) {
     // global $repository_path;
-    
     // if the url contains the parameter 'anon' the session is assumsed as anonymous
     if (($allow_url_anon && isset($input['anon']) && $input['anon'] == true) ||
             // Log as anonymous if user tries to access an album and it has been set as accessible as anonymous
@@ -125,11 +129,11 @@ if (!$logged_in) {
         user_anonymous_session();
         $logged_in = true;
     }
-    
+
     if (isset($input['action'])) {
         switch ($input['action']) {
 
-            
+
             // Handle login form
             case 'login':
                 if (!isset($input['login']) || !isset($input['passwd'])) {
@@ -159,16 +163,16 @@ if (!$logged_in) {
                 break;
         }
     }
-    
-    
+
+
     if (!$logged_in) {
         //Just display the login form
         if (isset($_GET["sso"])) {
             if (in_array("sso", $auth_methods)) {
                 user_login(trim('login'), trim('passwd'));
             }
-            /*if (in_array("sso",$auth_methods)){
-                user_login(trim('login'), trim('passwd'));*/
+            /* if (in_array("sso",$auth_methods)){
+              user_login(trim('login'), trim('passwd')); */
         } else {
             view_login_form();
             exit(0);
@@ -176,24 +180,23 @@ if (!$logged_in) {
     }
 }
 //print_r($_SESSION); die();
-else if(isset($_SESSION['termsOfUses']) && $_SESSION['termsOfUses']!=1 && ($input['action']!='acceptTermsOfUses') && $enable_termsOfUse){
+else if (isset($_SESSION['termsOfUses']) && $_SESSION['termsOfUses'] != 1 && ($input['action'] != 'acceptTermsOfUses') && $enable_termsOfUse) {
     view_termsOfUses_form();
-    $_SESSION['redirect']=json_encode($input);
+    $_SESSION['redirect'] = json_encode($input);
     die();
 }
 // From this point, user is logged in.
-
 // We check whether they specified an action to perform. If not, it means they landed
 // here through a page reload, so we check the session variables to restore the page as it was.
- if (isset($_SESSION['ezplayer_logged']) && (!isset($input['action']) || empty($input['action']))) {
-     // Check if player first connexion
-     global $first_connexion;
-     $first_connexion = !isset($_COOKIE['has_connected_once']);
-     // Cookie life: one year
-     setcookie('has_connected_once', true, time() + (365 * 24 * 60 * 60));
-    
-     redraw_page();
- }
+if (isset($_SESSION['ezplayer_logged']) && (!isset($input['action']) || empty($input['action']))) {
+    // Check if player first connexion
+    global $first_connexion;
+    $first_connexion = !isset($_COOKIE['has_connected_once']);
+    // Cookie life: one year
+    setcookie('has_connected_once', true, time() + (365 * 24 * 60 * 60));
+
+    redraw_page();
+}
 
 // At this point of the code, the user is logged in and explicitly specified an action.
 // We perform the action specified.
@@ -209,12 +212,11 @@ else {
  * Used to load the requested page from POST or GET
  * @global type $input
  */
-function load_page()
-{
+function load_page() {
     global $input;
     $action = $input['action'];
     $redraw = false;
-    
+
     /**
      * Until pages and services are divided, mark some action as services
      * A service = action not returning a page.
@@ -222,21 +224,21 @@ function load_page()
      */
     global $service; //true if we're currently running a service.
     $service = false;
-    
+
     //
     // Actions
     //
     // Controller goes here
-    
+
     $paramController = array();
     switch ($action) {
-        
-                    
+
+
         case 'acceptTermsOfUses':
             requireController('acceptTermsOfUses.php');
-        break;
+            break;
 
-        
+
         // ============== L O G I N  /  L O G O U T =============== //
         // The only case when we could possibly arrive here with a session created
         // and a "login" action is when the user refreshed the page. In that case,
@@ -296,15 +298,15 @@ function load_page()
         case 'streaming_config_update':
             requireController('asset_streaming_player_update.php');
             break;
-        
+
         case 'streaming_chat_update':
             requireController('asset_streaming_chat_update.php');
             break;
-        
+
         case 'streaming_chat_get_last':
             requireController('asset_streaming_chat_get_last.php');
             break;
-        
+
         case 'chat_message_add':
             requireController('chat_message_add.php');
             break;
@@ -512,11 +514,11 @@ function load_page()
             albums_view();
             return;
     }
-    
-    
+
+
     // Call the function to view the page
     index($paramController);
-    
+
     db_close();
 }
 
@@ -526,8 +528,7 @@ function load_page()
  * @param string $login
  * @param string $passwd
  */
-function user_anonymous_session()
-{
+function user_anonymous_session() {
     global $input;
     global $template_folder;
     global $error;
@@ -573,8 +574,7 @@ function user_anonymous_session()
  * @param string $login
  * @param string $passwd
  */
-function user_login($login, $passwd)
-{
+function user_login($login, $passwd) {
     global $input;
     global $template_folder;
     global $error;
@@ -620,8 +620,6 @@ function user_login($login, $passwd)
         die;
     }
 //    print_r($res);die();
-
-
     // 1) Initializing session vars
     $_SESSION['ezplayer_logged'] = "user_logged"; // "boolean" stating that we're logged
     $_SESSION['user_login'] = $res['login'];
@@ -669,32 +667,28 @@ function user_login($login, $passwd)
     load_page();
 }
 
-
-
 // =================== N A V I G A T I O N ======================== //
 
 /**
  * Helper function
  * @return bool true if the user is already logged in; false otherwise
  */
-function user_logged_in()
-{
+function user_logged_in() {
     return (isset($_SESSION['ezplayer_logged']) || isset($_SESSION['ezplayer_anonymous']));
 }
 
-function user_anonymous()
-{
+function user_anonymous() {
     return (isset($_SESSION['ezplayer_anonymous']));
 }
-function view_termsOfUses_form(){
-    include_once template_getpath('div_termsOfUses.php');
 
+function view_termsOfUses_form() {
+    include_once template_getpath('div_termsOfUses.php');
 }
+
 /**
  * Displays the login form
  */
-function view_login_form()
-{
+function view_login_form() {
     global $ezplayer_url;
     global $error, $input;
     global $template_folder;
@@ -706,15 +700,15 @@ function view_login_form()
         $_SESSION['has_flash'] = false;
     }
     $url = $ezplayer_url;
-    
+
     $lang = isset($input['lang']) ? $input['lang'] : 'fr';
     set_lang($lang);
-    
+
     template_repository_path($template_folder . get_lang());
     // template include goes here
-    /* require_once template_getpath('login.php');*/
+    /* require_once template_getpath('login.php'); */
     $sso_enabled = in_array("sso", $auth_methods);
-    $file_enabled = ((in_array("file", $auth_methods) && !$sso_only)  || ($sso_only && isset($_GET["local"])) || (!$sso_enabled && in_array("file", $auth_methods)) );
+    $file_enabled = ((in_array("file", $auth_methods) && !$sso_only) || ($sso_only && isset($_GET["local"])) || (!$sso_enabled && in_array("file", $auth_methods)) );
     include_once template_getpath('login.php');
 }
 
@@ -723,8 +717,7 @@ function view_login_form()
  * or just a part of the page
  * Displays the home page
  */
-function albums_view($refresh_page = true)
-{
+function albums_view($refresh_page = true) {
     // Used in redraw mode only
     global $repository_path;
     global $user_files_path;
@@ -743,8 +736,6 @@ function albums_view($refresh_page = true)
         }
     }
     $_SESSION['ezplayer_mode'] = 'view_main'; // used in 'main.php' and 'div_search.php'
-    $_SESSION['album'] = ''; // no album selected
-    $_SESSION['asset'] = ''; // no asset selected
     // init paths
     ezmam_repository_path($repository_path);
     user_prefs_repository_path($user_files_path);
@@ -756,7 +747,7 @@ function albums_view($refresh_page = true)
             $moderated_tokens[$index]['album'] = $album . '-pub';
             $moderated_tokens[$index]['title'] = get_album_title($album . '-pub');
             $moderated_tokens[$index]['token'] = ezmam_album_token_get($album . '-pub');
-              
+
             $album_title = ezmam_album_metadata_get($album . '-pub');
             if (isset($album_title['course_code_public'])) {
                 $moderated_tokens[$index]['course_code_public'] = $album_title['course_code_public'];
@@ -784,8 +775,7 @@ function albums_view($refresh_page = true)
  * It loads the last album viewed, but not the asset details.
  * @global type $repository_path
  */
-function redraw_page()
-{
+function redraw_page() {
     global $repository_path;
     global $action;
     global $redraw;
@@ -809,8 +799,7 @@ function redraw_page()
 /**
  * Reloads the whole page
  */
-function refresh_page()
-{
+function refresh_page() {
     global $ezplayer_url;
     // session var to determine the whole page has to be reloaded
     $_SESSION['reloaded'] = true;
@@ -820,10 +809,7 @@ function refresh_page()
     die;
 }
 
-
 // ============== B O O K M A R K S =============== //
-
-
 
 /**
  * Refreshes the right_div containing the bookmarks
@@ -837,8 +823,7 @@ function refresh_page()
  * @param type $personal_bookmarks
  * @return boolean
  */
-function bookmarks_list_update($display = true, &$official_bookmarks = array(), &$personal_bookmarks = array())
-{
+function bookmarks_list_update($display = true, &$official_bookmarks = array(), &$personal_bookmarks = array()) {
     global $repository_path;
     global $user_files_path;
     global $has_bookmark;
@@ -896,14 +881,12 @@ function bookmarks_list_update($display = true, &$official_bookmarks = array(), 
 
 // ============== C H A T ================= //
 
-
 /**
  * Removes private messages from the list
  * @param type $messages_array
  * @return type
  */
-function chat_messages_remove_private($messages_array)
-{
+function chat_messages_remove_private($messages_array) {
     $chat_messages = array();
     $match_user = '@' . $_SESSION['user_login'];
     foreach ($messages_array as $message) {
@@ -915,20 +898,17 @@ function chat_messages_remove_private($messages_array)
     return $chat_messages;
 }
 
-
 // ============= V A R I O U S ================ //
 
 /**
  * Adds a label 'edited on' in the message when a thread/comment is edited
  * @return string
  */
-function edited_on()
-{
+function edited_on() {
     $date = date('d-m-Y H:i:s');
     $msg = PHP_EOL . PHP_EOL . '<i style="font-size: 10px;">' . template_get_message('Last_edit', get_lang()) . ' ' . $date . '</i>';
     return $msg;
 }
-
 
 /**
  * saves an action in a trace file
@@ -937,8 +917,7 @@ function edited_on()
  * @param type $array
  * @return boolean
  */
-function trace_append($array)
-{
+function trace_append($array) {
     global $ezplayer_trace_path;
     global $trace_on;
 
@@ -990,10 +969,9 @@ function trace_append($array)
     file_put_contents($ezplayer_trace_path . '/' . date('Y-m-d') . '.trace', $data, FILE_APPEND | LOCK_EX);
 }
 
-function thread_details_update($display = true)
-{
+function thread_details_update($display = true) {
     global $input;
-    
+
     if (array_key_exists('thread_id', $input) && $input['thread_id'] != null) {
         $id = $input['thread_id'];
         $_SESSION['current_thread'] = $id;
@@ -1004,7 +982,7 @@ function thread_details_update($display = true)
     $thread = thread_select_by_id($id);
     $thread['best_comment'] = comment_select_best($id);
     $thread['comments'] = comment_select_by_thread($id);
-    
+
 
     if ($display) {
         include template_getpath('div_thread_details.php');
@@ -1014,8 +992,7 @@ function thread_details_update($display = true)
     }
 }
 
-function logout()
-{
+function logout() {
     // Deleting the ACLs from the session var
     log_append("logout");
     $lvl = ($_SESSION['album'] != '' && $_SESSION['asset'] != '') ? 3 : (($_SESSION['album'] != '') ? 2 : 1);
