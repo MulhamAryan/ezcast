@@ -51,7 +51,8 @@ foreach ($auth_methods as $method) {
 function checkauth($login, $passwd) {
     global $auth_methods;
     global $forbidden_users;
-
+    global $sso_only;
+    
     $auth_methods_length = count($auth_methods);
     $login = trim($login);
 
