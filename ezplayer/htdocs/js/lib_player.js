@@ -61,6 +61,7 @@ var notif_display_delay = 3;
  * @type Number
  */
 var notif_display_number = 3;
+var lvl;
 
 window.addEventListener("keyup", function (e) {
     if (lvl == 3) {
