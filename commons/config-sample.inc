@@ -3,9 +3,9 @@
 require_once('logger_server.php');
 
 // Get default configuration (if not already defined)
-if(basename(__FILE__) != "config-sample.inc" && !isset($sample_config_version)) {
+if (basename(__FILE__) != "config-sample.inc" && !isset($sample_config_version)) {
     // Require "config-sample.inc" in commons and not in other folder (ezadmin, ezplayer, ezmanager)
-    require_once(__DIR__.'/config-sample.inc');
+    require_once(__DIR__ . '/config-sample.inc');
     // Keep old config
     $sample_config_version = $config_version;
 }
@@ -20,7 +20,7 @@ if(basename(__FILE__) != "config-sample.inc" && !isset($sample_config_version)) 
 
 // Dev: Change this value everytime you add an option to this file, as well as the value in common.inc. When version in 
 // config and common.inc don't match, a warning is triggered.
-$config_version = "20170824"; 
+$config_version = "20170824";
 
 // Name of the organization hosting EZcast or providing the service
 $organization_name = "© Your organization name"; //this will also affect choosen translations when generating templates
@@ -47,12 +47,12 @@ $distribute_url = "$ezmanager_safe_url/distribute.php";
 // Absolute paths 
 $repository_basedir = "/var/lib/ezcast";
 $basedir = "/usr/local/ezcast";
-$php_exec_path="/usr/bin/php";
+$php_exec_path = "/usr/bin/php";
 // Database info
 $db_type = 'mysql';
 $db_host = 'localhost';
 $db_port = "";
-                                            
+
 $db_login = "ezcast";
 $db_passwd = "";
 $db_name = "ezcast";
@@ -79,10 +79,10 @@ $mailto_alert = "mail@your.organization"; //who to call in case of problem in th
  * - sso : SimpleSAMLphp
  */
 $auth_methods = array("file", "ldap");
-$sso_only=false; 
-$forbidden_users=array();                             
+$sso_only = false;
+$forbidden_users = array();
 
-$ldap_institution="";	//empty by default   "ucl" for ucl.					
+$ldap_institution = ""; //empty by default   "ucl" for ucl.					
 # JSON FILES FOR LDAP
 /*
  * For each ldap_server:
@@ -138,13 +138,10 @@ $trace_on = false; // determines whether we want to enable traces on actions or 
 $ezplayer_trace_path = $repository_basedir . '/ezplayer/ezplayer_traces/';
 $video_split_time = 30; // Time in second to send information that user watch a video
 $display_trace_stats = false; // Display or not stat on ezmanager
-
 //Transcoding streaming video live  !!!!WARNING $repository_basedir has to be shared between the two servers && remote server must have right to write in "$repository_basedir/streamEncode"
-$transcodeStreaming=false;                                            
-$externalClients=array();        // use : $externalClients=array("user1@ip", "user2@ip")        !!!! ssh link must be establish between ezcast && those clients                                                                                            
-
+$transcodeStreaming = false;
+$externalClients = array();        // use : $externalClients=array("user1@ip", "user2@ip")        !!!! ssh link must be establish between ezcast && those clients                                                                                            
 // -- Alternate server as streaming distribution source -- //
-
 //enable file syncing (does not redirect user)
 $streaming_video_alternate_server_enable_sync = false;
 // redirect users to given adress (see next options). Requires $streaming_video_alternate_server_enable_sync
@@ -152,7 +149,7 @@ $streaming_video_alternate_server_enable_redirect = false;
 // when redirect is enabled, redirect with X percent chance (default to 100%)
 $streaming_video_alternate_server_redirect_chance = 100; //%
 // -- -- //
-    
+
 $streaming_video_alternate_server_user = "user";
 $streaming_video_alternate_server_keyfile_private = "";
 $streaming_video_alternate_server_keyfile_pub = "";
@@ -161,26 +158,24 @@ $streaming_video_alternate_server_address = "127.0.0.1";
 $streaming_video_alternate_server_document_root = "/var/www/stream/";
 $streaming_video_alternate_server_uri = "stream/";
 //!! The remote server must have crossdomain allowed
-
 // -- debugging -- //
 $debug_mode = false; //debug mode print recorder events and php errors to console
 // -- -- //
 
 $common_config_defined = true; //config and common include each other... apparently php does not consider a file already 
 // included until he completely finished including it. This variable is a workaround for this problem.
-
 //define size of course_code
-$max_course_code_size=20; //!!! WARNING => Linked to the DB
+$max_course_code_size = 20; //!!! WARNING => Linked to the DB
 //define size of album_label
-$max_album_label_size=50;
+$max_album_label_size = 50;
 
 $enable_anon_access_control = false; //Enable the user to choose if the album is accessible from anonym or not
 $default_anon_access = 'false'; //default value when a video is uploaded
 //dysplay the terms of use at the first connection or anonym
-$enable_termsOfUse=false;                      
+$enable_termsOfUse = false;
 
 // If not in config simple
-if(basename(__FILE__) != "config-sample.inc") {
+if (basename(__FILE__) != "config-sample.inc") {
     // load static variables
     require_once(__DIR__ . '/common.inc');
     require_once('logger_server.php');
@@ -188,9 +183,8 @@ if(basename(__FILE__) != "config-sample.inc") {
 // Various parameters
 $accepted_languages = array('fr', 'en'); // Accepted parameters for the language to use
 $accepted_file_extensions = array('.html', '.xhtml', '.xml', '.htm', '.php'); // File with these extensions will be considered as template files
-
 //Parameters for inclusion of audio files
-$enable_audio_submit=false;                 //Accept audio files in EZmanager submit form
-$enable_ezplayer_audio_download=false;      // enable the viewer to download mp3 files if exist
+$enable_audio_submit = false;                 //Accept audio files in EZmanager submit form
+$enable_ezplayer_audio_download = false;      // enable the viewer to download mp3 files if exist
 
-$matomoScript="";
+$matomoScript = "";

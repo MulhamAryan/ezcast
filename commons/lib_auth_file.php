@@ -34,24 +34,26 @@
  * @param string $passwd
  * @return assoc_array|false
  */
-function file_checkauth($login, $passwd) {
+function file_checkauth($login, $passwd)
+{
     require "pwfile.inc"; //file containing passwords and info
-    require_once 'lib_pw.php';
     $login = trim($login);
-
-    if (!preg_match('/^[a-zA-Z0-9_\-]+$/', $login)) {
-
+    if(!preg_match('/^[a-zA-Z0-9_]+$/',$login)){
         return false;
     } //sanity check
     if (isset($users[$login])) {
         $fpasswd = $users[$login]['password']; // password from pwfile.inc
-        if (pw_check($login, $passwd, $fpasswd)) {
+        $salt = substr($fpasswd, 0, 2);
+        $cpasswd = crypt($passwd, $salt);
+        $fpasswd = rtrim($fpasswd);
+    
+        if ($fpasswd == $cpasswd) {
             //user exists and password matches
             $userinfo = $users[$login];
             unset($userinfo['password']); //removes password info
-            $userinfo['login'] = $login; //return login as normal login
-            $userinfo['real_login'] = $login; //return login as normal login
-            return $userinfo;
+                $userinfo['login'] = $login; //return login as normal login
+                $userinfo['real_login'] = $login; //return login as normal login
+                return $userinfo;
             // user does not exist or password is incorrect
         } else {
             return false;
