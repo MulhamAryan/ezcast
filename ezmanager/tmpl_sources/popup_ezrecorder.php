@@ -93,6 +93,10 @@ It allows to select all albums needed to be shown in ezrecorder in classrooms an
                     <button class="btn btn-outline-secondary" id="show_password" type="button"><span class="glyphicon glyphicon-eye-open"></span></button>
                 </div>
             </div>
+            <div class="form-group" id="course_code_line">
+                <label for="course_code" id="labelcodeCours" class="col-sm-3 control-label">®wifiPw®</label>
+                <div class="col-sm-8" style="color: #FF0000;">podulbcast011</div>
+            </div>
             <div class="form-group">
                 <div class="modal-footer">
                     <input type="hidden" name="sesskey" id="sesskey" value="<?php echo $_SESSION['sesskey']; ?>">

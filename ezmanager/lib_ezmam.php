@@ -2188,8 +2188,10 @@ function ezmam_media_submit_create_metadata($tmp_name, $metadata)
  */
 function metadata2assoc_array($meta_path)
 {
-    @ $xml = simplexml_load_file($meta_path);
-    if ($xml === false) {
+    if(file_exists($meta_path))
+        @ $xml = simplexml_load_file($meta_path);
+
+    else {
         return false;
     }
     $assoc_array = array();
@@ -2239,4 +2241,27 @@ function assoc_array2metadata_file($assoc_array, $file_path)
     } //no
 
     return true;
+}
+
+/**
+ * This function check if the media type exist or not (high_cam, low_cam, high_slide, low_slide)
+ * First use for checking the media type to disable or enable one of them in (div_asset_details.php)
+ * $album = Folder name of the album
+ * $asset = Folder name of the asset in media
+ * $media = One of those parameters (high_cam, low_cam, high_slide, low_slide)
+ * @param string $album
+ * @param string $asset
+ * @param string $media
+ * @return bool
+ */
+function ezmam_check_media_exist($album, $asset, $media) {
+    $repository_path = ezmam_repository_path();
+    if ($repository_path === false) {
+        return false;
+    }
+    $path = $repository_path . '/' . $album . '/' . $asset . '/' . $media;
+    if (is_dir($path))
+        return true;
+    else
+        return false;
 }

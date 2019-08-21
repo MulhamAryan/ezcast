@@ -1,4 +1,3 @@
-
 <script>
 function swap(div_a, div_b) {
     document.getElementById(div_a).style.display = 'block';

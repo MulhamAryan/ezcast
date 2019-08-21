@@ -351,6 +351,7 @@ function view_embed_link()
     global $distribute_url;
     global $ezmanager_url;
     global $template_folder;
+    global $accepted_languages;
     // Sanity checks
     if (!isset($input['album']) || !isset($input['asset']) || !isset($input['quality']) || !isset($input['type']) ||
             !isset($input['token'])) {
@@ -361,6 +362,9 @@ function view_embed_link()
         die;
     }
     $lang = $input['lang'];
+    if(!in_array($lang, $accepted_languages)){
+        $lang = 'fr';
+    }
     $imgsrc = $ezmanager_url . "/images/embed_link_$lang.png";
     $width = $input['width'];
     $href = $distribute_url . '?action=embed&album=' . $input['album'] . '&asset=' . $input['asset'] . '&type=' .

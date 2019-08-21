@@ -67,6 +67,9 @@ if (isset($pagination)) {
                     <a target="_blank" href="vnc://<?php echo $currClass['IP']; ?>/">
                         (VNC)
                     </a>
+                    <a target="_blank" href="index.php?action=edit_recorder_config&ip=<?php echo $currClass['IP']; ?>&sesskey=<?php echo $_SESSION['sesskey']; ?>" class="btn btn-default btn-xs" role="button">
+                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                    </a>
                 </div>
                 <div class="edit" style="display:none;">
                     <input class="form-control input-xsm" type="text" name="ip" 

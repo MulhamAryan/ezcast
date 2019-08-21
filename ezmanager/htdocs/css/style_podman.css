@@ -829,6 +829,35 @@ img.dropdown-icon {
     color:#004C93;
 }
 
+.Status{
+    -webkit-background-size: 24px;
+    background-size: 24px;
+    background-position: center left;
+    background-repeat: no-repeat;
+    padding:5px;
+    clear: both;
+    display: inline-block;
+    width:90px;
+    font-weight: bold;
+    cursor: pointer;
+    text-indent: 30%;
+}
+
+.camenabled{
+    background-image:url(../images/camenabled.png);
+}
+
+.camdisabled{
+    background-image:url(../images/camdisabled.png);
+}
+
+.slideenabled{
+    background-image:url(../images/slideenabled.png);
+}
+
+.slidedisabled{
+    background-image:url(../images/slidedisabled.png);
+}
 /*-- bouton : infos+ // publication // embed [FIN]--*/
 
 /*--- bouton creer--*/

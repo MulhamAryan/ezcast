@@ -117,6 +117,10 @@
         <label id="Allow_download" lang="en">Allow download</label>
         <label id="Download_allowed" lang="fr">Téléchargement autorisé</label>
         <label id="Download_allowed" lang="en">Download allowed</label>
+        <label id="remove_media" lang="fr">Désactiver</label>
+        <label id="remove_media" lang="en">Disable</label>
+        <label id="add_media" lang="fr">Activer</label>
+        <label id="add_media" lang="en">Enable</label>
         <label id="Download_forbidden" lang="fr">Téléchargement interdit</label>
         <label id="Download_forbidden" lang="en">Download forbidden</label>
         <label id="Ratio" lang="fr">Format d'image</label>
@@ -267,8 +271,10 @@
         <label id="SelEzrecorderCoursesDesc" lang="en">Select albums you want to record to in lecture rooms or change your ezrecorder password</label>
         <label id="SelEzrecorderPw" lang="fr">Mot de passe d’EZrecorder</label>
         <label id="SelEzrecorderPw" lang="en">EZrecorder's password</label>
-         <label id="Pw" lang="fr">Mot de passe</label>
-        <label id="Pw" lang="en">Password</label>                              
+        <label id="Pw" lang="fr">Mot de passe</label>
+        <label id="Pw" lang="en">Password</label>
+        <label id="wifiPw" lang="fr">Mot de passe wifi PODC</label>
+        <label id="wifiPw" lang="en">PODC Wifi password</label>
         <label id="addexistingCourse" lang="fr">Ajouter un album existant</label>
         <label id="addexistingCourse" lang="en">Add a existing album</label>
         <label id="createnewCourse" lang="fr">Créer un nouvel album</label>
@@ -633,31 +639,31 @@
         <!-- update 2016/07/15 -->
     <!-- information customized by organisation -->   
     <infos>
-        <info id="developed_by" organization="Université libre de Bruxelles" lang="fr">&lt;a href="http://ezcast.ulb.ac.be" target="_blank" &gt;EZcast&lt;/a&gt; est une solution propulsée par &lt;a target="_blank" href="http://podcast.ulb.ac.be"&gt;ULB Podcast&lt;/a&gt;</info>
-        <info id="developed_by" organization="Université libre de Bruxelles" lang="en">&lt;a href="http://ezcast.ulb.ac.be" target="_blank" &gt;EZcast&lt;/a&gt; is a solution powered by &lt;a target="_blank" href="http://podcast.ulb.ac.be"&gt;ULB Podcast&lt;/a&gt;</info>
-        <info id="developed_by" organization="Université Catholique de Louvain" lang="fr">&lt;a href="http://ezcast.uclouvain.be" &gt;UCL Podcast&lt;/a&gt; est une solution propulsée par &lt;a href="http://ezcast.ulb.ac.be"&gt;EZcast&lt;/a&gt;</info>
-        <info id="developed_by" organization="Université Catholique de Louvain" lang="en">&lt;a href="http://ezcast.uclouvain.be" &gt;UCL Podcast&lt;/a&gt; is a solution powered by &lt;a href="http://ezcast.ulb.ac.be"&gt;EZcast&lt;/a&gt;</info>
+        <info id="developed_by" organization="© Université libre de Bruxelles" lang="fr">&lt;a href="http://ezcast.ulb.ac.be" target="_blank" &gt;EZcast&lt;/a&gt; est une solution propulsée par &lt;a target="_blank" href="http://podcast.ulb.ac.be"&gt;ULB Podcast&lt;/a&gt;</info>
+        <info id="developed_by" organization="© Université libre de Bruxelles" lang="en">&lt;a href="http://ezcast.ulb.ac.be" target="_blank" &gt;EZcast&lt;/a&gt; is a solution powered by &lt;a target="_blank" href="http://podcast.ulb.ac.be"&gt;ULB Podcast&lt;/a&gt;</info>
+        <info id="developed_by" organization="© Université Catholique de Louvain" lang="fr">&lt;a href="http://ezcast.uclouvain.be" &gt;UCL Podcast&lt;/a&gt; est une solution propulsée par &lt;a href="http://ezcast.ulb.ac.be"&gt;EZcast&lt;/a&gt;</info>
+        <info id="developed_by" organization="© Université Catholique de Louvain" lang="en">&lt;a href="http://ezcast.uclouvain.be" &gt;UCL Podcast&lt;/a&gt; is a solution powered by &lt;a href="http://ezcast.ulb.ac.be"&gt;EZcast&lt;/a&gt;</info>
         <info id="developed_by" organization="© Your organization name" lang="fr">&lt;a href="http://ezcast.ulb.ac.be" target="_blank" &gt;EZcast&lt;/a&gt; est une solution propulsée par &lt;a target="_blank" href="http://podcast.ulb.ac.be"&gt;ULB Podcast&lt;/a&gt;</info>
         <info id="developed_by" organization="© Your organization name" lang="en">&lt;a href="http://ezcast.ulb.ac.be" target="_blank" &gt;EZcast&lt;/a&gt; is a solution powered by &lt;a target="_blank" href="http://podcast.ulb.ac.be"&gt;ULB Podcast&lt;/a&gt;</info>
         <info id="organization" organization="© Université libre de Bruxelles" lang="fr">ULB Podcast</info>
         <info id="organization" organization="© Université libre de Bruxelles" lang="en">ULB Podcast</info>
-        <info id="organization" organization="Université Catholique de Louvain" lang="fr">UCL Podcast</info>
-        <info id="organization" organization="Université Catholique de Louvain" lang="en">UCL Podcast</info>
+        <info id="organization" organization="© Université Catholique de Louvain" lang="fr">UCL Podcast</info>
+        <info id="organization" organization="© Université Catholique de Louvain" lang="en">UCL Podcast</info>
         <info id="organization" organization="© Your organization name" lang="fr">Your organization Podcast</info>
-        <info id="organization" organization="© Your organization name" lang="en">Your organization Podcast</info>      
+        <info id="organization" organization="© Your organization name" lang="en">Your organization Podcast</info>
 
         <info id="tuto" organization="© Université libre de Bruxelles" lang="fr">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://podcast.ulb.ac.be" target="_blank"&gt;ULB Podcast&lt;/a&gt;&quot;</info>
         <info id="tuto" organization="© Université libre de Bruxelles" lang="en">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://podcast.ulb.ac.be" target="_blank"&gt;ULB Podcast&lt;/a&gt;&quot;</info>
-        <info id="tuto" organization="Université Catholique de Louvain" lang="fr">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://ezcast.uclouvain.be" target="_blank"&gt;UCL Podcast&lt;/a&gt;&quot;</info>
-        <info id="tuto" organization="Université Catholique de Louvain" lang="en">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://ezcast.uclouvain.be" target="_blank"&gt;UCL Podcast&lt;/a&gt;&quot;</info>
+        <info id="tuto" organization="© Université Catholique de Louvain" lang="fr">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://ezcast.uclouvain.be" target="_blank"&gt;UCL Podcast&lt;/a&gt;&quot;</info>
+        <info id="tuto" organization="© Université Catholique de Louvain" lang="en">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://ezcast.uclouvain.be" target="_blank"&gt;UCL Podcast&lt;/a&gt;&quot;</info>
         <info id="tuto" organization="© Your organization name" lang="fr">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://podcast.ulb.ac.be" target="_blank"&gt;ULB Podcast&lt;/a&gt;&quot;</info>
-        <info id="tuto" organization="© Your organization name" lang="en">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://podcast.ulb.ac.be" target="_blank"&gt;ULB Podcast&lt;/a&gt;&quot;</info>       
+        <info id="tuto" organization="© Your organization name" lang="en">l'&lt;em&gt;Espace enseignants&lt;/em&gt; du site &quot;&lt;a href="http://podcast.ulb.ac.be" target="_blank"&gt;ULB Podcast&lt;/a&gt;&quot;</info>
 
         <info id="email" organization="© Université libre de Bruxelles" lang="fr">podcast@ulb.ac.be</info>
         <info id="email" organization="© Université libre de Bruxelles" lang="en">podcast@ulb.ac.be</info>
-        <info id="email" organization="Université Catholique de Louvain" lang="fr">podcast@uclouvain.be</info>
-        <info id="email" organization="Université Catholique de Louvain" lang="en">podcast@uclouvain.be</info>
+        <info id="email" organization="© Université Catholique de Louvain" lang="fr">podcast@uclouvain.be</info>
+        <info id="email" organization="© Université Catholique de Louvain" lang="en">podcast@uclouvain.be</info>
         <info id="email" organization="© Your organization name" lang="fr">podcast@ulb.ac.be</info>
-        <info id="email" organization="© Your organization name" lang="en">podcast@ulb.ac.be</info> 
+        <info id="email" organization="© Your organization name" lang="en">podcast@ulb.ac.be</info>
     </infos>
 </data>

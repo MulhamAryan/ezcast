@@ -26,6 +26,7 @@ require_once '../commons/lib_various.php';
 require_once 'lib_various.php';
 require_once __DIR__.'/../commons/lib_scheduling.php';
 require_once __DIR__.'/lib_push_changes.php';
+require_once '../commons/ssh.class.php';
 
 $input = array_merge($_GET, $_POST);
 
@@ -54,7 +55,7 @@ template_load_dictionnary('translations.xml');
 // If we're not logged in, we try to log in or display the login form
 if (!user_logged_in()) {
 
-    if($input['action'] == 'wake_up_mobile'){
+    if(isset($input['action']) && $input['action'] == 'wake_up_mobile'){
         requireController('wake_up_mobileUnit.php');
         index(array());
 
@@ -113,7 +114,7 @@ else {
         case 'login':
             redraw_page();
             break;
-        
+
         case 'view_logs':
             requireController('view_logs.php');
             break;
@@ -180,6 +181,10 @@ else {
 
         case 'create_classroom':
             requireController('create_classroom.php');
+            break;
+
+        case 'install_classroom':
+            requireController('install_classroom.php');
             break;
 
         case 'view_classrooms':
@@ -271,29 +276,34 @@ else {
         case 'view_report':
             requireController('view_report.php');
             break;
-        
+
         // Monitoring
         case 'view_events':
             requireController('view_list_event.php');
             break;
-        
+
         case 'view_track_asset':
             requireController('view_track_asset.php');
             break;
-        
+
         case 'view_classroom_calendar':
             requireController('view_classroom_calendar.php');
             break;
-        
+
         case 'view_event_calendar':
             requireController('view_event_calendar.php');
             break;
-        
+
+        /* --- Service classroom --- */
         // Service ping classroom
         case 'get_classrooms_status':
             requireController('get_classrooms_status.php');
             break;
-        
+        // Classroom recorder configurations
+        case 'edit_recorder_config':
+            requireController('edit_recorder_config.php');
+            break;
+
         case 'controller_camera':
             requireController('controller_camera.php');
             break;
@@ -303,16 +313,16 @@ else {
         case 'wake_up_mobile':
             requireController('wake_up_mobileUnit.php');
             break;
-        
+
         // No action selected: we choose to display the homepage again
         default:
             // TODO: check session var here
             albums_view();
     }
-    
+
     // Call the function to view the page
     index($paramController);
-    
+
     db_close();
 }
 
@@ -409,12 +419,12 @@ function user_login($login, $passwd)
     $login_parts = explode("/", $login);
 
     // checks if runas
-    if (count($login_parts) >= 2) {
+    /*if (count($login_parts) >= 2) {
         $error = "No runas here !";
         view_login_form();
         die;
     }
-
+*/
     if (!file_exists('admin.inc')) {
         $error = "No admin list present";
         view_login_form();
@@ -428,12 +438,15 @@ function user_login($login, $passwd)
     }
 
     $res = checkauth(strtolower($login), $passwd);
+
     if (!$res) {
         $error = checkauth_last_error();
         view_login_form();
         die;
     }
-
+    /*echo var_dump(checkauth(strtolower($login), $passwd));
+    view_login_form();
+    die;*/
     // 1) Initializing session vars
     $_SESSION['podcastcours_logged'] = "LEtimin"; // "boolean" stating that we're logged
     $_SESSION['user_login'] = $login;

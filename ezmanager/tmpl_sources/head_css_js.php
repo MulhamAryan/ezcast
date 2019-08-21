@@ -11,6 +11,7 @@
 <?php
     global $apache_documentroot;
     global $matomoScript;
+    global $ezplayer_safe_url;
 
     $custom_folder = "$apache_documentroot/ezmanager/css/custom/";
     $dir = new DirectoryIterator($custom_folder);
@@ -31,5 +32,23 @@
         <script type="text/javascript" src="js/AppearDissapear.js"></script>
         <script type="text/javascript" src="js/hover.js"></script>
         <script type="text/javascript" src="jQuery-DateTimePicker/jquery.simple-dtpicker.js"></script>
-        
+
+        <script src="<?php echo $ezplayer_safe_url; ?>/flowplayer-6/flowplayer.min.js"></script>
+        <script src="<?php echo $ezplayer_safe_url; ?>/flowplayer-6/hls.js"></script>
+        <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/httpRequest.js"></script>
+        <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/jQuery/jquery.scrollTo-1.4.3.1-min.js"></script>
+        <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/jQuery/jquery.localscroll-1.2.7-min.js"></script>
+        <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/jQuery/jquery.reveal.js"></script>
+        <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/jQuery/highlight-js.js"></script>
+        <script>var video_split_time = 30</script>
+        <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/lib_player.js"></script>
+        <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/lib_threads.js"></script>
+        <script type="text/javascript" src="<?php echo $ezplayer_safe_url; ?>/js/clipboard.js"></script>
+        <link rel="stylesheet" href="<?php echo $ezplayer_safe_url; ?>/flowplayer-6/skin/skin.css">
+        <link rel="stylesheet" type="text/css" href="css/ezplayer_style.css" />
+        <script>
+            var lvl = 3;
+            function video_trace(){}
+
+        </script>
    <?php echo $matomoScript; ?>

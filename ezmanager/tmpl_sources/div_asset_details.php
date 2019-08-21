@@ -42,7 +42,6 @@
 // - $embeds An assoc array with embed codes for the assets
 
 
-
 /**
  * Helper function, used for pretty print.
  * @param type $info
@@ -55,6 +54,7 @@ function print_info($info, $suffix = '')
         echo '®Not_available®';
     }
 }
+
 ?>
 
 <?php if (strtolower($origin) !== 'streaming') {
@@ -64,13 +64,12 @@ function print_info($info, $suffix = '')
             <ul>
                 <li>
                     <span class="ButtonEdit">
-                        <?php if($status != 'processing') { ?>
+                        <?php if ($status != 'processing') { ?>
                                 <a href="javascript:show_edit_form('<?php echo $asset; ?>');">
-                    <?php } else
-                            {
-                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
-                                        ' data-toggle="modal" data-target="#modal">';
-                            }
+                    <?php } else {
+                        echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
+                            ' data-toggle="modal" data-target="#modal">';
+                    }
                     ?>
                                     ®Edit®
                                 </a>
@@ -79,77 +78,78 @@ function print_info($info, $suffix = '')
 
 
                 <?php if ($public_album) {
-        ?>
+                    ?>
                     <li>
                         <span class="ButtonMoveAlbumPrive">
                             <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=unpublish_asset&amp;title='.urlencode($title).
-                                    '&amp;album='.urlencode($album).'&amp;asset='.urlencode($asset_name).'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
+                                echo '<a href="index.php?action=show_popup&amp;popup=unpublish_asset&amp;title=' . urlencode($title) .
+                                    '&amp;album=' . urlencode($album) . '&amp;asset=' . urlencode($asset_name) . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
                                     'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
-                                ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
+                                    ' data-toggle="modal" data-target="#modal">';
+                            } ?>
                             ®Unpublish®</a>
                         </span>
                     </li>
-                <?php
-    } else {
-        ?>
+                    <?php
+                } else {
+                    ?>
                     <li>
                         <span class="ButtonMoveAlbumPublic">
                             <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=publish_asset&amp;title='.urlencode($title).
-                                    '&amp;album='.urlencode($album).'&amp;asset='.urlencode($asset_name).'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
+                                echo '<a href="index.php?action=show_popup&amp;popup=publish_asset&amp;title=' . urlencode($title) .
+                                    '&amp;album=' . urlencode($album) . '&amp;asset=' . urlencode($asset_name) . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
                                     'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
                                     ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                            } ?>
                             ®Publish®</a>
                         </span>
                     </li>
-                <?php
-    } ?>
+                    <?php
+                } ?>
 
                 <?php if ($trace_on && $display_trace_stats) {
-        ?>
+                    ?>
                     <li>
                         <span class="BoutonStatsTitle">
                             <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=asset_stats&amp;album='.$album.
-                                '&amp;asset='.$asset_name.'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
-                                'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
-                                ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                                echo '<a href="index.php?action=show_popup&amp;popup=asset_stats&amp;album=' . $album .
+                                    '&amp;asset=' . $asset_name . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
+                                    'data-target="#modal">';
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
+                                    ' data-toggle="modal" data-target="#modal">';
+                            } ?>
                             ®Stats_Descriptives®</a>
                         </span>
                     </li>
-                <?php
-    } ?>
+                    <?php
+                } ?>
             </ul>
         </div>
 
         <div class="LigneButtonRight LigneButton btn-group" role="group">
-            <button type="button" class="btn btn-default btn-xs dropdown-toggle dropdown-background-icon-button ButtonMoreOptions"
+            <button type="button"
+                    class="btn btn-default btn-xs dropdown-toggle dropdown-background-icon-button ButtonMoreOptions"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="icon-btn">
                     ®More_options®
                     <span class="caret"></span>
                 </span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-right">
-              <li><span class="ButtonSuppAlbum">
+            <ul class="dropdown-menu dropdown-menu-right" style="z-index:1002;">
+                <li><span class="ButtonSuppAlbum">
                         <?php if ($status != 'processing' && $status != 'error') {
-        echo '<a href="index.php?action=show_popup&amp;popup=delete_asset&amp;title='.urlencode($title).
-                                '&amp;album='.urlencode($album).'&amp;asset='.urlencode($asset_name).'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
+                            echo '<a href="index.php?action=show_popup&amp;popup=delete_asset&amp;title=' . urlencode($title) .
+                                '&amp;album=' . urlencode($album) . '&amp;asset=' . urlencode($asset_name) . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
                                 'data-target="#modal">';
-    } else {
-        echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
+                        } else {
+                            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
                                 ' data-toggle="modal" data-target="#modal">';
-    } ?>
+                        } ?>
                         ®Delete®</a>
 
                     </span>
@@ -157,72 +157,72 @@ function print_info($info, $suffix = '')
                 <li>
                     <span class="ButtonMove">
                         <?php if ($status != 'processing' && $status != 'error') {
-        echo '<a href="index.php?action=show_popup&amp;popup=move_asset&amp;album='.urlencode($album).
-                                '&amp;asset='.urlencode($asset_name).'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
+                            echo '<a href="index.php?action=show_popup&amp;popup=move_asset&amp;album=' . urlencode($album) .
+                                '&amp;asset=' . urlencode($asset_name) . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
                                 'data-target="#modal">';
-    } else {
-        echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
+                        } else {
+                            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
                                 ' data-toggle="modal" data-target="#modal">';
-    } ?>
+                        } ?>
                         ®Move®</a>
                     </span>
                 </li>
                 <?php
                 global $enable_copy_asset;
-    if ($enable_copy_asset) {
-        ?>
+                if ($enable_copy_asset) {
+                    ?>
                     <li>
                         <span class="ButtonCopy">
                             <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=copy_asset&amp;album='.urlencode($album).
-                                    '&amp;asset='.urlencode($asset_name).'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
+                                echo '<a href="index.php?action=show_popup&amp;popup=copy_asset&amp;album=' . urlencode($album) .
+                                    '&amp;asset=' . urlencode($asset_name) . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
                                     'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
                                     ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                            } ?>
                             ®Copy®</a>
                         </span>
                     </li>
-                <?php
-    } ?>
+                    <?php
+                } ?>
                 <li>
                     <span class="ButtonProgrammer">
                         <?php if ($status != 'processing' && $status != 'error') {
-        echo '<a href="index.php?action=show_popup&amp;popup=schedule_asset&amp;album='.urlencode($album).
-                                '&amp;asset='.urlencode($asset_name).'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
+                            echo '<a href="index.php?action=show_popup&amp;popup=schedule_asset&amp;album=' . urlencode($album) .
+                                '&amp;asset=' . urlencode($asset_name) . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
                                 'data-target="#modal">';
-    } else {
-        echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
-                            ' data-toggle="modal" data-target="#modal">';
-    } ?>
+                        } else {
+                            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
+                                ' data-toggle="modal" data-target="#modal">';
+                        } ?>
                         ®Program®</a>
                     </span>
                 </li>
                 <?php
                 // add flag title_up_to_date in metadata. get this info. If not show the button => do that in controller, not tmpl
                 global $regenerate_title_mode;
-    if ($regenerate_title_mode == 'manual' && isset($asset_metadata['add_title']) && ($asset_metadata['add_title']!="false") ) {
-        ?>
+                if ($regenerate_title_mode == 'manual' && isset($asset_metadata['add_title']) && ($asset_metadata['add_title'] != "false")) {
+                    ?>
                     <li>
                         <span class="ButtonRegenTitle">
                             <?php if ($status != 'processing' && $status != 'error') {
-            echo '<a href="index.php?action=show_popup&amp;popup=regen_title&amp;album='.urlencode($album).
-                                '&amp;asset='.urlencode($asset_name).'&amp;title='.urlencode($title).'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
-                                'data-target="#modal">';
-        } else {
-            echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey='.$_SESSION["sesskey"].'" data-remove="false"' .
-                                ' data-toggle="modal" data-target="#modal">';
-        } ?>
+                                echo '<a href="index.php?action=show_popup&amp;popup=regen_title&amp;album=' . urlencode($album) .
+                                    '&amp;asset=' . urlencode($asset_name) . '&amp;title=' . urlencode($title) . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
+                                    'data-target="#modal">';
+                            } else {
+                                echo '<a href="index.php?action=show_popup&amp;popup=popup_not_available&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false"' .
+                                    ' data-toggle="modal" data-target="#modal">';
+                            } ?>
                             ®Regen_Intro®</a>
                         </span>
                     </li>
-                <?php
-    } ?>
+                    <?php
+                } ?>
             </ul>
         </div>
     </div>
-<?php
+    <?php
 } ?>
 
 <!-- bouton supp + editer + 2 X Deplacer [Fin]  -->
@@ -233,139 +233,394 @@ function print_info($info, $suffix = '')
     <h1>®Information®</h1>
     <ul class="list-unstyled">
         <li>
-            <span class="infospodast">®Title®</span><br />
+            <span class="infospodast">®Title®</span><br/>
             <span id="title_<?php echo $asset; ?>"><?php print_info($title); ?></span>
             <span id="title_<?php echo $asset; ?>_edit" style="display: none;">
                 <input type="text" name="title" id="title_<?php echo $asset; ?>_input" class="form-control input-sm"
-                       value="<?php echo htmlentities($title, ENT_COMPAT, "UTF-8"); ?>" />
+                       value="<?php echo htmlentities($title, ENT_COMPAT, "UTF-8"); ?>"/>
             </span>
         </li>
         <li>
-            <span class="infospodast">®Description®</span><br />
+            <span class="infospodast">®Description®</span><br/>
             <span id="description_<?php echo $asset; ?>"><?php print_info($description); ?></span>
             <span id="description_<?php echo $asset; ?>_edit" style="display: none;">
                 <textarea name="description" class="form-control input-sm" style="resize: vertical;"
                           id="description_<?php echo $asset; ?>_input"><?php echo htmlentities($description, ENT_COMPAT, "UTF-8");
-                ?></textarea>
+                    ?></textarea>
             </span>
         </li>
         <li class="text-right">
             <!-- Edit form (submit/cancel buttons) -->
-            <div class="btn-group" role="group" id="<?php echo $asset; ?>_submit" style="display: none;margin-top: 5px;">
+            <div class="btn-group" role="group" id="<?php echo $asset; ?>_submit"
+                 style="display: none;margin-top: 5px;">
                 <input type="button" class="btn btn-default btn-xs" id="<?php echo $asset; ?>_cancel_button"
-                    onclick="show_edit_form('<?php echo $asset; ?>');" value="®Cancel®" />
+                       onclick="show_edit_form('<?php echo $asset; ?>');" value="®Cancel®"/>
                 <input type="button" class="btn btn-default btn-xs" id="<?php echo $asset ?>_submit_button"
-                    onclick="edit_asset_data('<?php echo $album; ?>', '<?php echo $asset; ?>','<?php echo $_SESSION['sesskey']; ?>');" value="®Valid®" />
+                       onclick="edit_asset_data('<?php echo $album; ?>', '<?php echo $asset; ?>','<?php echo $_SESSION['sesskey']; ?>');"
+                       value="®Valid®"/>
             </div>
         </li>
         <li>
-            <span class="infospodast">®Author®</span><br />
+            <span class="infospodast">®Author®</span><br/>
             <?php print_info($author); ?>
         </li>
         <li>
-            <span class="infospodast">®Date®</span><br />
+            <span class="infospodast">®Date®</span><br/>
             <?php print_info($date); ?>
         </li>
         <li>
-            <span class="infospodast">®Origin®</span><br />
+            <span class="infospodast">®Origin®</span><br/>
             <?php if ($origin == 'SUBMIT') {
-                    echo '®Manual_submit®';
-                } else {
-                    print_info($origin);
-                } ?>
+                echo '®Manual_submit®';
+            } else {
+                print_info($origin);
+            } ?>
         </li>
 
         <?php if ($status == 'processing') {
-                    ?>
+            ?>
             <li>
-                <span class="infospodast">®Status®</span><br />
+                <span class="infospodast">®Status®</span><br/>
                 <span style="color: #75940a;">®Processing®</span>
             </li>
-        <?php
-                } elseif ($status == 'failed') {
-                    ?>
+            <?php
+        } elseif ($status == 'failed') {
+            ?>
             <li>
-                <span class="infospodast">®Status®</span><br />
+                <span class="infospodast">®Status®</span><br/>
                 <span style="color: red;">®Processing_error®</span>
             </li>
-        <?php
-                } else {
-                    ?>
+            <?php
+        } else {
+            ?>
             <li>
-                <span class="infospodast">®Length®</span><br />
+                <span class="infospodast">®Length®</span><br/>
                 <?php print_info($duration); ?>
             </li>
             <li>
-                <span class="infospodast">®Type®</span><br />
+                <span class="infospodast">®Type®</span><br/>
                 <?php print_info($record_type); ?>
             </li>
-        <?php
+            <?php
+            if (ezmam_check_media_exist($album, $asset, 'high_cam') == true && ezmam_check_media_exist($album, $asset, 'high_slide') == true) {
+            ?>
+            <li>
+                 <span class="infospodast">®Type®</span><br>
+             <?php
+                if ($asset_metadata['record_type'] != 'slide') {
+                    $camclass = 'camenabled';
+                    $camstatus = '®remove_media®';
+                } else {
+                    $camclass = 'camdisabled';
+                    $camstatus = '®add_media®';
                 }
+                if ($asset_metadata['record_type'] != 'cam') {
+                    $slideclass = 'slideenabled';
+                    $slidestatus = '®remove_media®';
+                } else {
+                    $slideclass = 'slidedisabled';
+                    $slidestatus = '®add_media®';
+                }
+             ?>
+                <span class="Status <?php echo $camclass; ?>" onclick="asset_disable_media('<?php echo $album; ?>','<?php echo $asset;?>','cam', '<?php echo $_SESSION['sesskey'];?>')" id="hascam_<?php echo $asset;?>"><?php echo $camstatus;?></span><br>
+                <span class="Status <?php echo $slideclass; ?>" onclick="asset_disable_media('<?php echo $album; ?>','<?php echo $asset;?>','slide', '<?php echo $_SESSION['sesskey'];?>')" id="hasslide_<?php echo $asset;?>"><?php echo $slidestatus;?></span>
+                <div style="clear: both;"></div>
+            <?php } ?>
+            </li>
+            <?php
+        }
 
         if ($origin == 'SUBMIT') {
             ?>
             <li>
-                <span class="infospodast">®Filename®</span><br />
+                <span class="infospodast">®Filename®</span><br/>
                 <?php print_info($file_name); ?>
             </li>
-        <?php
+            <?php
         } elseif (strtolower($origin) === 'streaming') {
             ?>
             <li>
                 <span class="ButtonEZplayer">
                     <a href="index.php?action=show_popup&amp;popup=ezplayer_link&amp;album=<?php echo $album; ?>&amp;asset=<?php
-                        echo $asset; ?>&sesskey=<?php echo $_SESSION['sesskey']; ?>"
-                    data-remote="false" data-toggle="modal" data-target="#modal">
+                    echo $asset; ?>&sesskey=<?php echo $_SESSION['sesskey']; ?>"
+                       data-remote="false" data-toggle="modal" data-target="#modal">
                     EZplayer
                     </a>
                 </span>
             </li>
-        <?php
+            <?php
         }
-        if (strtolower($origin) === 'streaming' && $displayButton)
-        {
+        if (strtolower($origin) === 'streaming' && $displayButton) {
             ?>
             <li>
-                <?php echo '<a href="index.php?action=show_popup&amp;popup=delete_asset&amp;title='.urlencode($title).
-                                '&amp;album='.urlencode($album).'&amp;asset='.urlencode($asset_name).'&sesskey='.$_SESSION["sesskey"].'" data-remove="false" data-toggle="modal" '.
-                                'data-target="#modal">'; ?>
-                    <button type='button' class="btn btn-danger">
-                        Supprimer
-                    </button>
+                <?php echo '<a href="index.php?action=show_popup&amp;popup=delete_asset&amp;title=' . urlencode($title) .
+                    '&amp;album=' . urlencode($album) . '&amp;asset=' . urlencode($asset_name) . '&sesskey=' . $_SESSION["sesskey"] . '" data-remove="false" data-toggle="modal" ' .
+                    'data-target="#modal">'; ?>
+                <button type='button' class="btn btn-danger">
+                    Supprimer
+                </button>
                 <?php echo '</a>'; ?>
             </li>
-        <?php
+            <?php
         }
         ?>
     </ul>
-    <br />
+    <br/>
 </div>
 
 <?php
-// If there is only one media, we display it in the right column.
-// 3 possibles scenarios: there was only a slides video, or there were 2 videos
-//    That happens if $has_slides is true (inside the "if")
-// There was only a cam video. In that case $has_slides is false, so the content of the "else" is displayed
+
 if ($status != 'processing' && $status != 'failed' && strtolower($origin) !== 'streaming') {
-    echo '<div class="col-sm-4';
-    if ($has_cam && $has_slides) {
-        echo '">';
-        require 'div_media_details_camera.php';
-        echo '</div>';
-        echo '<div class="col-sm-4';
-    } else {
-        echo ' col-sm-offset-4';
-    }
 
-    if ($has_slides) {
-        echo '">';
-        require 'div_media_details_slides.php';
-        echo '</div>';
-    } else {
-        echo '">';
-        require 'div_media_details_camera.php';
-        echo '</div>';
-    }
-} ?>
+    ?>
+    <div class="col-sm-8">
 
+        <script>
+            var current_asset;
+            var trace_on = false;
+            var display_threads_notif = false;
+            var lvl = 3;
+            var current_album;
+            var current_asset_name;
+            var ezplayer_mode;
+
+
+            $(document).keyup(function(e) {
+                e.stopPropagation();
+                if (e.key === "Escape") { // escape key maps to keycode `27`
+                    $('#video_player').css({'width':'395px !important','height':'223px !important'});
+                }
+            });
+
+            function time_code_update(){}
+            function begin_seeked(){}
+
+            function get_origin() {
+                if (from_shortcut) { // a key has been pressed to run the action
+                    from_shortcut = false;
+                    return "from_shortcut";
+                } else {
+                    return "from_button";
+                }
+            }
+
+            function server_trace(array) {
+                return false;
+            }
+
+            function video_fullscreen(on,asset) {
+                fullscreen = (on === true); // check that 'on' is only a boolean
+                var action = fullscreen ? 'video_fullscreen_enter' : 'video_fullscreen_exit';
+
+                if (fullscreen) {
+                    $('.fullscreen-button').addClass("active");
+                } else {
+                    $('.fullscreen-button').removeClass("active");
+                }
+                resize(asset);
+            }
+
+            function resize(asset) {
+                if (fullscreen) {
+                    $("body").css('overflow', 'hidden');
+                    $("div[source='"+asset+"']").css({'width':'100%','height':'100%','position':'fixed','z-index':'1002'});
+                    var window_height = $(window).height();
+                    var window_width = $(window).width();
+                    var extra_height = 41; // .video_controls = 39px
+                    var extra_width = 0;
+                    if (show_panel) { // bookmarks panel on the right
+                        extra_width += panel_width;
+                        $('#video_notifications').addClass('panel-active');
+                    }
+                    $("#video_controls_"+asset+"").css('width', '100%');
+                    window_height -= extra_height;
+                    window_width -= extra_width;
+                    $("div[source='"+asset+"'] > video").css({'width': window_width + 'px','height':window_height + 'px'});
+                } else {
+                    var width = 395;
+                    var height = 223;
+                    $("div[source='"+asset+"']").css('height', height + 'px');
+                    $("#video_controls_"+asset+"").css('width', width + 'px');
+                    $("div[source='"+asset+"'] > video").css({'width':width + 'px','height':height + 'px'});
+                    $("div[source='"+asset+"']").css({'width':width + 'px','position':'relative','z-index':'1001'});
+                    $("body").css('overflow', 'visible');
+                }
+            }
+
+            function video_type_set(media_type,asset){
+
+                if (media_type == 'cam') {
+                    var to_show = $("video[source='cam_"+asset+"']");
+                    var to_hide = $("video[source='slide_"+asset+"']");
+                } else {
+                    var to_hide = $("video[source='cam_"+asset+"']");
+                    var to_show = $("video[source='slide_"+asset+"']");
+                }
+                to_hide.hide();
+
+                if(!to_hide.get(0).paused)
+                    to_show.get(0).play();
+
+                to_hide.get(0).pause();
+                to_show.get(0).currentTime = to_hide.get(0).currentTime;
+                to_show.show();
+                $('#movie-button_'+asset+', #slide-button_'+asset+'').toggleClass('active');
+
+            }
+
+            function video_quality_set(media_quality,asset){
+
+                var camslide = $("div[source='"+asset+"']").attr("record_type");
+                var source = $("source[data='main_video_source_"+asset+"']");
+                if (camslide == 'camslide') {
+                    var currenttime = $("video[source='cam_"+asset+"']").get(0).currentTime;
+
+                    $("video[source='cam_"+asset+"']").attr('src', source.attr(media_quality + '_cam_src'));
+                    $("video[source='slide_"+asset+"']").attr('src', source.attr(media_quality + '_slide_src'));
+
+                    $("video[source='cam_"+asset+"']").get(0).currentTime = currenttime;
+                    $("video[source='slide_"+asset+"']").get(0).currentTime = currenttime;
+
+                } else {
+                    var currenttime = $("video[source='"+type+"_"+asset+"']").get(0).currentTime;
+
+                    $("video[source='"+type+"_"+asset+"']").attr('src', source.attr(media_quality + '_' + type + '_src'));
+
+                    $("video[source='"+type+"_"+asset+"']").get(0).currentTime = currenttime;
+                }
+
+                $('#high-button_'+asset+', #low-button_'+asset+'').toggleClass('active');
+                var camslide;
+                var source;
+                var currenttime;
+            }
+
+            function asset_disable_media(album, asset, media, sesskey) {
+                var button = $("#has" + media + "_" + asset);
+                if (button.hasClass(media+'enabled')) {
+                    button.removeClass(media+'enabled');
+                    button.addClass(media+'disabled');
+                    button.text("®add_media®");
+                } else {
+                    button.removeClass(media+'disabled');
+                    button.addClass(media+'enabled');
+                    button.text("®remove_media®");
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: 'index.php?action=asset_disable_media',
+                    data: {
+                        'album': album,
+                        'asset': asset,
+                        'media': media,
+                        'sesskey': sesskey
+                    }
+                });
+            }
+        </script>
+        <?php
+            if($asset_metadata['record_type'] == 'camslide' || $asset_metadata['record_type'] == 'cam'){
+                $src = $asset_metadata['low_cam_src']. '&origin=ezmanager';
+                $source = 'cam_'.$asset;
+            }
+            else{
+                $src = $asset_metadata['src'];
+                $source = 'slide_'.$asset;
+            }
+        ?>
+
+        <div id="video_player" class="remove_full" source="<?php echo $asset;?>" record_type="<?php echo $asset_metadata['record_type'];?>">
+            <!-- #main_video : HTML5 video player.
+                    There is no selected source by default.
+            -->
+            <video id="main_video" controls controlsList="nodownload" src="<?php echo $src; ?>" preload="auto" type="video/mp4" source="<?php echo $source;?>">
+                <source data="main_video_source_<?php echo $asset;?>" id="main_video_source"
+                    <?php if (array_key_exists('low_slide_src', $asset_metadata)) { ?>
+                        high_slide_src="<?php echo $asset_metadata['high_slide_src'] . '&origin=ezmanager'; ?>"
+                        low_slide_src="<?php echo $asset_metadata['low_slide_src'] . '&origin=ezmanager'; ?>"<?php } ?>
+
+                    <?php if (array_key_exists('low_cam_src', $asset_metadata)) { ?>
+                        high_cam_src="<?php echo $asset_metadata['high_cam_src'] . '&origin=ezmanager'; ?>"
+                        low_cam_src="<?php echo $asset_metadata['low_cam_src'] . '&origin=ezmanager'; ?>" <?php }
+                    ?>>
+            </video>
+
+            <?php if ($asset_metadata['record_type'] == 'camslide') { ?>
+                <video id="secondary_video" controls controlsList="nodownload" src="<?php echo $asset_metadata['low_slide_src'] . '&origin=ezmanager'; ?>" preload="metadata" type="video/mp4" source="slide_<?php echo $asset;?>">
+                </video>
+            <?php } ?>
+            <div id="load_warn">®Load_for_switch®</div>
+
+            <script>
+                type = 'cam';
+                <?php if (isset($_SESSION['loaded_type'])) { ?>
+                type = '<?php echo $_SESSION['loaded_type']; ?>';
+                <?php
+                } else {
+                if (isset($asset_metadata['record_type']) && $asset_metadata['record_type'] != 'camslide') {
+                ?>
+                type = '<?php echo $asset_metadata['record_type'] ?>';
+                <?php
+                }
+                }
+                ?>
+                time = <?php echo(isset($timecode) ? $timecode : 0) ?>;
+                player_prepare('low', type, time);
+            </script>
+            <div class="video_controls" id="video_controls_<?php echo $asset; ?>">
+                <ul>
+                    <?php if (isset($playbackRate)) {?>
+                        <li>
+                            <a id="toggleRate" href="javascript:player_playbackspeed_toggle();" title="®Change_speedrate®">1.0x</a>
+                        </li>
+                        <?php
+                    }
+                    if (isset($asset_metadata['record_type']) && $asset_metadata['record_type'] == 'camslide') {
+                        ?>
+                        <li>
+                            <a id="movie-button_<?php echo $asset;?>" class="movie-button active" title="®Watch_video®" href="javascript:video_type_set('cam','<?php echo $asset; ?>');"></a>
+                            <a id="slide-button_<?php echo $asset;?>" class="slide-button" title="®Watch_slide®" href="javascript:video_type_set('slide','<?php echo $asset; ?>');"></a>
+                        </li>
+                    <?php } ?>
+                    <li>
+                        <a id="high-button_<?php echo $asset;?>" class="high-button" title="®Watch_high®" href="javascript:video_quality_set('high','<?php echo $asset; ?>');"></a>
+                        <a id="low-button_<?php echo $asset;?>" class="low-button active" title="®Watch_low®" href="javascript:video_quality_set('low','<?php echo $asset; ?>');"></a>
+                    </li>
+                    <li>
+                        <a class="fullscreen-button" href="javascript:video_fullscreen(!fullscreen,'<?php echo $asset; ?>');" title="®Toggle_fullscreen®"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        <br><br>
+        <!-- Advanced info -->
+        <?php
+        if ($status != 'processing' && $status != 'failed' && strtolower($origin) !== 'streaming') {
+            echo '<div class="col-sm-6';
+            if ($has_cam && $has_slides) {
+                echo '">';
+                require 'div_media_details_camera.php';
+                echo '</div>';
+                echo '<div class="col-sm-6';
+            } else {
+                echo ' col-sm-offset-6';
+            }
+
+            if ($has_slides) {
+                echo '">';
+                require 'div_media_details_slides.php';
+                echo '</div>';
+            } else {
+                echo '">';
+                require 'div_media_details_camera.php';
+                echo '</div>';
+            }
+        } ?>
+    </div>
+    <div style="clear: both;"></div>
+
+    <?php
+}
+?>
 <div style="clear: both;"></div>

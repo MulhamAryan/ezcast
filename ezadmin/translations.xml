@@ -9,7 +9,7 @@
     <!-- Labels are keywords that appear in templates 
          Note: use the same label name as the keyword between ®'s that appears in the template -->
     <labels>
-        <!-- Product-wise stuff --> 
+        <!-- Product-wise stuff -->
         <label id="service_name" lang="fr">EZadmin</label>
         <label id="service_name" lang="en">EZadmin</label>
         <label id="ezadmin_page_title" lang="fr">EZadmin</label>
@@ -26,7 +26,7 @@
         <label id="Login" lang="en">Netid</label>
         <label id="Password" lang="fr">Mot de passe</label>
         <label id="Password" lang="en">Password</label>
-        
+
         <!-- Menu options -->
         <label id="list_official_courses" lang="fr">Liste cours officiels</label>
         <label id="list_official_courses" lang="en">Official courses list</label>
@@ -114,14 +114,14 @@
         <label id="stats_ezplayer_bookmarks" lang="en">Bookmarks and TOC</label>
         <label id="stats_view_report" lang="fr">Rapport automatisé</label>
         <label id="stats_view_report" lang="en">Automated Report</label>
-        
+
         <!-- Titles -->
         <label id="list_courses_title" lang="fr">Liste des cours</label>
-        <label id="list_courses_title" lang="en">Course list</label>     
+        <label id="list_courses_title" lang="en">Course list</label>
         <label id="list_users_title" lang="fr">Liste des utilisateurs</label>
-        <label id="list_users_title" lang="en">User list</label>     
+        <label id="list_users_title" lang="en">User list</label>
         <label id="list_classrooms_title" lang="fr">Liste des locaux</label>
-        <label id="list_classrooms_title" lang="en">Room list</label>     
+        <label id="list_classrooms_title" lang="en">Room list</label>
         <label id="list_jobs_title" lang="fr">Liste des jobs</label>
         <label id="list_jobs_title" lang="en">Jobs list</label>
         <label id="list_event_title" lang="fr">Liste des events</label>
@@ -154,9 +154,9 @@
         <label id="report_title" lang="en">Report</label>
         <label id="ID" lang="fr">ID</label>
         <label id="ID" lang="en">ID</label>
-        
-        
-        
+
+
+
         <!-- Form fields -->
         <label id="submit_button" lang="fr">Envoyer</label>
         <label id="submit_button" lang="en">Submit</label>
@@ -279,7 +279,7 @@
         <label id="cannot_delete_external" lang="fr">Vous ne pouvez pas supprimer un lien externe.</label>
         <label id="cannot_delete_external" lang="en">You cannot delete a external link.</label>
         <label id="link_error" lang="fr">Utilisateur inconnu ou déjà présent.</label>
-        <label id="link_error" lang="en">Unknown user or already present.</label>        
+        <label id="link_error" lang="en">Unknown user or already present.</label>
         <label id="remove_admin" lang="fr">Enlever l'accès</label>
         <label id="remove_admin" lang="en">Remove access</label>
         <label id="add_admin" lang="fr">Ajouter</label>
@@ -297,7 +297,7 @@
         <label id="previous" lang="fr">Précédent</label>
         <label id="previous" lang="en">Previous</label>
         <label id="today" lang="fr">Aujourd'hui</label>
-        <label id="today" lang="en">Today</label> 
+        <label id="today" lang="en">Today</label>
         <label id="skip" lang="fr">Ignorer les tests</label>
         <label id="skip" lang="en">Skip tests</label>
         <label id="finish" lang="fr">Terminer</label>
@@ -305,28 +305,28 @@
         <label id="retry" lang="fr">Réessayer</label>
         <label id="retry" lang="en">Retry</label>
         <label id="password" lang="fr">Mot de passe</label>
-        <label id="password" lang="en">Password</label>   
-        <label id="delete" lang="fr">Supprimer</label>   
-        <label id="delete" lang="en">Delete</label>        
-        <label id="push_changes" lang="fr">Envoyer changements</label>   
-        <label id="push_changes" lang="en">Push changes</label>        
-        <label id="push_changes_title" lang="fr">Envoyer changements aux recorders et au manager</label>   
-        <label id="push_changes_title" lang="en">Push changes to recorders and manager</label>        
-        <label id="sync_externals" lang="fr">Synchro externes</label>   
-        <label id="sync_externals" lang="en">Sync externals</label>   
-        <label id="db_updater" lang="en">DB Updater</label>   
-        <label id="db_updater" lang="fr">Mise à jour DB</label>            
-        <label id="unsaved_changes" lang="fr">non-sauvegardé</label>   
-        <label id="unsaved_changes" lang="en">unsaved changes</label>  
-        <label id="teacher_assign" lang="fr">Avec prof</label>  
+        <label id="password" lang="en">Password</label>
+        <label id="delete" lang="fr">Supprimer</label>
+        <label id="delete" lang="en">Delete</label>
+        <label id="push_changes" lang="fr">Envoyer changements</label>
+        <label id="push_changes" lang="en">Push changes</label>
+        <label id="push_changes_title" lang="fr">Envoyer changements aux recorders et au manager</label>
+        <label id="push_changes_title" lang="en">Push changes to recorders and manager</label>
+        <label id="sync_externals" lang="fr">Synchro externes</label>
+        <label id="sync_externals" lang="en">Sync externals</label>
+        <label id="db_updater" lang="en">DB Updater</label>
+        <label id="db_updater" lang="fr">Mise à jour DB</label>
+        <label id="unsaved_changes" lang="fr">non-sauvegardé</label>
+        <label id="unsaved_changes" lang="en">unsaved changes</label>
+        <label id="teacher_assign" lang="fr">Avec prof</label>
         <label id="teacher_assign" lang="en">With prof</label>
-        <label id="with_teacher" lang="fr">Oui</label>  
-        <label id="with_teacher" lang="en">Yes</label>    
+        <label id="with_teacher" lang="fr">Oui</label>
+        <label id="with_teacher" lang="en">Yes</label>
         <label id="without_teacher" lang="fr">Non</label>
         <label id="without_teacher" lang="en">No</label>
-        <label id="users_category" lang="fr">Utilisateurs</label>  
-        <label id="users_category" lang="en">Users</label>  
-        <label id="list_users" lang="fr">Liste utilisateurs</label>  
+        <label id="users_category" lang="fr">Utilisateurs</label>
+        <label id="users_category" lang="en">Users</label>
+        <label id="list_users" lang="fr">Liste utilisateurs</label>
         <label id="list_users" lang="en">User list</label>
         <label id="room_enable_error" lang="fr">Impossible de changer l'état de cet auditoire.</label>
         <label id="room_enable_error" lang="en">Impossible to change the state of this room.</label>
@@ -420,6 +420,8 @@
         <label id="frozen" lang="en">Frozen</label>
         <label id="increase_priority" lang="fr">Augmenter la priorité</label>
         <label id="increase_priority" lang="en">Increase priority</label>
+        <label id="install_classroom" lang="fr">Installer auditoire</label>
+        <label id="install_classroom" lang="en">Install classroom</label>
         <label id="decrease_priority" lang="fr">Diminuer la priorité</label>
         <label id="decrease_priority" lang="en">Decrease priority</label>
         <label id="freeze_job" lang="fr">Arrêter le job</label>
@@ -453,19 +455,21 @@
         <label id="classroom_view_log" lang="fr">Voir les logs</label>
         <label id="classroom_view_log" lang="en">View log</label>
         <label id="create_classroom" lang="fr">Créer auditoire</label>
-        <label id="create_classroom" lang="en">Create classroom</label>     
+        <label id="create_classroom" lang="en">Create classroom</label>
         <label id="create_renderer" lang="fr">Créer renderer</label>
-        <label id="create_renderer" lang="en">Create renderer</label>      
+        <label id="create_renderer" lang="en">Create renderer</label>
         <label id="create_renderer_step_1" lang="fr">Créer renderer</label>
-        <label id="create_renderer_step_1" lang="en">Create renderer</label>      
+        <label id="create_renderer_step_1" lang="en">Create renderer</label>
         <label id="create_renderer_step_2" lang="fr">Créer renderer > Configuration SSH</label>
-        <label id="create_renderer_step_2" lang="en">Create renderer > SSH configuration</label>   
+        <label id="create_renderer_step_2" lang="en">Create renderer > SSH configuration</label>
         <label id="create_renderer_step_3" lang="fr">Créer renderer > Informations supplémentaires</label>
-        <label id="create_renderer_step_3" lang="en">Create renderer > Additional information</label>   
+        <label id="create_renderer_step_3" lang="en">Create renderer > Additional information</label>
         <label id="create_renderer_step_4" lang="fr">Créer renderer > Installation</label>
-        <label id="create_renderer_step_4" lang="en">Create renderer > Installation</label>        
+        <label id="create_renderer_step_4" lang="en">Create renderer > Installation</label>
         <label id="cancel" lang="fr">Annuler</label>
         <label id="cancel" lang="en">Cancel</label>
+        <label id="confirm_modification" lang="fr">Êtes-vous sûr de vouloir appliquer ces changements ?</label>
+        <label id="confirm_modification" lang="en">Are you sure you want to apply these changes?</label>
         <label id="delete_confirm" lang="fr">Etes vous sûr de vouloir supprimer cet élément ?</label>
         <label id="delete_confirm" lang="en">Are you sure you want to delete this item ?</label>
         <label id="unknown_user" lang="fr">n'est pas un utilisateur valide. Essaye encore.</label>
@@ -522,18 +526,18 @@
         <label id="monit_error_param" lang="en">An error occured with parameters</label>
         <label id="monit_nbr_week" lang="fr">Nombre de semaines</label>
         <label id="monit_nbr_week" lang="en">Number of weeks</label>
-        <label id="classroom_not_display_date" lang="fr">Les assets suivants ne sont pas être affiché car ils 
+        <label id="classroom_not_display_date" lang="fr">Les assets suivants ne sont pas être affiché car ils
             s'étalent sur plusieurs jours: </label>
-        <label id="classroom_not_display_date" lang="en">The following assets can not be displayed because 
+        <label id="classroom_not_display_date" lang="en">The following assets can not be displayed because
             they are spread over several days: </label>
-        <label id="classroom_not_display_short_record" lang="fr">Les assets suivants ne sont pas être affiché car ils 
+        <label id="classroom_not_display_short_record" lang="fr">Les assets suivants ne sont pas être affiché car ils
             sont trop courts: </label>
-        <label id="classroom_not_display_short_record" lang="en">The following assets can not be displayed because 
+        <label id="classroom_not_display_short_record" lang="en">The following assets can not be displayed because
             they are too small: </label>
         <label id="calendar_no_result" lang="fr">Aucun résultat à afficher</label>
         <label id="calendar_no_result" lang="en">No result</label>
-        
-            
+
+
         <!-- Calendar informations -->
         <label id="calendar_year" lang="fr">Année</label>
         <label id="calendar_year" lang="en">Year</label>
@@ -583,9 +587,9 @@
         <label id="calendar_november" lang="en">November</label>
         <label id="calendar_december" lang="fr">Decembre</label>
         <label id="calendar_december" lang="en">December</label>
-        
-        
-        
+
+
+
         <!-- Install -->
         <label id="install_page_title" lang="fr">Installation EZcast</label>
         <label id="install_page_title" lang="en">Install EZcast</label>
@@ -681,9 +685,9 @@
         <label id="stats_total" lang="en">Total</label>
         <label id="stats_average" lang="fr">Moyenne</label>
         <label id="stats_average" lang="en">Average</label>
-        
-        
-        
+
+
+
         <!-- Report -->
         <label id="report_form_general" lang="fr">Général</label>
         <label id="report_form_general" lang="en">General</label>
@@ -781,11 +785,11 @@
         <label id="report_os" lang="en">Operating system</label>
         <label id="report_row_list_album" lang="fr">Albums consultés pour la période donnée (parcourir l'album, sans forcément cliquer sur un asset)</label>
         <label id="report_row_list_album" lang="en">Albums browsed for the given period (the album cover, without necessarily clicking an asset)</label>
-        <label id="report_row_album_click" lang="fr">Albums contenant au moins un asset ayant été consulté pour la période donnée.</label> 
+        <label id="report_row_album_click" lang="fr">Albums contenant au moins un asset ayant été consulté pour la période donnée.</label>
         <label id="report_row_album_click" lang="en">Number of different albums containing at least one asset that was consulted for the given period.</label>
-        <label id="report_row_album_click_info" lang="fr">Contrairement aux albums consultés, qui peuvent avoir été parcourus sans avoir cliqué sur 
+        <label id="report_row_album_click_info" lang="fr">Contrairement aux albums consultés, qui peuvent avoir été parcourus sans avoir cliqué sur
             aucune vidéo, ce nombre-ci ne tient compte que des albums dans lesquels au moins un utilisateur a consulté au moins un asset.</label>
-        <label id="report_row_album_click_info" lang="en">Unlike consulted albums, which may have been viewed without clicking any video, 
+        <label id="report_row_album_click_info" lang="en">Unlike consulted albums, which may have been viewed without clicking any video,
             that number will consider only the albums with at least one user which has consulted at least one asset.</label>
         <label id="report_row_nbr_unique_asset" lang="fr">Assets consultés pour la période donnée</label>
         <label id="report_row_nbr_unique_asset" lang="en">Assets found for given period</label>
@@ -825,41 +829,41 @@
         <label id="report_os_graphic" lang="en">Used operator system</label>
         <label id="report_browser_graphic" lang="fr">Navigateur utilisé</label>
         <label id="report_browser_graphic" lang="en">Used browser</label>
-        
-        
-        
+
+
+
         <!-- Long texts -->
-        <label id="Logout_confirmation_message" lang="fr">Vous êtes maintenant déconnecté.&lt;br /&gt;Merci d'avoir utilisé nos services, 
+        <label id="Logout_confirmation_message" lang="fr">Vous êtes maintenant déconnecté.&lt;br /&gt;Merci d'avoir utilisé nos services,
             et à bientôt.&lt;br /&gt;&lt;br /&gt;&lt;a href="index.php">Revenir à la page de connexion&lt;/a&gt;</label>
         <label id="Logout_confirmation_message" lang="en">You are now logged out.&lt;br /&gt;Thanks for using our services, see you soon.
             &lt;br /&gt;&lt;br /&gt;&lt;a href="index.php"&gt;Back to the login form.&lt;/a&gt;</label>
-        <label id="create_renderer_step_2_message" lang="fr">Ajoutez la &lt;b&gt;clé publique&lt;/b&gt; affichée ci-dessous sur le serveur 
-            distant (renderer) dans &lt;b&gt;~&lt;?php echo $_SESSION['renderer_user'];?&gt;/.ssh/authorized_keys&lt;/b&gt; 
+        <label id="create_renderer_step_2_message" lang="fr">Ajoutez la &lt;b&gt;clé publique&lt;/b&gt; affichée ci-dessous sur le serveur
+            distant (renderer) dans &lt;b&gt;~&lt;?php echo $_SESSION['renderer_user'];?&gt;/.ssh/authorized_keys&lt;/b&gt;
             et cliquez sur "Suivant" pour tester la connexion SSH.</label>
-        <label id="create_renderer_step_2_message" lang="en">Add the following &lt;b&gt;public key&lt;/b&gt; in 
-            &lt;b&gt;~&lt;?php echo $_SESSION['renderer_user'];?&gt;/.ssh/authorized_keys&lt;/b&gt;on the remote server (renderer) 
+        <label id="create_renderer_step_2_message" lang="en">Add the following &lt;b&gt;public key&lt;/b&gt; in
+            &lt;b&gt;~&lt;?php echo $_SESSION['renderer_user'];?&gt;/.ssh/authorized_keys&lt;/b&gt;on the remote server (renderer)
             and click "Continue" to test the SSH connection.</label>
         <label id="create_renderer_step_2_loading" lang="fr">Vérification de la connexion SSH avec le serveur distant (renderer)</label>
         <label id="create_renderer_step_2_loading" lang="en">Checking SSH connection to the remote server (renderer)</label>
-        <label id="create_renderer_step_2_wait" lang="fr">Ceci peut prendre jusqu'à &lt;?php echo $ssh_timeout;?&gt; secondes. 
+        <label id="create_renderer_step_2_wait" lang="fr">Ceci peut prendre jusqu'à &lt;?php echo $ssh_timeout;?&gt; secondes.
             Veuillez ne pas rafraichir la page.</label>
-        <label id="create_renderer_step_2_wait" lang="en">This may last up to &lt;?php echo $ssh_timeout;?&gt; seconds. Please, 
+        <label id="create_renderer_step_2_wait" lang="en">This may last up to &lt;?php echo $ssh_timeout;?&gt; seconds. Please,
             do not refresh the page.</label>
         <label id="ssh_connection_success" lang="fr">Connexion SSH au serveur distant (renderer) réussie !</label>
         <label id="ssh_connection_success" lang="en">Successfully connected via SSH to the remote server (renderer) !</label>
         <label id="create_renderer_step_3_loading" lang="fr">Vérification de la configuration du serveur distant (renderer)</label>
         <label id="create_renderer_step_3_loading" lang="en">Checking configuration of the remote server (renderer)</label>
-        <label id="create_renderer_step_3_wait" lang="fr">Ceci peut prendre jusqu'à &lt;?php echo $ssh_timeout;?&gt; secondes. 
+        <label id="create_renderer_step_3_wait" lang="fr">Ceci peut prendre jusqu'à &lt;?php echo $ssh_timeout;?&gt; secondes.
             Veuillez ne pas rafraichir la page.</label>
-        <label id="create_renderer_step_3_wait" lang="en">This may last up to &lt;?php echo $ssh_timeout;?&gt; seconds. 
+        <label id="create_renderer_step_3_wait" lang="en">This may last up to &lt;?php echo $ssh_timeout;?&gt; seconds.
             Please, do not refresh the page.</label>
         <label id="configuration_success" lang="fr">Les tests de configuration du serveur distant (renderer) ont réussi !</label>
         <label id="configuration_success" lang="en">Configuration tests on the remote server (renderer) have been successful !</label>
         <label id="create_renderer_step_4_message" lang="fr">Le programme va maintenant: </label>
         <label id="create_renderer_step_4_message" lang="en">The program is now going to: </label>
-        <label id="create_renderer_step_4_copy" lang="fr">Copier les fichiers d'installation d'EZrenderer sur le serveur distant 
+        <label id="create_renderer_step_4_copy" lang="fr">Copier les fichiers d'installation d'EZrenderer sur le serveur distant
             [&lt;?php echo $_SESSION['renderer_root_path'];?&gt;]</label>
-        <label id="create_renderer_step_4_copy" lang="en">Copy EZrenderer installation files on the remote server 
+        <label id="create_renderer_step_4_copy" lang="en">Copy EZrenderer installation files on the remote server
             [&lt;?php echo $_SESSION['renderer_root_path'];?&gt;]</label>
         <label id="create_renderer_step_4_install" lang="fr">Installer EZrenderer sur le serveur distant (renderer)</label>
         <label id="create_renderer_step_4_install" lang="en">Install EZrenderer on the remote server (renderer) </label>
@@ -955,31 +959,128 @@
         <label id="monit_help_status_manual" lang="en">Manual</label>
         <label id="monit_help_parent_define" lang="fr">Le statut de l'asset actuel sera automatiquement mis en Ignorer</label>
         <label id="monit_help_parent_define" lang="en">The status of the current asset will be automatically set to Ignore</label>
-        <label id="monit_warning_cron" lang="fr">Attention, aucun statut n'a été posté depuis un certains temps. Vérifiez que la tache "cron" est 
+        <label id="monit_warning_cron" lang="fr">Attention, aucun statut n'a été posté depuis un certains temps. Vérifiez que la tache "cron" est
             toujours activée.&lt;br /&gt;
-            Si elle était désactivée, exécutez le script: 
+            Si elle était désactivée, exécutez le script:
             &lt;code&gt;php &lt;?php echo $ezmanager_basedir; ?&gt;cli_fill_assets_status.php all&lt;/code&gt;
         </label>
-        <label id="monit_warning_cron" lang="en">Warning, no status has been posted for a certaine time. Check the 
+        <label id="monit_warning_cron" lang="en">Warning, no status has been posted for a certaine time. Check the
             "cron" task.&lt;br /&gt;
-            If it was disabled, run this script: 
+            If it was disabled, run this script:
             &lt;code&gt;php &lt;?php echo $ezmanager_basedir; ?&gt;cli_fill_assets_status.php all&lt;/code&gt;
         </label>
-        
+
         <!-- Version -->
         <label id="new_config_version" lang="fr">Votre configuration n\'est pas à jour !</label>
         <label id="new_config_version" lang="en">Your configuration is not up to date</label>
-        <label id="config_more_recent_version" lang="fr">Votre configuration est en avance par rapport à la 
+        <label id="config_more_recent_version" lang="fr">Votre configuration est en avance par rapport à la
             version installée</label>
         <label id="config_more_recent_version" lang="en">Your configuration is ahead of the installed version</label>
-        
-        
+
+
         <!-- Error -->
         <label id="error" lang="fr">Erreur</label>
         <label id="error" lang="en">Error</label>
         <label id="alert_pass_not_defined" lang="fr">Mot de passe non défini</label>
         <label id="alert_pass_not_defined" lang="en">No password defined</label>
-        
+
+        <!-- Recorder configuration -->
+        <label id="recorder_config" lang="fr">Configuration EZrecorder</label>
+        <label id="recorder_config" lang="en">EZrecorder configuration</label>
+
+        <label id="recorder_error_edit" lang="fr">Cette machine est occupée à enregistrer, il n'est pas possible de modifier ces configurations pour le moment.</label>
+        <label id="recorder_error_edit" lang="en">This machine is recording now, it will not be possible to modify the configuration file for the moment. </label>
+
+        <label id="recorder_cam_config" lang="fr">Configuration capture caméra</label>
+        <label id="recorder_cam_config" lang="en">Camera capture configuration</label>
+
+        <label id="recorder_cam_module" lang="fr">Module caméra</label>
+        <label id="recorder_cam_module" lang="en">Camera module</label>
+
+        <label id="recorder_enable_cam" lang="fr">Activer la caméra</label>
+        <label id="recorder_enable_cam" lang="en">Enable camera</label>
+
+        <label id="recorder_cam_lib" lang="fr">Répertoire bibliothèque capture caméra</label>
+        <label id="recorder_cam_lib" lang="en">Capture library camera directory</label>
+
+        <label id="recorder_cam_management_enabled" lang="fr">Activer controle caméra</label>
+        <label id="recorder_cam_management_enabled" lang="en">Enable camera management</label>
+
+        <label id="recorder_cam_management_lib" lang="fr">Module controle caméra</label>
+        <label id="recorder_cam_management_lib" lang="en">Camera management module</label>
+
+        <label id="recorder_cam_management_views_dir" lang="fr">Répertoire des vues camera</label>
+        <label id="recorder_cam_management_views_dir" lang="en">Camera views directory</label>
+
+        <label id="recorder_slide_conf" lang="fr">Configuration capture slide</label>
+        <label id="recorder_slide_conf" lang="en">Slide capture configuration</label>
+
+        <label id="recorder_enable_slide" lang="fr">Activer le slide</label>
+        <label id="recorder_enable_slide" lang="en">Enable slide</label>
+
+        <label id="recorder_slide_module" lang="fr">Module slide</label>
+        <label id="recorder_slide_module" lang="en">Slide module</label>
+
+        <label id="recorder_slide_lib" lang="fr">Répertoire bibliothèque capture slide</label>
+        <label id="recorder_slide_lib" lang="en">Slide capture library directory</label>
+
+        <label id="recorder_sound_conf" lang="fr">Configuration capture son</label>
+        <label id="recorder_sound_conf" lang="en">Sound configuration capture</label>
+
+        <label id="recorder_enable_vu_meter" lang="fr">Activer le vu mètre du son</label>
+        <label id="recorder_enable_vu_meter" lang="en">Activate the sound meter</label>
+
+        <label id="recorder_sound_backup_module" lang="fr">Module backup son</label>
+        <label id="recorder_sound_backup_module" lang="en">Sound backup module</label>
+
+        <label id="recorder_sound_backup_lib" lang="fr">Répertoire bibliothèque backup son</label>
+        <label id="recorder_sound_backup_lib" lang="en">Backup sound library directory</label>
+
+        <label id="recorder_general_conf" lang="fr">Configuration générale</label>
+        <label id="recorder_general_conf" lang="en">General configuration</label>
+
+        <label id="recorder_classroom" lang="fr">Nom de la machine</label>
+        <label id="recorder_classroom" lang="en">Machine's name</label>
+
+        <label id="recorder_ezrecorder_ip" lang="fr">Adresse IP de la machine</label>
+        <label id="recorder_ezrecorder_ip" lang="en">IP address of the machine</label>
+
+        <label id="recorder_ezrecorder_username" lang="fr">Utilisateur EZrecorder</label>
+        <label id="recorder_ezrecorder_username" lang="en">EZrecorder user</label>
+
+        <label id="recorder_ezrecorder_recorddir" lang="fr">Répertoire EZrecorder</label>
+        <label id="recorder_ezrecorder_recorddir" lang="en">EZrecorder directory</label>
+
+        <label id="recorder_remote_recorder_ip" lang="fr">Adresse IP de la machine remote</label>
+        <label id="recorder_remote_recorder_ip" lang="en">IP address of remote machine</label>
+
+        <label id="recorder_external_remote_recorder_ip" lang="fr">Adresse IP de la machine à distance</label>
+        <label id="recorder_external_remote_recorder_ip" lang="en">IP address of remote external machine</label>
+
+        <label id="recorder_remote_recorder_username" lang="fr">Utilisateur EZrecorder machine remote</label>
+        <label id="recorder_remote_recorder_username" lang="en">EZrecorder external user machine</label>
+
+        <label id="recorder_web_basedir" lang="fr">Répertoire EZrecorder WEB</label>
+        <label id="recorder_web_basedir" lang="en">EZrecorder WEB Directory</label>
+
+        <label id="recorder_ezrecorder_web_user" lang="fr">Utilisateur apache</label>
+        <label id="recorder_ezrecorder_web_user" lang="en">Apache user</label>
+
+        <label id="recorder_ezcast_manager_url" lang="fr">EZmanager URL</label>
+        <label id="recorder_ezcast_manager_url" lang="en">EZmanager URL</label>
+
+        <label id="recorder_title_max_length" lang="fr">Longueur des titres max</label>
+        <label id="recorder_title_max_length" lang="en">Length of titles max</label>
+
+        <label id="recorder_restore_default" lang="fr">Restaurer les configurations par default</label>
+        <label id="recorder_restore_default" lang="en">Restore default configuration</label>
+
+        <label id="recorder_confirm_modifcations" lang="fr">Valider les modifications</label>
+        <label id="recorder_confirm_modifcations" lang="en">Save modifications</label>
+
+        <label id="recorder_check_modifcations" lang="fr">Les variables suivantes ont été modifiées, veuillez vérifier les modifications avant de les appliquer.</label>
+        <label id="recorder_check_modifcations" lang="en">The following variables have been changed, please verify modifications before applying them</label>
+
     </labels>
     
     <!-- Messages are texts that are dynamically generated (errors, etc.) -->
@@ -1173,6 +1274,10 @@
         <!-- Success -->
         <message id="save_successful" lang="fr">Changements sauvegardés</message>
         <message id="save_successful" lang="en">Saved changes</message>
+
+        <message id="recorder_folder_doesnot_exists" lang="fr">Impossible de créer le dossier EZrecorder.</message>
+        <message id="recorder_folder_doesnot_exists" lang="en">Couldn't create EZrecorder folder.</message>
+
     </messages>
     
     <!-- update 2016/07/15 -->

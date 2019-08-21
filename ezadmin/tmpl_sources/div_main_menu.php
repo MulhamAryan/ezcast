@@ -46,6 +46,10 @@ if ($classrooms_category_enabled) {
         array(
             'name' => '®create_classroom®',
             'action' => 'create_classroom'
+        ),
+        array(
+            'name' => '®install_classroom®',
+            'action' => 'install_classroom'
         )
     );
 }

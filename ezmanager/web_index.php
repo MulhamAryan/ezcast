@@ -280,6 +280,10 @@ else {
             requireController('asset_downloadable_set.php');
             break;
 
+        case 'asset_disable_media':
+            requireController('asset_disable_media.php');
+            break;
+
         case 'delete_asset':
             $service = true;
             requireController('asset_delete.php');
@@ -561,7 +565,7 @@ function user_login($login, $passwd)
         die;
     }
 
-     $res = checkauth(strtolower($login), $passwd);
+    $res = checkauth(strtolower($login), $passwd);
     if($res){
       //auth succeeded but if it is a runas, we still need to check if user is in admin.inc  
       $login_parts = explode("/", $login);
@@ -577,7 +581,7 @@ function user_login($login, $passwd)
         if (!isset($admin[$login_parts[0]])) {
             var_dump($admin);
             print "login_parts";
-                        var_dump($login_parts);die;
+            var_dump($login_parts);die;
             $error = "Not admin. runas login failed";
             view_login_form();
             die;
@@ -597,7 +601,10 @@ function user_login($login, $passwd)
     $_SESSION['user_real_login'] = $res['real_login'];
     $_SESSION['user_full_name'] = $res['full_name'];
     $_SESSION['user_email'] = $res['email'];
-    $_SESSION['termsOfUses'] = $res['termsOfUses'];
+
+    if(isset( $res['termsOfUses']) && $res['termsOfUses'] != '')
+        $_SESSION['termsOfUses'] = $res['termsOfUses'];
+
     if(isset( $res['user_is_admin']) && $res['user_is_admin'] != '')
         $_SESSION['user_is_admin'] = $res['user_is_admin'];
     
@@ -618,14 +625,13 @@ function user_login($login, $passwd)
     // 3) Setting correct language
     set_lang($input['lang']);
     if (count(acl_authorized_albums_list()) == 0 && (!isset($res['ismanager']) || $res['ismanager']!='true')) {
-        // if (count(acl_authorized_albums_list()) == 0) {
+        //if (count(acl_authorized_albums_list()) == 0) {
         error_print_message(template_get_message('not_registered', get_lang()), false);
         log_append('warning', $res['login'] . ' tried to access ezmanager but doesn\'t have permission to manage any album.');
         session_destroy();
-        
         //MOFIF !!!!!!!!!!!
-        header("Location: https://ezcast.uclouvain.be?noPerm"); 
-//        view_login_form();
+        //header("Location: $ezmanager_url?noPerm");
+        view_login_form();
         die;
     }
 
@@ -660,3 +666,4 @@ function private_asset_schedule_remove($album, $asset)
 
     ezmam_asset_metadata_set($album, $asset, $asset_meta);
 }
+

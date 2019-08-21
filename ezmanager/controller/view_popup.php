@@ -137,6 +137,7 @@ function popup_embed_code()
     global $ezmanager_url;
     global $distribute_url;
     global $embedIframed;
+    global $wifiPassword;
 
     ezmam_repository_path($repository_path);
     template_load_dictionnary('translations.xml');

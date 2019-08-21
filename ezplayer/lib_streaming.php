@@ -217,7 +217,7 @@ function asset_streaming_view($refresh_center = true)
     }
 
     if (!ezmam_asset_exists($album, $asset)) {
-        if ($input['click']) {
+        if (isset($input['click'])) {
             include_once template_getpath('error_asset_not_found.php');
         } else {
             $error_path = template_getpath('error_asset_not_found.php');
@@ -261,7 +261,7 @@ function asset_streaming_view($refresh_center = true)
     $_SESSION['ezplayer_mode'] = 'view_asset_streaming';
 
     if ($refresh_center) { // the whole page must be displayed
-        if ($input['click']) { // called from a local link
+        if (isset($input['click'])) { // called from a local link
             $origin = 'from_ezplayer';
             include_once template_getpath("div_streaming_center.php");
         } else {// called from the UV or a shared link

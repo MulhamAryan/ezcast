@@ -30,7 +30,7 @@
                 <?php
                 }
                 global $enable_ezplayer_audio_download;
-                if ($asset_meta['has_audio'] && $enable_ezplayer_audio_download) {
+                if (isset($asset_meta['has_audio']) && $asset_meta['has_audio'] && $enable_ezplayer_audio_download) {
                     $type = 'audio'.$asset_meta['record_type'];
                     ?>
                     <a class="button" 

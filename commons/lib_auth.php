@@ -50,9 +50,11 @@ foreach ($auth_methods as $method) {
  */
 function checkauth($login, $passwd)
 {
+    //return false;
     global $auth_methods;
     global $forbidden_users;    
-    
+    global $sso_only;
+
     $auth_methods_length = count($auth_methods);
     $login = trim($login);
 
@@ -63,8 +65,6 @@ function checkauth($login, $passwd)
 
         //check if runas admin login
         $login_parts = explode("/", $login);
-
-        
         //simple login
         if (count($login_parts) == 1) {
 
@@ -80,7 +80,7 @@ function checkauth($login, $passwd)
             if ($auth_user === false) {
                 checkauth_last_error("Authentication failure");
             }
-            $auth_user['user_is_admin']=isAdmin($login);
+
             // returns user info or false if user has not been found
             return $auth_user;
             // admin run as login
@@ -94,11 +94,12 @@ function checkauth($login, $passwd)
             $runas_login = $login_parts[1];
 
             $index = 0;
-            $auth_admin = false;
+            $auth_admin = false;  //default false
             
             if($sso_only)
                 $auth_admin = file_checkauth($real_login, $passwd);
-            else{               
+
+            else{
             // loops on every available methods to authenticate the admin
                 while ($index < $auth_methods_length && $auth_admin === false) {
                     $check_auth = $auth_methods[$index] . "_checkauth";
@@ -107,7 +108,6 @@ function checkauth($login, $passwd)
                 }
              }
 
-            
             // admin has not been authenticated
             if ($auth_admin === false) {
                 checkauth_last_error("Authentication failure");
@@ -129,7 +129,6 @@ function checkauth($login, $passwd)
                     $auth_user["real_login"] = $real_login;
                 }
                 // returns user info or false if user has not been found
-                $auth_user['user_is_admin']=isAdmin($real_login);
                 return $auth_user;
             }
         }

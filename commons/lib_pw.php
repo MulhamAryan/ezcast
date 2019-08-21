@@ -54,5 +54,5 @@ function pw_check($login,$clearpw,$encpw){
   if ($fpasswd == $cpasswd)
     return true;//good pw
    else
-    return false;  //bad pw 
+    return false;  //bad pw
 }

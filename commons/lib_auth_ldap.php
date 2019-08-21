@@ -40,7 +40,7 @@ function ldap_checkauth($login, $password)
 {
     global $ldap_servers_auth_json_file;
     global $ldap_institution;
-    
+
     $ldap_servers_auth = json_to_array($ldap_servers_auth_json_file);
 
     if (count($ldap_servers_auth) == 0) {
@@ -57,9 +57,9 @@ function ldap_checkauth($login, $password)
     } else {
         $link_identifier = private_ldap_connect($ldap_servers_auth, $index, $login, $password);
     }
-    
- 
- 
+
+
+
     // bind to ldap failed
     if ($link_identifier === false) {
         return false;
@@ -84,7 +84,7 @@ function ldap_checkauth($login, $password)
         $search_res = ldap_search($link_identifier, $treepath, $filter);
         $info = ldap_get_entries($link_identifier, $search_res);
     }
-    
+
     if ($info['count'] != 1) {
         checkauth_last_error("wrong search result count:" . $info['count']);
         return false;
@@ -93,8 +93,8 @@ function ldap_checkauth($login, $password)
     if (isset($info[0]['cn'][0])) {
         $userinfo['full_name'] = $info[0]['cn'][0];
     }
-    
-        
+
+
     // AJOUT UCL
     if (isset($info[0]['uclressource'])) {
         for ($i=0;$i<count($info[0]['uclressource']);$i++) {
@@ -103,8 +103,8 @@ function ldap_checkauth($login, $password)
             }
         }
     }
-    
-    
+
+
     if (isset($info[0]['mail'][0])) {
         $userinfo['email'] = $info[0]['mail'][0];
     }
@@ -126,7 +126,7 @@ function ldap_checkauth($login, $password)
 function ldap_getinfo($login)
 {
     global $ldap_servers_cred_json_file;
-    
+
     $ldap_servers_cred = json_to_array($ldap_servers_cred_json_file);
     if (count($ldap_servers_cred) == 0) {
         return false;
@@ -170,7 +170,7 @@ function ldap_getinfo($login)
         }
         $index++;
     } while (!$result);
-    
+
     return $userinfo;
 }
 
@@ -189,7 +189,7 @@ function private_ldap_connect($ldap_servers, &$index = 0, $login = "", $password
     if (!isset($index)) {
         $index = 0;
     }
-    
+
     $link_identifier = false;
     while ($index < $ldap_servers_count) {
         $rdn = str_replace("!LOGIN", $login, $ldap_servers[$index]["rdn"]);
@@ -218,7 +218,7 @@ function private_ldap_connect($ldap_servers, &$index = 0, $login = "", $password
     if ($link_identifier) {
         ldap_close($link_identifier);
     }
-        
+
     return false;
 }
 

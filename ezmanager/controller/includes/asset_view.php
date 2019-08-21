@@ -55,12 +55,13 @@ function asset_view()
     //
     // 2) Now we can set up the variables used in the template
     //
+
     $asset_name = $asset; // "Technical" asset name
     $author = $asset_metadata['author']; // Asset author
     $title = $asset_metadata['title']; // "user-friendly" asset name (title)
     $description = $asset_metadata['description']; // Asset description
     $date = get_user_friendly_date($asset_metadata['record_date'], ' ', true, get_lang(), true); // Recording date, i.e. asset creation date
-    $origin = (isset($asset_metadata) ? $asset_metadata['origin'] : '');
+    $origin = (isset($asset_metadata['origin']) ? $asset_metadata['origin'] : '');
     $status = (isset($asset_metadata['status']) ? $asset_metadata['status'] : '');
     $public_album = album_is_public($album); // Whether the album the asset is public or not
     $has_cam = (strpos($asset_metadata['record_type'], 'cam') !== false); // Whether or not the asset has a "live-action" video
@@ -72,9 +73,19 @@ function asset_view()
     $asset_sched_id = isset($asset_metadata['schedule_id']) ? $asset_metadata['schedule_id'] : false;
     // Filling in the data about the media
     // all you want to know about high res camera video
+    if ($asset_metadata['record_type'] == 'camslide' || $asset_metadata['record_type'] == 'cam') {
+        $asset_metadata['high_cam_src'] = get_link_to_media($album, $asset, 'high_cam');
+        $asset_metadata['low_cam_src'] = get_link_to_media($album, $asset, 'low_cam');
+        $asset_metadata['src'] = $asset_metadata['low_cam_src'] . '&origin=ezmanager';
+    }
+
+    if ($asset_metadata['record_type'] == 'camslide' || $asset_metadata['record_type'] == 'slide') {
+        $asset_metadata['high_slide_src'] = get_link_to_media($album, $asset, 'high_slide');
+        $asset_metadata['low_slide_src'] = get_link_to_media($album, $asset, 'low_slide');
+        $asset_metadata['src'] = $asset_metadata['low_slide_src'] . '&origin=ezmanager';
+    }
     if (isset($media_metadata['high_cam'])) {
-        $filesize_cam['HD'] = (isset($media_metadata['high_cam']['file_size']) ?
-                                        $media_metadata['high_cam']['file_size'] : '');
+        $filesize_cam['HD'] = (isset($media_metadata['high_cam']['file_size']) ? $media_metadata['high_cam']['file_size'] : '');
         $dimensions_cam['HD'] = $media_metadata['high_cam']['width'] . ' x ' . $media_metadata['high_cam']['height'];
         //not used // $format_cam = $media_metadata['high_cam']['videocodec'];
     }
@@ -136,9 +147,9 @@ function asset_view()
 
     $file_name = '';
     if ($origin == 'SUBMIT') {
-        if ($asset_metadata['submitted_cam'] != '' && $asset_metadata['submitted_slide'] != '') {
+        if (isset($asset_metadata['submitted_cam']) || $asset_metadata['submitted_cam'] != '' && isset($asset_metadata['submitted_slide']) || $asset_metadata['submitted_slide'] != '') {
             $file_name = $asset_metadata['submitted_cam'] . ' & ' . $asset_metadata['submitted_slide'];
-        } elseif ($asset_metadata['submitted_cam'] != '') {
+        } elseif (isset($asset_metadata['submitted_cam']) || $asset_metadata['submitted_cam'] != '') {
             $file_name = $asset_metadata['submitted_cam'];
         } else {
             $file_name = $asset_metadata['submitted_slide'];

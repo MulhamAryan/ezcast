@@ -17,7 +17,7 @@ if (!isset($recorder_array))
 {
     $list=db_classrooms_list();
     foreach ($list as $room) {
-        if (empty($room[user_name])){
+        if (empty($room["user_name"])){
             $recorder_array[$room['IP']]['user']=$recorder_user;
             $recorder_array[$room['IP']]['basedir']=$recorder_basedir;
             $recorder_array[$room['IP']]['subdir']=$recorder_subdir;
@@ -215,9 +215,9 @@ function streaming_init()
     global $repository_path;
     global $transcodeStreaming;
     global $externalClients;
-    
+
     global $logger;
-    
+
     ezmam_repository_path($repository_path);
 
     $course = $input['course']; // current $course
@@ -230,16 +230,16 @@ function streaming_init()
     $quality = $input['module_quality'];
     //
     $logger->log(EventType::MANAGER_REQUEST_FROM_RECORDER, LogLevel::INFO, "Received streaming init request for course $course, asset $asset, classroom $classroom, author $netid", array(__FUNCTION__));
-    
-    $stream_name = 'stream_'.$asset;
+
+    $stream_name = 'stream_' . $asset;
     $status = 'open';
-    
+
     // gets information about current streams
     $streams_array = db_get_stream_info($course, $asset);
     if ($streams_array == null) {
         $streams_array = array();
     }
-    
+
     if (!isset($streams_array[$course][$asset])) {
         // creates a new entry in the streams array for the current stream
         // prepares asset metadata
@@ -281,17 +281,22 @@ function streaming_init()
             print "Unknown protocol $protocol";
             return false;
     }
-    
+
     //default to NULL in db
     $server = isset($streams_array[$course][$asset][$module_type]['server']) ?
-            $streams_array[$course][$asset][$module_type]['server'] : null;
-    $port   = isset($streams_array[$course][$asset][$module_type]['port'])  ?
-            $streams_array[$course][$asset][$module_type]['port']   : null;
-    
-    $res = db_stream_create($course, $asset, $classroom, $record_type, $netid, $stream_name, $token, $module_type, $caller_ip, $status, $quality, $protocol, $server, $port);
-    if (!$res) {
-        $logger->log(EventType::MANAGER_REQUEST_FROM_RECORDER, LogLevel::ERROR, "Failed to create stream in database for course $course, asset $asset, classroom $classroom, module $module_type", array(__FUNCTION__));
-        return false;
+        $streams_array[$course][$asset][$module_type]['server'] : null;
+    $port = isset($streams_array[$course][$asset][$module_type]['port']) ?
+        $streams_array[$course][$asset][$module_type]['port'] : null;
+    if ($record_type == "camslide"){
+        $res1 = db_stream_create($course, $asset, $classroom, "cam", $netid, $stream_name, $token, "cam", $caller_ip, $status, $quality, $protocol, $server, $port);
+        $res2 = db_stream_create($course, $asset, $classroom, "slide", $netid, $stream_name, $token, "slide", $caller_ip, $status, $quality, $protocol, $server, $port);
+    }
+    else {
+        $res = db_stream_create($course, $asset, $classroom, $record_type, $netid, $stream_name, $token, $module_type, $caller_ip, $status, $quality, $protocol, $server, $port);
+        if (!$res) {
+            $logger->log(EventType::MANAGER_REQUEST_FROM_RECORDER, LogLevel::ERROR, "Failed to create stream in database for course $course, asset $asset, classroom $classroom, module $module_type", array(__FUNCTION__));
+            return false;
+        }
     }
     
     if($transcodeStreaming){

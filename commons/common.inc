@@ -16,7 +16,7 @@ $ezplayer_basedir = $basedir . '/ezplayer/'; // Path from the root to the source
 $ezadmin_basedir = $basedir . '/ezadmin/'; 
 
 if($debug_mode) {
-    error_reporting(E_ALL); 
+    error_reporting(E_ALL ^ E_NOTICE);
     ini_set("display_errors", 1);
 }
 

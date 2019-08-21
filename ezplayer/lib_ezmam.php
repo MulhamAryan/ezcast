@@ -1575,7 +1575,7 @@ function ezmam_media_submit_create_metadata($tmp_name, $metadata)
  */
 function metadata2assoc_array($meta_path)
 {
-    @ $xml = simplexml_load_file($meta_path);
+    @$xml = simplexml_load_file($meta_path);
     if ($xml === false) {
         return false;
     }

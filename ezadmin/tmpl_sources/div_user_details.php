@@ -169,7 +169,7 @@
 
             <?php if ($origin == 'internal') {
                             ?>
-                <button type="submit" name="delete" value="®delete®" onClick="confirm('®delete_confirm®')" class="btn btn-block btn-danger delete_button"/>
+                <button type="submit" name="delete" value="®delete®" onClick="return confirm('®delete_confirm®')" class="btn btn-block btn-danger delete_button"/>
                 ®delete®
                 </button>
             <?php
