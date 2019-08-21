@@ -24,4 +24,5 @@
 ./log
 **/.php_cs.cache
 **/checked_file.txt
+commons/api.credentials.json
 cli_woluwe_generate_rss.sh
