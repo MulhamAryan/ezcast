@@ -95,7 +95,7 @@ It allows to select all albums needed to be shown in ezrecorder in classrooms an
             </div>
             <div class="form-group" id="course_code_line">
                 <label for="course_code" id="labelcodeCours" class="col-sm-3 control-label">®wifiPw®</label>
-                <div class="col-sm-8" style="color: #FF0000;">podulbcast011</div>
+                <div class="col-sm-8" style="color: #FF0000;"><?php echo $wifiPassword; ?></div>
             </div>
             <div class="form-group">
                 <div class="modal-footer">
