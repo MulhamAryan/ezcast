@@ -137,7 +137,6 @@ function popup_embed_code()
     global $ezmanager_url;
     global $distribute_url;
     global $embedIframed;
-    global $wifiPassword;
 
     ezmam_repository_path($repository_path);
     template_load_dictionnary('translations.xml');
@@ -273,6 +272,8 @@ function popup_new_album()
 
 function popup_ezrecorder()
 {
+    global $wifiPassword;
+
     //$not_created_albums_with_descriptions = acl_authorized_albums_list_not_created(true); // Used to display the popup_new_album
     $album= acl_authorized_albums_list_created($assoc = false);
     $album_view=array();
