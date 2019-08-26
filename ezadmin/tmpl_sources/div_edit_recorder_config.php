@@ -1,4 +1,18 @@
-<div class="page_title">®recorder_config® : <?php echo $room_ip;?></div>
+<div class="page_title">
+    <?php
+        if(empty($result)){?>
+
+            <div class="alert alert-danger">®classroom_doesnt_exist®</div>
+
+            <?php die(); }
+    ?>
+    ®recorder_config® :
+    <?php
+        echo $room_ID . ' | MASTER MACHINE IP : ' . $masterIP ;
+        if($slave_exist)
+            echo ' | REMOTE MACHINE IP : ' . $slaveIP;
+    ?>
+</div>
 <?php
     if($status == false) { ?>
     <div class="alert alert-danger">®recorder_error_edit®</div>

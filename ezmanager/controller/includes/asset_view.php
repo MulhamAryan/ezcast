@@ -147,9 +147,9 @@ function asset_view()
 
     $file_name = '';
     if ($origin == 'SUBMIT') {
-        if (isset($asset_metadata['submitted_cam']) || $asset_metadata['submitted_cam'] != '' && isset($asset_metadata['submitted_slide']) || $asset_metadata['submitted_slide'] != '') {
+        if (isset($asset_metadata['submitted_cam']) && isset($asset_metadata['submitted_slide'])) {
             $file_name = $asset_metadata['submitted_cam'] . ' & ' . $asset_metadata['submitted_slide'];
-        } elseif (isset($asset_metadata['submitted_cam']) || $asset_metadata['submitted_cam'] != '') {
+        } elseif (isset($asset_metadata['submitted_cam'])) {
             $file_name = $asset_metadata['submitted_cam'];
         } else {
             $file_name = $asset_metadata['submitted_slide'];

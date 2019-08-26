@@ -41,7 +41,7 @@ if ($classrooms_category_enabled) {
     $options['Classrooms'] = array(
         array(
             'name' => '®list_classrooms®',
-            'action' => 'view_classrooms'
+            'action' => 'view_classrooms&post'
         ),
         array(
             'name' => '®create_classroom®',
