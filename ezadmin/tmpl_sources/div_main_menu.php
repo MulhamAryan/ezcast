@@ -5,6 +5,7 @@ global $recorders_category_enabled;
 
 $threshold_num_options = 100; // The number of options in the sidebar above which we choose to collapse the categories together
 
+
 // Each element is a category in the list; each element of the subarray
 // is an entry in the category. Syntax: $options[category][webobject]=text (shown)
 // IMPORTANT NOTE: webobjects ending in _list means the page is a list

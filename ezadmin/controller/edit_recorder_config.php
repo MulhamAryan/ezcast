@@ -176,7 +176,7 @@ function index($param = array())
             }
             if (!file_exists($ezadmin_basedir. "var/ezrecorder_config_restore/$masterIP.config.inc"))
                 file_put_contents($ezadmin_basedir . "var/ezrecorder_config_restore/$masterIP.config.inc", $config);
-            
+
         }
     }
     include template_getpath('div_main_header.php');
