@@ -4,9 +4,7 @@
 class ssh_connect
 {
     public $ip_master;
-
     public $ip_slave;
-
     public $album;
 
     function __construct($ip_master,$client, $album = null, $ip_slave = null)
