@@ -1,6 +1,6 @@
 <?php
 
-use InvalidArgumentException;
+//use InvalidArgumentException;
 
 class DeviceDetector implements DetectorInterface
 {
