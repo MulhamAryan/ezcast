@@ -246,8 +246,8 @@ function fetch_record_from($download_info_array, $dest_dir, $camslide)
     print date($dir_date_format) . "\n";
     switch ($download_protocol) {
         case "rsync":
-//            $remote_ip = $download_info_array['ip'];
-            $remote_ip = $caller_ip;
+            $remote_ip = $download_info_array['ip'];
+            //$remote_ip = $caller_ip;
             $remote_username = $download_info_array['username'];
             if (!isset($remote_ip) || $remote_ip == '' || !isset($remote_username) || $remote_username == '') {
                 $logger->log(EventType::MANAGER_UPLOAD_TO_EZCAST, LogLevel::CRITICAL, "Error : missing required param : rsync -e ssh -tv --partial-dir=<DIR> <REMOTE_USERNAME>@<REMOTE_IP>:<FILENAME> <DEST_DIR>", array(basename(__FILE__)), $asset);
