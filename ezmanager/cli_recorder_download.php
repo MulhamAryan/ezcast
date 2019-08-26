@@ -13,7 +13,7 @@ if (!isset($recorder_array))
 {
     $list=db_classrooms_list();
     foreach ($list as $room) {
-        if (empty($room[user_name])){
+        if (empty($room["user_name"])){
             $recorder_array[$room['IP']]['user']=$recorder_user;
             $recorder_array[$room['IP']]['basedir']=$recorder_basedir;
             $recorder_array[$room['IP']]['subdir']=$recorder_subdir;
@@ -204,7 +204,7 @@ else {
     $logger->log(EventType::MANAGER_UPLOAD_TO_EZCAST, LogLevel::NOTICE, "Asset download successfully finished", array(basename(__FILE__)), $asset);
 
     // Finalize recording on the remote recorder
-    $cmd = "$ssh_pgm -oBatchMode=yes $recorder_array[$caller_ip]['user']@$caller_ip \"$recorder_php_cli $recorder_basedir/cli_upload_finished.php $asset\"";
+    $cmd = "$ssh_pgm -oBatchMode=yes " . $recorder_array[$caller_ip]['user'] . "@$caller_ip \"$recorder_php_cli $recorder_basedir/cli_upload_finished.php $asset\"";
     $logger->log(EventType::MANAGER_UPLOAD_TO_EZCAST, LogLevel::DEBUG, "Calling recorder for assset finalization: $cmd", array(basename(__FILE__)), $asset);
     $output = system($cmd, $return_val);
     if ($return_val != 0) {
