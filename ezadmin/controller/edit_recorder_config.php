@@ -75,7 +75,7 @@ function index($param = array())
 
 
             $ssh_connect = new ssh_connect($masterIP, $recorder_user);
-            $config = $ssh_connect->command("cat $baseDir/global_config.inc", 2);
+            $config = $ssh_connect->command("cat $baseDir/global_config1.inc", 2);
 
             $classroom                   = get_string_between($config, '$classroom = ', ';');
             $ezrecorder_ip               = get_string_between($config, '$ezrecorder_ip = ', ';');
@@ -158,19 +158,19 @@ function index($param = array())
                 $_SESSION["new_config"] = $config;
             }
             if (isset($input["confirm_modification"])) {
-                $global_inc_new_name = time() . '.global_config.inc';
+                $global_inc_new_name = time() . '.global_config2.inc';
                 $tmp_config_file = $ezadmin_basedir . "var/ezrecorder_config_restore/tmp.$masterIP.config.inc";
                 file_put_contents($tmp_config_file, $_SESSION["new_config"]);
-                $ssh_connect->command('"mv /Library/ezrecorder/global_config.inc /Library/ezrecorder/etc/' . $global_inc_new_name . '"', 2);
-                exec('scp -o ConnectTimeout=10 ' . $ezadmin_basedir . 'var/ezrecorder_config_restore/tmp.' . $masterIP . '.config.inc podclient@' . $masterIP . ':/Library/ezrecorder/global_config.inc', $output, $return_var);
+                $ssh_connect->command('"mv /Library/ezrecorder/global_config3.inc /Library/ezrecorder/etc/' . $global_inc_new_name . '"', 2);
+                exec('scp -o ConnectTimeout=10 ' . $ezadmin_basedir . 'var/ezrecorder_config_restore/tmp.' . $masterIP . '.config.inc podclient@' . $masterIP . ':/Library/ezrecorder/global_config4.inc', $output, $return_var);
                 unlink($tmp_config_file);
                 $_SESSION["new_config"] = '';
                 header("LOCATION:index.php?action=edit_recorder_config&room_name=$room_name&sesskey=" . $input['sesskey'] . "&success=true");
             }
             if (isset($input["restore_default"])) {
-                $global_inc_new_name = time() . '.global_config.inc';
-                $ssh_connect->command('"mv /Library/ezrecorder/global_config.inc /Library/ezrecorder/etc/' . $global_inc_new_name . '"', 2);
-                exec('scp -o ConnectTimeout=10 ' . $ezadmin_basedir . 'var/ezrecorder_config_restore/' . $room_name . '.config.inc podclient@' . $masterIP . ':/Library/ezrecorder/global_config.inc', $output, $return_var);
+                $global_inc_new_name = time() . '.global_config5.inc';
+                $ssh_connect->command('"mv /Library/ezrecorder/global_config6.inc /Library/ezrecorder/etc/' . $global_inc_new_name . '"', 2);
+                exec('scp -o ConnectTimeout=10 ' . $ezadmin_basedir . 'var/ezrecorder_config_restore/' . $masterIP . '.config.inc podclient@' . $masterIP . ':/Library/ezrecorder/global_config7.inc', $output, $return_var);
                 $_SESSION["new_config"] = '';
                 header("LOCATION:index.php?action=edit_recorder_config&room_name=$room_name&sesskey=" . $input['sesskey'] . "&success=true");
             }
