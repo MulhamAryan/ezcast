@@ -179,7 +179,7 @@ function index($param = array())
 
         }
     }
-    
+
     include template_getpath('div_main_header.php');
     include template_getpath('div_edit_recorder_config.php');
     include template_getpath('div_main_footer.php');
