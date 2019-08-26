@@ -720,7 +720,36 @@ function db_classroom_from_name_get_ip($room_ID)
     return $statements['classrooms_from_name_get_ip']->fetchAll(PDO::FETCH_COLUMN);
 }
 
+/**
+ * Return Specifique information of classroom using room_ID
+ *
+ * @global array $statements
+ * @param string $room_ID
+ * @return string room_ID, name, IP, enabled, IP_remote, user_name, base_dir, sub_dir
+ */
+function db_classroom_get_info($room_ID){
+    global $db_object;
 
+    $count =
+        'SELECT COUNT(*) '.
+        'FROM ' . db_gettable('classrooms') . ' '.
+        'WHERE room_ID = "'.$room_ID.'"';
+
+    $count = $db_object->query($count);
+
+    if($count->fetchColumn() > 0) {
+        $query =
+            'SELECT * ' .
+            'FROM ' . db_gettable('classrooms') . ' ' .
+            'WHERE room_ID = "' . $room_ID . '"';
+
+        $res = $db_object->query($query);
+        return $res->fetch();
+    }
+    else {
+        return false;
+    }
+}
 /**
  * Sets the "enabled" bit to true or false
  * @global array $statements

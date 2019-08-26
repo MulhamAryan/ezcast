@@ -1081,6 +1081,8 @@
         <label id="recorder_check_modifcations" lang="fr">Les variables suivantes ont été modifiées, veuillez vérifier les modifications avant de les appliquer.</label>
         <label id="recorder_check_modifcations" lang="en">The following variables have been changed, please verify modifications before applying them</label>
 
+        <label id="classroom_doesnt_exist" lang="fr">Cette auditoire n'existe pas sur la base des données.</label>
+        <label id="classroom_doesnt_exist" lang="en">This classroom doesn't exit on database.</label>
     </labels>
     
     <!-- Messages are texts that are dynamically generated (errors, etc.) -->
@@ -1139,8 +1141,7 @@
         <message id="Invalid_quality" lang="en">Access denied: invalid quality</message>
         <message id="Invalid_type" lang="fr">Accès refusé: type de média non-valide</message>
         <message id="Invalid_type" lang="en">Access denied: invalid media type</message>
-        <message id="push_to_recorder_unsuccessful" lang="fr">Erreur. Il est possible que certains enregistreurs n\'aient pas été mis
-            à jour.</message>
+        <message id="push_to_recorder_unsuccessful" lang="fr">Erreur. Il est possible que certains enregistreurs n\'aient pas été mis à jour.</message>
         <message id="push_to_recorder_unsuccessful" lang="en">Error. Some recorders might not have been updated.</message>
         <message id="missing_room_id" lang="fr">Le code auditoire ne peut pas être vide.</message>
         <message id="missing_room_id" lang="en">The room ID cannot be blank</message>

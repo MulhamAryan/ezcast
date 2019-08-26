@@ -67,9 +67,6 @@ if (isset($pagination)) {
                     <a target="_blank" href="vnc://<?php echo $currClass['IP']; ?>/">
                         (VNC)
                     </a>
-                    <a target="_blank" href="index.php?action=edit_recorder_config&ip=<?php echo $currClass['IP']; ?>&sesskey=<?php echo $_SESSION['sesskey']; ?>" class="btn btn-default btn-xs" role="button">
-                        <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                    </a>
                 </div>
                 <div class="edit" style="display:none;">
                     <input class="form-control input-xsm" type="text" name="ip" 
@@ -111,6 +108,9 @@ if (isset($pagination)) {
                 <button class="btn btn-xs enabled_button <?php echo !$currClass['enabled'] ? 'btn-success' : ''; ?>">
                     <?php echo !$currClass['enabled'] ? '®enable®' : '®disable®'; ?>
                 </button>
+                <a target="_blank" href="index.php?action=edit_recorder_config&room_name=<?php echo $currClass['room_ID']; ?>&sesskey=<?php echo $_SESSION['sesskey']; ?>" class="btn btn-default btn-xs" role="button">
+                    <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                </a>
                 <button class="btn btn-xs edit_button"><span class="glyphicon glyphicon-edit"></span></button>
                 <button class="btn btn-xs btn-danger cancel_button"><span class="glyphicon glyphicon-remove"></span></button>
                 <button class="btn btn-xs btn-danger delete_button"><span class="glyphicon glyphicon-trash"></span></button>
