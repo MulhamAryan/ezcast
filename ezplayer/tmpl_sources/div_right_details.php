@@ -39,7 +39,7 @@ include_once 'lib_print.php';
     
     var current_album = '<?php echo $_SESSION['album']; ?>';
     var current_asset = '<?php echo $_SESSION['asset']; ?>';
-    var current_asset_name = '<?php echo print_info($asset_meta['title']); ?>';
+    var current_asset_name = '<?php echo $_SESSION['asset']; ?>'; //Used to trace user activity in server_trace function.
     var session_key = '<?php echo $_SESSION['sesskey']; ?>';
 
     history.pushState({"url": 'index.php?action=view_asset_details&album=' + current_album + '&asset=' + current_asset + '&asset_token=' + '<?php echo $_SESSION['asset_token']; ?>' + '&sesskey=' + '<?php echo $_SESSION['sesskey']; ?>'}, '', '');

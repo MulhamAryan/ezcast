@@ -34,8 +34,10 @@
  */
 
 require_once 'config.inc';
+
 session_name($appname);
 session_start();
+
 require_once __DIR__.'/../commons/lib_error.php';
 require_once 'lib_ezmam.php';
 require_once '../commons/lib_auth.php';

@@ -738,54 +738,57 @@ function search_in_array($search, $bookmarks, $fields, $level)
     // give a score to each bookmark, according to certain rules.
     $relevancy = false;
     $score = 0;
+    if(is_array($bookmarks)) {
+        foreach ($bookmarks as $index => &$bookmark) {
+            if ($level == 0 || $bookmark['level'] == $level) {
+                foreach ($search as $word) {
+                    foreach ($fields as $field) {
+                        // Does the field contain the word ?
+                        $offset = stripos($bookmark[$field], $word);
+                        if ($offset !== false) {
+                            if ($relevancy) {
+                                // the word has been found, we increment the score
+                                $last_index = $offset + strlen($word);
+                                $score++;
 
-    foreach ($bookmarks as $index => &$bookmark) {
-        if ($level == 0 || $bookmark['level'] == $level) {
-            foreach ($search as $word) {
-                foreach ($fields as $field) {
-                    // Does the field contain the word ?
-                    $offset = stripos($bookmark[$field], $word);
-                    if ($offset !== false) {
-                        if ($relevancy) {
-                            // the word has been found, we increment the score
-                            $last_index = $offset + strlen($word);
-                            $score++;
+                                // there is nothing before and/or after the word, we increment the score
+                                if ($offset == 0) {
+                                    $score++;
+                                }
+                                if ($last_index == strlen($bookmark[$field])) {
+                                    $score++;
+                                }
+                                if ($offset > 0 && $bookmark[$field][$offset - 1] == ' ') {
+                                    $score++;
+                                }
+                                if ($last_index < strlen($bookmark[$field]) && $bookmark[$field][$last_index] == ' ') {
+                                    $score++;
+                                }
 
-                            // there is nothing before and/or after the word, we increment the score
-                            if ($offset == 0) {
+                                // There are multiple occurences of the word, we increment the score
+                                $count = substr_count(strtoupper($bookmark[$field]), strtoupper($word));
+                                if ($count > 1) {
+                                    $score += ($count - 1) * 2;
+                                }
+                            } else {
                                 $score++;
+                                break 2;
                             }
-                            if ($last_index == strlen($bookmark[$field])) {
-                                $score++;
-                            }
-                            if ($offset > 0 && $bookmark[$field][$offset - 1] == ' ') {
-                                $score++;
-                            }
-                            if ($last_index < strlen($bookmark[$field]) && $bookmark[$field][$last_index] == ' ') {
-                                $score++;
-                            }
-
-                            // There are multiple occurences of the word, we increment the score
-                            $count = substr_count(strtoupper($bookmark[$field]), strtoupper($word));
-                            if ($count > 1) {
-                                $score += ($count - 1) * 2;
-                            }
-                        } else {
-                            $score++;
-                            break 2;
                         }
                     }
                 }
             }
+            if ($score == 0) {
+                unset($bookmarks[$index]);
+            } else {
+                $bookmark['score'] = $score;
+            }
+            $score = 0;
         }
-        if ($score == 0) {
-            unset($bookmarks[$index]);
-        } else {
-            $bookmark['score'] = $score;
-        }
-        $score = 0;
+        return array_values($bookmarks);
     }
-    return (is_array($bookmarks)) ? array_values($bookmarks) : null;
+
+    return null;
 }
 
 //===== V A R I O U S - THREADS ================================================

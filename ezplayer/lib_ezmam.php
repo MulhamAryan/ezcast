@@ -609,6 +609,7 @@ function ezmam_asset_exists($album_name, $asset_name)
     }
     $res = file_exists($path);
     return $res;
+
 }
 
 /**
