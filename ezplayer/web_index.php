@@ -38,7 +38,7 @@ require_once 'config.inc';
 session_name($appname);
 session_start();
 
-require_once __DIR__.'/../commons/lib_error.php';
+require_once __DIR__ . '/../commons/lib_error.php';
 require_once 'lib_ezmam.php';
 require_once '../commons/lib_auth.php';
 require_once '../commons/lib_template.php';
@@ -55,7 +55,7 @@ require_once 'lib_cache.php';
 require_once 'lib_acl.php';
 require_once '../commons/lib_mobile_detect.php';
 
-if ($maintenance_mode && !isset($_SESSION['user_is_admin'])){
+if ($maintenance_mode && !isset($_SESSION['user_is_admin'])) {
     include_once '../commons/maintenance_page.php';
     die;
 }
@@ -66,7 +66,7 @@ $_SESSION['isPhone'] = $detect->isMobile();
 $input = array_merge($_GET, $_POST);
 
 
-if(isset($input['lang']) && ($input['lang']=="fr" || $input['lang']=="en")){
+if (isset($input['lang']) && ($input['lang'] == "fr" || $input['lang'] == "en")) {
     set_lang($input['lang']);
 }
 
@@ -81,7 +81,7 @@ ezmam_repository_path($repository_path);
 //
 // Saves the URL used to access the website
 if (!isset($_SESSION['first_input']) && isset($input['action']) && $input['action'] != 'logout' &&
-        $input['action'] != 'login' && $input['action'] != 'client_trace') {
+    $input['action'] != 'login' && $input['action'] != 'client_trace') {
     $_SESSION['first_input'] = array_merge($_GET, $_POST);
 }
 // Saves user's web browser information
@@ -115,12 +115,12 @@ $album_allow_anonymous = isset($input['album']) && ezmam_album_allow_anonymous($
 //logout anon user if he tries to access an album which was not set as anonym allowed (except if we still
 // accept the anon=true option in the url, should be removed in the future)
 if ($logged_in && user_anonymous() && !$allow_url_anon
-   && isset($input['album']) && !$album_allow_anonymous) {
+    && isset($input['album']) && !$album_allow_anonymous) {
     logout();
     $logged_in = false;
 }
 
-if(isset($input['loging'])){
+if (isset($input['loging'])) {
     requireController('user_logout.php');
     logout();
     $logged_in = false;
@@ -134,8 +134,8 @@ if (!$logged_in) {
 
     // if the url contains the parameter 'anon' the session is assumsed as anonymous
     if (($allow_url_anon && isset($input['anon']) && $input['anon'] == true) ||
-            // Log as anonymous if user tries to access an album and it has been set as accessible as anonymous
-            (isset($input['album']) && $album_allow_anonymous)) {
+        // Log as anonymous if user tries to access an album and it has been set as accessible as anonymous
+        (isset($input['album']) && $album_allow_anonymous)) {
         user_anonymous_session();
         $logged_in = true;
     }
@@ -188,26 +188,25 @@ if (!$logged_in) {
             exit(0);
         }
     }
-}
-//print_r($_SESSION); die();
-else if(isset($_SESSION['termsOfUses']) && $_SESSION['termsOfUses']!=1 && ($input['action']!='acceptTermsOfUses') && $enable_termsOfUse){
+} //print_r($_SESSION); die();
+else if (isset($_SESSION['termsOfUses']) && $_SESSION['termsOfUses'] != 1 && ($input['action'] != 'acceptTermsOfUses') && $enable_termsOfUse) {
     view_termsOfUses_form();
-    $_SESSION['redirect']=json_encode($input);
+    $_SESSION['redirect'] = json_encode($input);
     die();
 }
 // From this point, user is logged in.
 
 // We check whether they specified an action to perform. If not, it means they landed
 // here through a page reload, so we check the session variables to restore the page as it was.
- if (isset($_SESSION['ezplayer_logged']) && (!isset($input['action']) || empty($input['action']))) {
-     // Check if player first connexion
-     global $first_connexion;
-     $first_connexion = !isset($_COOKIE['has_connected_once']);
-     // Cookie life: one year
-     setcookie('has_connected_once', true, time() + (365 * 24 * 60 * 60));
+if (isset($_SESSION['ezplayer_logged']) && (!isset($input['action']) || empty($input['action']))) {
+    // Check if player first connexion
+    global $first_connexion;
+    $first_connexion = !isset($_COOKIE['has_connected_once']);
+    // Cookie life: one year
+    setcookie('has_connected_once', true, time() + (365 * 24 * 60 * 60));
 
-     redraw_page();
- }
+    redraw_page();
+}
 
 // At this point of the code, the user is logged in and explicitly specified an action.
 // We perform the action specified.
@@ -248,7 +247,7 @@ function load_page()
 
         case 'acceptTermsOfUses':
             requireController('acceptTermsOfUses.php');
-        break;
+            break;
 
 
         // ============== L O G I N  /  L O G O U T =============== //
@@ -529,7 +528,7 @@ function load_page()
 
 
     // Call the function to view the page
-    if($action != 'login')
+    if ($action != 'login')
         index($paramController);
 
     db_close();
@@ -552,7 +551,7 @@ function user_anonymous_session()
     $_SESSION['ezplayer_anonymous'] = "user_logged_anonymous"; // "boolean" stating that we're logged
     $_SESSION['user_login'] = "anon";
     $_SESSION['user_full_name'] = "Anonyme";
-    $_SESSION['sesskey'] = md5(strtotime("now").''.$_SESSION['user_login']);
+    $_SESSION['sesskey'] = md5(strtotime("now") . '' . $_SESSION['user_login']);
 
     //check flash plugin or GET parameter no_flash
     if (!isset($_SESSION['has_flash'])) {//no noflash param when login
@@ -646,7 +645,7 @@ function user_login($login, $passwd)
     $_SESSION['user_full_name'] = $res['full_name'];
     $_SESSION['user_email'] = $res['email'];
     $_SESSION['termsOfUses'] = $res['termsOfUses'];
-    $_SESSION['sesskey'] = md5(strtotime("now").''.$_SESSION['user_login']);
+    $_SESSION['sesskey'] = md5(strtotime("now") . '' . $_SESSION['user_login']);
 
     $_SESSION['admin_enabled'] = false;
     //check flash plugin or GET parameter no_flash
@@ -681,15 +680,13 @@ function user_login($login, $passwd)
         foreach ($_SESSION['first_input'] as $key => $value) {
             $ezplayer_url .= "$key=$value&";
         }
-    }
-    else {
+    } else {
         $ezplayer_url .= '/index.php';
     }
     header("Location: " . $ezplayer_url);
     load_page();
 
 }
-
 
 
 // =================== N A V I G A T I O N ======================== //
@@ -707,10 +704,13 @@ function user_anonymous()
 {
     return (isset($_SESSION['ezplayer_anonymous']));
 }
-function view_termsOfUses_form(){
+
+function view_termsOfUses_form()
+{
     include_once template_getpath('div_termsOfUses.php');
 
 }
+
 /**
  * Displays the login form
  */
@@ -735,7 +735,7 @@ function view_login_form()
     // template include goes here
     /* require_once template_getpath('login.php');*/
     $sso_enabled = in_array("sso", $auth_methods);
-    $file_enabled = ((in_array("file", $auth_methods) && !$sso_only)  || ($sso_only && isset($_GET["local"])) || (!$sso_enabled && in_array("file", $auth_methods)) );
+    $file_enabled = ((in_array("file", $auth_methods) && !$sso_only) || ($sso_only && isset($_GET["local"])) || (!$sso_enabled && in_array("file", $auth_methods)));
     include_once template_getpath('login.php');
 }
 
@@ -843,18 +843,17 @@ function refresh_page()
 // ============== B O O K M A R K S =============== //
 
 
-
 /**
  * Refreshes the right_div containing the bookmarks
- * @global type $repository_path
- * @global type $user_files_path
- * @global type $has_bookmark
- * @global type $default_personal_bm_order
- * @global type $default_official_bm_order
  * @param type $display
  * @param type $official_bookmarks
  * @param type $personal_bookmarks
  * @return boolean
+ * @global type $default_official_bm_order
+ * @global type $repository_path
+ * @global type $user_files_path
+ * @global type $has_bookmark
+ * @global type $default_personal_bm_order
  */
 function bookmarks_list_update($display = true, &$official_bookmarks = array(), &$personal_bookmarks = array())
 {
@@ -927,7 +926,7 @@ function chat_messages_remove_private($messages_array)
     $match_user = '@' . $_SESSION['user_login'];
     foreach ($messages_array as $message) {
         if (($message['authorId'] == $_SESSION['user_login']) || $message['message'][0] !== '@' ||
-                substr($message['message'], 0, strlen($match_user)) === $match_user) {
+            substr($message['message'], 0, strlen($match_user)) === $match_user) {
             $chat_messages[] = $message;
         }
     }
@@ -951,10 +950,10 @@ function edited_on()
 
 /**
  * saves an action in a trace file
- * @global type $ezplayer_trace
- * @global type $trace_on
  * @param type $array
  * @return boolean
+ * @global type $ezplayer_trace
+ * @global type $trace_on
  */
 function trace_append($array)
 {
@@ -981,8 +980,7 @@ function trace_append($array)
     // In that case, we display "nologin" instead.
     if (!isset($_SESSION['user_login']) || empty($_SESSION['user_login']) || $_SESSION['user_login'] === "anon") {
         $data .= 'nologin';
-    }
-    // General case, where there is a login and (possibly) a real login
+    } // General case, where there is a login and (possibly) a real login
     elseif (isset($_SESSION['real_login'])) {
         $data .= $_SESSION['real_login'] . '/' . $_SESSION['user_login'];
     } else {

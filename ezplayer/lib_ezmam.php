@@ -31,7 +31,7 @@
  */
 
 require_once 'config.inc';
-require_once __DIR__.'/../commons/lib_error.php';
+require_once __DIR__ . '/../commons/lib_error.php';
 require_once 'lib_various.php';
 
 /**
@@ -107,7 +107,7 @@ function ezmam_last_error($msg = "")
 
 /**
  *
- * @param string $album_name  name of the album
+ * @param string $album_name name of the album
  * @param assoc_array $metadata
  * @param string $description description for metadata
  * @return false|error_string
@@ -340,7 +340,7 @@ function ezmam_rss_generate($album, $type)
         // Don't forget to add both videos if it was a camslide!
         if ($type == 'ezplayer') {
             add_item_to_rss(
-                    $xmlh,
+                $xmlh,
                 $metadata['title'],
                 $metadata['description'] . ' (prise de vue caméra)',
                 $metadata['author'],
@@ -360,12 +360,12 @@ function ezmam_rss_generate($album, $type)
                 // that at least one media is available
                 if (ezmam_media_exists($album, $asset['name'], 'high_cam') || ezmam_media_exists($album, $asset['name'], 'low_cam')) {
                     add_item_to_rss(
-                            $xmlh,
+                        $xmlh,
                         $title . ' (camera)',
                         $metadata['description'] . ' (prise de vue caméra)',
                         $metadata['author'],
-                            //preg_replace('!([0-9]{4})\_([0-9]{2})\_([0-9]{2})\_([0-9]{2})h([0-9]{2})!', '$3/$2/$1 $4:$5', $metadata['record_date']),
-                            get_RFC822_date($metadata['record_date']),
+                        //preg_replace('!([0-9]{4})\_([0-9]{2})\_([0-9]{2})\_([0-9]{2})h([0-9]{2})!', '$3/$2/$1 $4:$5', $metadata['record_date']),
+                        get_RFC822_date($metadata['record_date']),
                         $url . $arguments,
                         $url . '/cam.m4v' . $arguments
                     );
@@ -377,19 +377,17 @@ function ezmam_rss_generate($album, $type)
                 // See above
                 if (ezmam_media_exists($album, $asset['name'], 'high_slide') || ezmam_media_exists($album, $asset['name'], 'low_slide')) {
                     add_item_to_rss(
-                            $xmlh,
+                        $xmlh,
                         $title . ' (slides)',
                         $metadata['description'] . ' (slides et commentaires)',
                         $metadata['author'],
-                            //preg_replace('!([0-9]{4})\_([0-9]{2})\_([0-9]{2})\_([0-9]{2})h([0-9]{2})!', '$3/$2/$1 $4:$5', $metadata['record_date']),
-                            get_RFC822_date($metadata['record_date']),
+                        //preg_replace('!([0-9]{4})\_([0-9]{2})\_([0-9]{2})\_([0-9]{2})h([0-9]{2})!', '$3/$2/$1 $4:$5', $metadata['record_date']),
+                        get_RFC822_date($metadata['record_date']),
                         $url . $arguments,
                         $url . '/slide.m4v' . $arguments
                     );
                 }
-            }
-
-            // Only add one video otherwise
+            } // Only add one video otherwise
             else {
                 $title = (isset($metadata['title'])) ? $metadata['title'] : $metadata['description'];
                 $arguments = '?action=media&album=' . $album . '&asset=' . $asset['name'] . '&type=' . $metadata['record_type'] . '&quality=' . $type . '&token=' . $token;
@@ -397,12 +395,12 @@ function ezmam_rss_generate($album, $type)
                 // Filter for empty assets (see above)
                 if (ezmam_media_exists($album, $asset['name'], 'high_' . $metadata['record_type']) || ezmam_media_exists($album, $asset['name'], 'low_' . $metadata['record_type'])) {
                     add_item_to_rss(
-                            $xmlh,
+                        $xmlh,
                         $title,
                         $metadata['description'],
                         $metadata['author'],
-                            //preg_replace('!([0-9]{4})\_([0-9]{2})\_([0-9]{2})\_([0-9]{2})h([0-9]{2})!', '$3/$2/$1 $4:$5', $metadata['record_date']),
-                            get_RFC822_date($metadata['record_date']),
+                        //preg_replace('!([0-9]{4})\_([0-9]{2})\_([0-9]{2})\_([0-9]{2})h([0-9]{2})!', '$3/$2/$1 $4:$5', $metadata['record_date']),
+                        get_RFC822_date($metadata['record_date']),
                         $url . $arguments,
                         $url . '/' . $metadata['record_type'] . '.m4v' . $arguments
                     );
@@ -426,10 +424,10 @@ function ezmam_rss_generate($album, $type)
 /**
  * Returns a XML string representing an RSS feed for an album.
  * This function should not be called as-is, call ezmam_rss_generate instead
- * @see ezmam_rss_generate
  * @param string $album_name
  * @param string $type May be "low" or "high"
  * @return string the XML code for an empty RSS feed
+ * @see ezmam_rss_generate
  */
 //TODO:Clean up!
 function ezmam_rss_new($album_name, $type)
@@ -620,7 +618,7 @@ function ezmam_asset_exists($album_name, $asset_name)
 function ezmam_asset_count($album)
 {
     $asset_list = ezmam_asset_list_metadata($album);
-    if ($asset_list == "");
+    if ($asset_list == "") ;
     return 0;
 
     $count = 0;
@@ -695,7 +693,7 @@ function ezmam_asset_list_metadata($album)
                 $asset = $file; //the album ref name is the directory name
                 $asset_list[$idx]['name'] = $asset;
                 $asset_list[$idx]['metadata'] = ezmam_asset_metadata_get($album, $asset);
-                $idx+=1;
+                $idx += 1;
             }
         }
     }//end while
@@ -861,7 +859,7 @@ function ezmam_media_list_metadata($album, $asset)
                 $media = $file; //the album ref name is the directory name
                 $media_list[$idx]['name'] = $media;
                 $media_list[$idx]['metadata'] = ezmam_media_metadata_get($album, $asset, $media);
-                $idx+=1;
+                $idx += 1;
             }
         }
     }//end while
@@ -979,7 +977,7 @@ function ezmam_media_metadata_set($album, $asset, $media, $metadata_assoc_array)
  * @param string $media_name
  * @param assoc_array $metadata
  * @param path $media_file_path
- * @param bool $copy=false wheter
+ * @param bool $copy =false wheter
  * @return false|error_string
  * @desc creates an asset container in the given album
  */
@@ -1084,11 +1082,11 @@ function ezmam_media_getpath($album, $asset, $media, $relative = true)
 
 /**
  * Returns a (non-urlencoded!) URL to a media (distribute file)
- * @global type $ezplayer_url
  * @param type $album
  * @param type $asset
  * @param type $media
  * @return type
+ * @global type $ezplayer_url
  */
 function ezmam_media_geturl($album, $asset, $media)
 {
@@ -1160,7 +1158,7 @@ function ezmam_media_viewcount_get($album, $asset, $media)
         $vc = 0;
     }
 
-    return (int) $vc;
+    return (int)$vc;
 }
 
 function ezmam_media_viewcount_increment($album, $asset, $media)
@@ -1303,7 +1301,7 @@ function ezmam_token_generate_random()
 {
     $token = "";
     for ($idx = 0; $idx < 8; $idx++) {
-        $token.= chr(rand(65, 90));
+        $token .= chr(rand(65, 90));
     }
 
     return $token;
@@ -1388,7 +1386,7 @@ function ezmam_album_token_get($album)
         ezmam_last_error("Access denied: token does not exist");
         return false;
     }
-    return(trim($res));
+    return (trim($res));
 }
 
 function ezmam_asset_token_get($album, $asset)
@@ -1518,7 +1516,6 @@ function ezmam_media_submit($tmp_name)
     }
 
 
-
     // 1) create directory
     $folder_path = $submit_upload_dir . '/' . $tmp_name;
 
@@ -1582,7 +1579,7 @@ function metadata2assoc_array($meta_path)
     }
     $assoc_array = array();
     foreach ($xml as $key => $value) {
-        $assoc_array[$key] = (string) $value;
+        $assoc_array[$key] = (string)$value;
     }
     return $assoc_array;
 }
@@ -1635,7 +1632,7 @@ function ezmam_album_allow_anonymous($album)
     if (!$enable_anon_access_control) {
         return false;
     }
-    
+
     $meta = ezmam_album_metadata_get($album);
     return isset($meta['anon_access']) && $meta['anon_access'] == 'true';
 }

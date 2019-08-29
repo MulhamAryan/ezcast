@@ -34,23 +34,27 @@ function index($param = array())
     }
 
     $range_count_path = $repository_path . '/' . $album . '/' . $asset . '/range_count';
-    if(!file_exists($range_count_path))
+    if (!file_exists($range_count_path))
         mkdir($range_count_path, 0755);
-    
+
     $date = date('Ymd');
     $array = array();
     if (file_exists($range_count_path . '/' . $date . '_' . $type . '.php')) {
         $array = include_once $range_count_path . '/' . $date . '_' . $type . '.php';
     }
-    $index = ((int) ($time / 3)) - 1;
+    $index = (int)(($time / 3) - 1);
+
+    if($index < 0) $index = 0;
+
     if ($index >= 0) {
         if (isset($array[$index]) && $array[$index] != '') {
-            $array[$index] ++;
+            $array[$index]++;
         } else {
             $array[$index] = 1;
         }
     }
-    if(sizeof($array) > 0) {
+
+    if (sizeof($array) > 0) {
         ksort($array);
         $range_count_str = "<?php return ";
         $range_count_str .= var_export($array, true);

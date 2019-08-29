@@ -64,10 +64,10 @@ var notif_display_number = 3;
 
 window.addEventListener("keyup", function (e) {
     if (lvl == 3) {
-    
+
         var el = document.activeElement;
         if ((!el || (el.tagName.toLowerCase() != 'input' &&
-                el.tagName.toLowerCase() != 'textarea'))) {
+            el.tagName.toLowerCase() != 'textarea'))) {
             from_shortcut = true;
             // focused element is not an input or textarea
             switch (e.keyCode) {
@@ -98,8 +98,8 @@ window.addEventListener("keyup", function (e) {
                     break;
                 case 83:  // 's'
                     (type == 'cam') ?
-                            player_video_type_set('slide') :
-                            player_video_type_set('cam');
+                        player_video_type_set('slide') :
+                        player_video_type_set('cam');
                     break;
                 case 37:  // 'left arrow'
                     player_video_navigate('rewind');
@@ -135,12 +135,12 @@ window.addEventListener("keyup", function (e) {
                         player_bookmark_form_toggle('official');
                     break;
             }
-            
+
         } else if (e.keyCode == 27) {
             // leave focus when esc is pressed in input or text field
             $('input, textarea').blur();
         }
-        
+
     }
 }, false);
 
@@ -148,7 +148,7 @@ window.addEventListener("keydown", function (e) {
     var el = document.activeElement;
     // Default behavior is modified only on the player page, when used in an input field
     if (lvl == 3 && (!el || (el.tagName.toLowerCase() != 'input' &&
-            el.tagName.toLowerCase() != 'textarea'))) {
+        el.tagName.toLowerCase() != 'textarea'))) {
         // space and arrow keys
         if ([32, 37, 38, 39, 40, 8].indexOf(e.keyCode) > -1) {
             e.preventDefault();
@@ -194,7 +194,7 @@ function player_prepare(current_quality, current_type, start_time) {
     // get all videos of the page
     var videos = document.getElementsByTagName('video');
     var max = videos.length;
-    
+
     // determines whether it's a camslide or not
     camslide = (max === 2);
     // set the current type being played
@@ -230,12 +230,12 @@ function player_prepare(current_quality, current_type, start_time) {
 }
 
 function video_listener_add(video, start_time) {
-    
+
     video.addEventListener("seeking", function () {
         var current_time = Math.round(this.currentTime);
         begin_seeked(current_time);
     }, true);
-    
+
     // when the video is being played
     // --> saves the current time
     // --> loads the thread notifications to be displayed over the player
@@ -243,38 +243,38 @@ function video_listener_add(video, start_time) {
         var current_time = Math.round(this.currentTime);
         video_event_update_time(this, current_time);
     });
-    
+
     // when the video is played
     // --> hides the shortcuts panel
     // --> saves trace
     video.addEventListener('play', function () {
         video_event_play(this);
     }, true);
-    
+
     // when the video is played
     // --> shows the shortcuts panel
     // --> saves trace
     video.addEventListener('pause', function () {
         video_event_pause(this);
     }, true);
-    
+
     // when the volume of the video change
     // --> check if muted and adapt volume value
-    video.addEventListener('volumechange', function() {
+    video.addEventListener('volumechange', function () {
         video_event_volume(this);
     }, true);
-    
+
     video.addEventListener("error", function (e) {
         video_event_error($(this));
     }, true);
-    
+
     // When data are loaded
     // --> Sets a variable that states the video is loaded (for iOS and Android)
     // --> Saves the duration of the video
     video.addEventListener('loadeddata', function () {
         video_event_data_loaded(this);
     }, false);
-    
+
     // If accessed from bookmark / thread
     if (start_time != 0) {
         time = start_time; // Update time
@@ -291,13 +291,13 @@ function video_listener_add(video, start_time) {
 ///////////////// EVENT /////////////////
 
 function begin_seeked(current_time) {
-    if(trace_pause > 0) {
+    if (trace_pause > 0) {
         --trace_pause;
     } else {
-        if(!seeked) {
+        if (!seeked) {
             previous_seek_time = last_time;
             trace_video_play_time(previous_seek_time);
-            
+
             time_code_update();
             seeked = true;
         }
@@ -306,10 +306,10 @@ function begin_seeked(current_time) {
 }
 
 function end_seeked() {
-    if(seeked) {
-        if(previous_seek_time != time && !video_forward) {
-            server_trace(new Array('4', 'video_seeked', current_album, current_asset, 
-                    duration, previous_seek_time, time, type, quality));
+    if (seeked) {
+        if (previous_seek_time != time && !video_forward) {
+            server_trace(new Array('4', 'video_seeked', current_album, current_asset,
+                duration, previous_seek_time, time, type, quality));
         }
         last_play_start = time;
         seeked = false;
@@ -318,33 +318,33 @@ function end_seeked() {
 }
 
 function video_event_update_time(video, current_time) {
-    if(current_time == time) {
+    if (current_time == time) {
         return;
     }
-    
-    if((current_time - time) <= 1) {
-        if((current_time - last_play_start) > log_playing_interval && !seeked) {
+
+    if ((current_time - time) <= 1) {
+        if ((current_time - last_play_start) > log_playing_interval && !seeked) {
             trace_video_play_time();
         }
-    
-        if(seeked && !video.seeked && playing && !video.paused && mouse_down == 0) {
+
+        if (seeked && !video.seeked && playing && !video.paused && mouse_down == 0) {
             end_seeked();
         }
     }
-    
+
     last_time = time;
     time = current_time;
-    
+
     threads_notif_display();
 }
 
 function trace_video_play_time(stop_time) {
-    if(playing) {
+    if (playing) {
         stop_time = (typeof stop_time !== 'undefined') ? stop_time : time;
         var play_time = Math.round(stop_time - last_play_start);
-        
-        if(play_time > 0 && play_time <= log_playing_interval) {
-            server_trace(new Array('4', 'video_play_time', current_album, current_asset, current_asset_name, type, 
+
+        if (play_time > 0 && play_time <= log_playing_interval) {
+            server_trace(new Array('4', 'video_play_time', current_album, current_asset, current_asset_name, type,
                 last_play_start, play_time));
             last_play_start = time;
         }
@@ -355,16 +355,16 @@ function video_event_play(video) {
     if (!shortcuts) {
         $(".shortcuts_tab").css('display', 'none');
     }
-    
+
     if (trace_pause <= 0) {
-        if(!video.seeking && !playing) {
+        if (!video.seeking && !playing) {
             video_trace('4', 'video_play');
         }
     } else {
         --trace_pause;
     }
-    
-    if(!playing) {
+
+    if (!playing) {
         last_play_start = time;
     }
     playing = true;
@@ -372,12 +372,12 @@ function video_event_play(video) {
 
 function video_event_pause(video) {
     $(".shortcuts_tab").css('display', 'block');
-    if(video.seeking || seeked) {
+    if (video.seeking || seeked) {
         return;
     }
-    
+
     if (trace_pause <= 0) {
-        if(playing) {
+        if (playing) {
             trace_video_play_time();
             playing = false;
         }
@@ -388,11 +388,10 @@ function video_event_pause(video) {
 }
 
 function video_event_volume(video) {
-    if(video.muted && video.volume != 0) {
+    if (video.muted && video.volume != 0) {
         video.volume = 0;
     }
-    if(!video.muted && video.volume == 0)
-    {
+    if (!video.muted && video.volume == 0) {
         video.volume = 1;
     }
 }
@@ -415,7 +414,6 @@ function video_event_data_loaded(event) {
 }
 
 
-
 function threads_notif_display() {
     if (display_threads_notif) {
         var html_value = "<ul>";
@@ -430,15 +428,15 @@ function threads_notif_display() {
             if (timecode >= 0 && typeof threads_array[timecode] !== 'undefined') {
                 for (var id in threads_array[timecode]) {
                     i++;
-                    if(i > notif_display_number)
+                    if (i > notif_display_number)
                         break;
-                    
+
                     html_value += "<li id='notif_" + id + "' class ='notification_item'>" +
-                            "<span class='span-link red' onclick='javascript:player_thread_notification_remove(" + 
-                                timecode + ", " + id + ")' >x</span>" +
-                            "<span class='notification-item-title' onclick='javascript:thread_details_update(" + id + ", true)'> " +
-                            threads_array[timecode][id] + "</span>" +
-                            "</li>";
+                        "<span class='span-link red' onclick='javascript:player_thread_notification_remove(" +
+                        timecode + ", " + id + ")' >x</span>" +
+                        "<span class='notification-item-title' onclick='javascript:thread_details_update(" + id + ", true)'> " +
+                        threads_array[timecode][id] + "</span>" +
+                        "</li>";
                 }
             }
             timecode++;
@@ -459,10 +457,12 @@ function player_range_count_update(current_time, current_type) {
     $.ajax({
         type: 'POST',
         url: 'index.php?action=asset_range_count_update',
-        data: {time: current_time,
+        data: {
+            time: current_time,
             type: current_type,
             album: current_album,
-            asset: current_asset}
+            asset: current_asset
+        }
     });
 }
 
@@ -474,7 +474,7 @@ function player_video_type_set(media_type) {
     // only available for camslide
     if (!camslide || (media_type != "cam" && media_type != "slide") || media_type == type)
         return;
-    
+
     if (quality != 'high' && quality != 'low')
         quality = 'low';
 
@@ -487,8 +487,8 @@ function player_video_type_set(media_type) {
         to_hide = document.getElementById('main_video');
         to_show = document.getElementById('secondary_video');
     }
-    trace_video_play_time(); 
-    
+    trace_video_play_time();
+
     // specific case for iOS
     if (/webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
         ++trace_pause;
@@ -504,15 +504,15 @@ function player_video_type_set(media_type) {
             load_warn_display = 'block';
         }
         document.getElementById("load_warn").style.display = load_warn_display;
-        
-    // specific case for Android
+
+        // specific case for Android
     } else if (/Android/i.test(navigator.userAgent)) {
         ++trace_pause;
         to_hide.pause();
         ++trace_pause;
         to_show.currentTime = time;
-        
-    // in other browsers
+
+        // in other browsers
     } else {
         ++trace_pause;
         to_show.currentTime = time;
@@ -531,8 +531,8 @@ function player_video_type_set(media_type) {
     type = media_type;
     // button or keyboard shortcut
     origin = get_origin();
-    server_trace(new Array('4', 'video_switch', current_album, current_asset, duration, 
-            time, from, type, quality, origin));
+    server_trace(new Array('4', 'video_switch', current_album, current_asset, duration,
+        time, from, type, quality, origin));
     $('.movie-button, .slide-button').toggleClass('active');
 }
 
@@ -576,12 +576,12 @@ function player_video_quality_set(media_quality) {
     }, false);
     ++trace_pause;
     paused ? video.pause() : video.play();
-    
+
     quality = media_quality;
 
     $('.high-button, .low-button').toggleClass('active');
-    server_trace(new Array('4', 'video_quality', current_album, current_asset, 
-            duration, time, type, media_quality, quality));
+    server_trace(new Array('4', 'video_quality', current_album, current_asset,
+        duration, time, type, media_quality, quality));
 
 }
 
@@ -593,8 +593,8 @@ function player_video_quality_set(media_quality) {
  * @returns {undefined}
  */
 function player_video_seek(bookmark_time, bookmark_type) {
-    server_trace(new Array('4', 'video_bookmark_click', current_album, current_asset, 
-            duration, time, bookmark_time, type, bookmark_type, current_tab, quality));
+    server_trace(new Array('4', 'video_bookmark_click', current_album, current_asset,
+        duration, time, bookmark_time, type, bookmark_type, current_tab, quality));
 
     if (bookmark_type != '' && type != bookmark_type) {
         player_video_type_set(bookmark_type);
@@ -610,7 +610,7 @@ function player_video_seek(bookmark_time, bookmark_type) {
 }
 
 /**
- * changes the video playback speed 
+ * changes the video playback speed
  * @param {type} rate up | down
  * @returns {undefined}
  */
@@ -644,8 +644,8 @@ function player_video_playbackspeed_set(rate) {
     }
     playback_speed = playback_speed.toFixed(1);
 
-    server_trace(new Array('4', 'playback_speed_' + rate, current_album, current_asset, 
-            duration, time, type, quality, playback_speed, origin));
+    server_trace(new Array('4', 'playback_speed_' + rate, current_album, current_asset,
+        duration, time, type, quality, playback_speed, origin));
 
     if (camslide) {
         document.getElementById('secondary_video').playbackRate = playback_speed;
@@ -653,6 +653,7 @@ function player_video_playbackspeed_set(rate) {
     video.playbackRate = playback_speed;
     document.getElementById('toggleRate').innerHTML = (playback_speed + 'x');
 }
+
 /**
  * Click on the playback speed button
  * @returns {undefined}
@@ -674,8 +675,8 @@ function player_playbackspeed_toggle() {
         rate = 'down';
     }
     playback_speed = playback_speed.toFixed(1);
-    server_trace(new Array('4', 'playback_speed_' + rate, current_album, current_asset, 
-            duration, time, type, quality, playback_speed, origin));
+    server_trace(new Array('4', 'playback_speed_' + rate, current_album, current_asset,
+        duration, time, type, quality, playback_speed, origin));
 
     if (camslide) {
         document.getElementById('secondary_video').playbackRate = playback_speed;
@@ -720,7 +721,7 @@ function player_video_navigate(forward_rewind) {
     } else {
         video = document.getElementById('main_video');
     }
-    
+
     video_forward = true;
     video.currentTime = (forward_rewind == 'forward') ? video.currentTime + 15 : video.currentTime - 15;
     video.paused ? video.pause() : video.play();
@@ -754,8 +755,8 @@ function player_video_mute_toggle() {
     if (camslide) {
         document.getElementById('secondary_video').muted = !video.muted;
     }
-    server_trace(new Array('4', 'video_mute', current_album, current_asset, duration, 
-            time, type, quality, video.muted, origin));
+    server_trace(new Array('4', 'video_mute', current_album, current_asset, duration,
+        time, type, quality, video.muted, origin));
 }
 
 // =================== B O O K M A R K S   A C T I O N S ===================== //
@@ -832,19 +833,19 @@ function player_bookmark_form_hide(canceled) {
 function player_bookmark_form_toggle(source) {
     from_shortcut = false;
     if (bookmark_form != "") {
-        
+
         video_trace('4', 'bookmark_form_hide');
-        if(bookmark_form == source) {
+        if (bookmark_form == source) {
             player_bookmark_form_hide(false);
             return;
         }
     }
-    
+
     origin = get_origin();
-    server_trace(new Array('4', 'bookmark_form_show', current_album, current_asset, duration, 
+    server_trace(new Array('4', 'bookmark_form_show', current_album, current_asset, duration,
         time, type, source, quality, origin));
     player_bookmark_form_show(source);
-    $("#bookmark_title").focus();   
+    $("#bookmark_title").focus();
 }
 
 // ===================== T H R E A D S    A C T I O N S ======================= //
@@ -926,10 +927,10 @@ function player_thread_form_toggle() {
     if (thread_form) {
         video_trace('4', 'thread_form_hide');
         player_thread_form_hide(false);
-        
+
     } else if (bookmark_form != "") {
         player_bookmark_form_hide(false);
-        
+
     } else {
         video_trace('4', 'thread_form_show');
         player_thread_form_show();
@@ -1000,7 +1001,7 @@ function player_streaming_fullscreen(on) {
 function player_video_fullscreen(on) {
     fullscreen = (on === true); // check that 'on' is only a boolean
     var action = fullscreen ? 'video_fullscreen_enter' : 'video_fullscreen_exit';
-    
+
     if (fullscreen) {
         $('.fullscreen-button').addClass("active");
     } else {
@@ -1095,7 +1096,7 @@ function player_bookmarks_panel_show() {
         $('#video_notifications').addClass('panel-active');
     } else {
         $('#div_right').css('height', '652px');
-        $('#div_right').css('display','block');
+        $('#div_right').css('display', 'block');
         $('video, .video_controls, #bookmark_form, #thread_form, #video_player,#main_player').animate({
             width: '699px'
         });
@@ -1122,7 +1123,7 @@ function player_bookmarks_panel_hide() {
         });
     } else {
         $('#div_right').css('overflow', 'hidden');
-        $('#div_right').css('display','none');
+        $('#div_right').css('display', 'none');
         $('video, .video_controls, #bookmark_form, #thread_form, #video_player, #main_player').animate({
             width: '930px'
         });
@@ -1183,12 +1184,12 @@ function player_bookmarks_panel_fullscreen_exit() {
 // shows/hide the shortcuts panel
 function player_shortcuts_toggle() {
     var action;
-    
+
     shortcuts = !shortcuts;
     if (shortcuts) {
         $('#video_shortcuts').css('height', '92.4%');
     }
-    
+
     $('.shortcuts').animate({'width': (shortcuts) ? 'show' : 'hide'}, function () {
         $('.shortcuts_tab a').toggleClass('active');
         if (!shortcuts) {
@@ -1201,13 +1202,13 @@ function player_shortcuts_toggle() {
 
 function video_trace(lvl, action, add_origin) {
     add_origin = typeof add_origin !== 'undefined' ? add_origin : true;
-    if(add_origin) {
+    if (add_origin) {
         origin = get_origin();
-        server_trace(new Array(lvl, action, current_album, current_asset, duration, 
-                time, type, quality, origin));
+        server_trace(new Array(lvl, action, current_album, current_asset, duration,
+            time, type, quality, origin));
     } else {
-        server_trace(new Array(lvl, action, current_album, current_asset, duration, 
-                time, type, quality));
+        server_trace(new Array(lvl, action, current_album, current_asset, duration,
+            time, type, quality));
     }
 }
 
