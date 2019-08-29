@@ -887,7 +887,7 @@ function bookmarks_list_update($display = true, &$official_bookmarks = array(), 
         }
         // sorts the bookmarks following user's prefs
         $order = acl_value_get("personal_bm_order");
-        if (isset($order) && $order != '' && $order != $default_personal_bm_order) {
+        if (isset($order) && $order != '' && $order != $default_personal_bm_order && is_array($personal_bookmarks)) {
             $personal_bookmarks = array_reverse($personal_bookmarks);
         }
     }
@@ -898,7 +898,7 @@ function bookmarks_list_update($display = true, &$official_bookmarks = array(), 
     }
     // sorts the bookmarks following user's prefs
     $order = acl_value_get("official_bm_order");
-    if (isset($order) && $order != '' && $order != $default_official_bm_order) {
+    if (isset($order) && $order != '' && $order != $default_official_bm_order && is_array($official_bookmarks)) {
         $official_bookmarks = array_reverse($official_bookmarks);
     }
 
