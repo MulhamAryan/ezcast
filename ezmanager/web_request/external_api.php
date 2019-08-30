@@ -11,6 +11,7 @@
     $ApiClient = isset($input['ApiClient']) ? $input['ApiClient'] : NULL;
     $ApiUserid = isset($input['ApiUserid']) ? $input['ApiUserid'] : NULL;
     $ApiSecret = isset($input['ApiSecret']) ? $input['ApiSecret'] : NULL;
+    $ApiNbrElm = isset($input['ApiNbrElm']) ? (int)$input['ApiNbrElm'] : 1;
 
     $ApiJsonFile = file_get_contents("$basedir/commons/api.credentials.json");
     $ApiJson = json_decode($ApiJsonFile, true);
