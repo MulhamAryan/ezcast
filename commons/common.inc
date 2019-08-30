@@ -59,4 +59,6 @@ $m3u8_quality_filename = "live.m3u8";
 
 $course_id_validation_regex = "#[^A-Za-z0-9._-]#"; //all remaining characters must be form a valid unix dir name
 
+$enable_api_access = 1;
+
 require_once("custom_error_handling.php");

@@ -3,6 +3,7 @@
 **/pwfile.inc
 **/ldap_servers_auth.json
 **/ldap_servers_cred.json
+**/api.credentials.inc
 **/classroom_recorder_ip.inc
 **/admin.inc
 **/*.log
@@ -24,6 +25,4 @@
 ./log
 **/.php_cs.cache
 **/checked_file.txt
-commons/api.credentials.json
 cli_woluwe_generate_rss.sh
-commons/api.credentials.json
