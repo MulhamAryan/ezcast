@@ -12,7 +12,7 @@
     $ApiUserid = isset($input['ApiUserid']) ? $input['ApiUserid'] : NULL;
     $ApiSecret = isset($input['ApiSecret']) ? $input['ApiSecret'] : NULL;
 
-    $ApiJsonFile = file_get_contents("/usr/local/ezcast/commons/api.credentials.json");
+    $ApiJsonFile = file_get_contents("$basedir/commons/api.credentials.json");
     $ApiJson = json_decode($ApiJsonFile, true);
     $ApiLogin = 0;
 
