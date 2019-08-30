@@ -37,7 +37,7 @@ else {
                     $nbrofitem++;
                 }
             }
-
+            log_append('{"' . $ApiClient . '":{"timestamp":' . date("d-m-Y H:i:s") . ', access_to":"' . $ApiAction . '","album":"' . $album . '"}}');
             echo $json;
         } else echo json_encode("album_error");
     } else echo json_encode('album_not_found');
