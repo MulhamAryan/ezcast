@@ -34,8 +34,8 @@ else {
                             "asset_url" => $ezplayer_url . "/?action=view_asset_details&album=$album&asset=" . $asset['name'] . "&asset_token=" . ezmam_asset_token_get($album, $asset['name']) . ""
                         );
                     $json = json_encode($array, JSON_UNESCAPED_UNICODE);
+                    $nbrofitem++;
                 }
-                $nbrofitem++;
             }
 
             echo $json;
