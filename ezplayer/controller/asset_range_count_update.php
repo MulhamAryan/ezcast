@@ -41,10 +41,13 @@ function index($param = array())
     $array = array();
     if (file_exists($range_count_path . '/' . $date . '_' . $type . '.php')) {
         $array = include_once $range_count_path . '/' . $date . '_' . $type . '.php';
+    } else {
+        $init_array_str = "<?php return array(); ?>";
+        file_put_contents($range_count_path . '/' . $date . '_' . $type . '.php', $init_array_str);
+        $array = include_once $range_count_path . '/' . $date . '_' . $type . '.php';
     }
-    $index = (int)(($time / 3) - 1);
 
-    if($index < 0) $index = 0;
+    $index = (int)(($time / 3) - 1);
 
     if ($index >= 0) {
         if (isset($array[$index]) && $array[$index] != '') {
@@ -60,8 +63,9 @@ function index($param = array())
         $range_count_str .= var_export($array, true);
         $range_count_str .= "; ?>";
 
-        $random = rand();
+
         file_put_contents($range_count_path . '/' . $date . '_' . $type . '_' . $random . '.php', $range_count_str);
         rename($range_count_path . '/' . $date . '_' . $type . '_' . $random . '.php', $range_count_path . '/' . $date . '_' . $type . '.php');
     }
+
 }
