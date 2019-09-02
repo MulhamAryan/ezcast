@@ -598,6 +598,10 @@ function add_item_to_rss(&$xmlh, $title, $description, $author, $pubDate, $link,
 function ezmam_asset_exists($album_name, $asset_name)
 {
     $repository_path = ezmam_repository_path();
+
+    $album_name = preg_replace('/[^A-Za-z0-9\-\_]/', '', $album_name);
+    $asset_name = preg_replace('/[^A-Za-z0-9\-\_]/', '', $asset_name);
+
     if ($repository_path === false) {
         return false;
     }
