@@ -62,7 +62,7 @@ function index($param = array())
         $range_count_str = "<?php return ";
         $range_count_str .= var_export($array, true);
         $range_count_str .= "; ?>";
-
+        $random = rand();
 
         file_put_contents($range_count_path . '/' . $date . '_' . $type . '_' . $random . '.php', $range_count_str);
         rename($range_count_path . '/' . $date . '_' . $type . '_' . $random . '.php', $range_count_path . '/' . $date . '_' . $type . '.php');
