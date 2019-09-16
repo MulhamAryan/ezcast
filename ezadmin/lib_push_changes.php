@@ -310,14 +310,14 @@ function push_users_courses_to_recorder(&$failed_cmd = array())
         exec('ping -c 1 ' . $c['IP'], $output, $return_val);
         if ($return_val == 0) {
             $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes '.__DIR__.'/var/htpasswd ' . $recorder_array[$c['IP']]['user'] . '@' . $c['IP'] . ':' .
-                    $recorder_array[$c['IP']]['basedir'] . $recorder_array[$c['IP']]['subdir'];
+                    $recorder_array[$c['IP']]['basedir'] . $recorder_subdir;
             exec($cmd, $output, $return_var);
             if ($return_var != 0) {
                 array_push($failed_cmd, $cmd);
                 $error = true;
             }
             $cmd = 'scp -o ConnectTimeout=10 -o BatchMode=yes '.__DIR__.'/var/courselist.php ' . $recorder_array[$c['IP']]['user'] . '@' . $c['IP'] .
-                    ':' . $recorder_array[$c['IP']]['basedir'] . $recorder_array[$c['IP']]['subdir'];
+                    ':' . $recorder_array[$c['IP']]['basedir'] . $recorder_subdir;
             exec($cmd, $output, $return_var);
             if ($return_var != 0) {
                 array_push($failed_cmd, $cmd);
