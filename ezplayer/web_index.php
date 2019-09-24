@@ -677,6 +677,7 @@ function user_login($login, $passwd)
     // 6) Displaying the page
     //    view_main();
     if (count($_SESSION['first_input']) > 0) {
+        $ezplayer_url .=  "/index.php?";
         foreach ($_SESSION['first_input'] as $key => $value) {
             $ezplayer_url .= "$key=$value&";
         }
@@ -819,7 +820,7 @@ function redraw_page()
     ezmam_repository_path($repository_path);
 
     $action = $_SESSION['ezplayer_mode'];
-    $redraw = true;
+    $redraw = false;
 
     // Whatever happens, the first thing to do is display the whole page.
     albums_view();
@@ -1040,7 +1041,7 @@ function logout()
 {
     // Deleting the ACLs from the session var
     log_append("logout");
-    $lvl = ($_SESSION['album'] != '' && $_SESSION['asset'] != '') ? 3 : (($_SESSION['album'] != '') ? 2 : 1);
+    $lvl = (isset($_SESSION['album']) && $_SESSION['album'] != '' && $_SESSION['asset'] != '') ? 3 : ((isset($_SESSION['album']) && $_SESSION['album'] != '') ? 2 : 1);
     trace_append(array($lvl, 'logout'));
     acl_exit();
 
