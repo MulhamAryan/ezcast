@@ -37,7 +37,7 @@ $do_users_courses=true;
 $do_sync=true;
 $do_users=false;
 $do_courses=false;
-$anac='201718';
+$anac='201920';
 //$do_users_courses=FALSE;
 //$do_sync=false;
 
