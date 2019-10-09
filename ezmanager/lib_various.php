@@ -178,7 +178,7 @@ function get_user_friendly_duration($duration)
     }
     
     $res= round($duration);
-    $hours = round($duration / 3600);
+    $hours = floor($duration / 3600);
     $mins = round($duration / 60 % 60);
     $secs = round($duration % 60);
     if ($res < 60) {
