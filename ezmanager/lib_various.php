@@ -178,10 +178,15 @@ function get_user_friendly_duration($duration)
     }
     
     $res= round($duration);
+    $hours = round($duration / 3600);
+    $mins = round($duration / 60 % 60);
+    $secs = round($duration % 60);
     if ($res < 60) {
         $res .= ' sec';
-    } else {
-        $res = round($res / 60) . ' min. ' . ($res % 60) . ' sec.';
+    } elseif($res < 3600) {
+        $res = $mins . 'min. ' . $secs . ' sec.';
+    } else{
+        $res = $hours . 'h. ' . $mins . 'min. ' . $secs . 'sec.';
     }
     return $res;
 }
