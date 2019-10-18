@@ -114,6 +114,8 @@
         <label id="stats_ezplayer_bookmarks" lang="en">Bookmarks and TOC</label>
         <label id="stats_view_report" lang="fr">Rapport automatisé</label>
         <label id="stats_view_report" lang="en">Automated Report</label>
+        <label id="stats_new_view_report" lang="fr">Rapport automatisé (nouveau)</label>
+        <label id="stats_new_view_report" lang="en">Automated Report (new)</label>
 
         <!-- Titles -->
         <label id="list_courses_title" lang="fr">Liste des cours</label>

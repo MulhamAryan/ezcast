@@ -125,7 +125,11 @@ $options['Stats'] = array(
     array(
         'name' => '®stats_view_report®',
         'action' => 'view_report'
-    )
+    ),
+    array(
+        'name' => '®stats_new_view_report®',
+            'action' => 'new_view_report'
+        )
 );
 
 // Each element is the translation in the destination language of the keyword used to reference the category in the above array.

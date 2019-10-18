@@ -277,6 +277,10 @@ else {
             requireController('view_report.php');
             break;
 
+        case 'new_view_report':
+            requireController('new_view_report.php');
+            break;
+
         // Monitoring
         case 'view_events':
             requireController('view_list_event.php');
