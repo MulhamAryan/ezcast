@@ -51,6 +51,7 @@ Class GenerateStatistics{
     function __construct($startdate,$enddate){
 
         global $repository_basedir;
+        $repository_basedir = "/var/lib/ezcast";
         $this->startdate = $startdate;
         $this->enddate = $enddate;
         $this->dir = $repository_basedir . "/repository/";
