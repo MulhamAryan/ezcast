@@ -46,11 +46,11 @@ function index($param = array())
         $header.= "Current view: " . $_SESSION['ezplayer_mode'] . PHP_EOL;
         $header.= '------------------------------------------------------------' . PHP_EOL . PHP_EOL;
 
-        mail($mailto_alert, $_SESSION['user_full_name'] . " - $subject", $header . $message);
+        //mail($mailto_alert, $_SESSION['user_full_name'] . " - $subject", $header . $message);
         global $organization_name;
         if (rtrim($mail) !== '') {
             $header = template_get_info("report_success", $organization_name, get_lang()).'.'. PHP_EOL . PHP_EOL;
-            mail($mail, "Confirmation: $subject", $header . $message);
+            //mail($mail, "Confirmation: $subject", $header . $message);
         }
         trace_append(array('0', 'contact_send', $mail, $subject, $message));
     }
