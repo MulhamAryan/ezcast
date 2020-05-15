@@ -49,16 +49,16 @@ function index($param = array())
     //
     $album_name_full = $album; // complete album name, used for div identification
     if (isset($metadata['id'])) {
-        $album_id = $metadata['id'];
+        $album_id = trim($metadata['id']);
     } else {
-        $album_id = $metadata['name'];
+        $album_id = trim($metadata['name']);
     }
     if (isset($metadata['course_code_public']) && $metadata['course_code_public'] != "") {
         $course_code_public = $metadata['course_code_public'];
     }
-    $album_name = $metadata['name'];
+    $album_name = trim($metadata['name']);
 
-    // TO DO : create variable to show displayed_course_code
+    // TODO : create variable to show displayed_course_code
     // $album_displayed_code = get_album_displayed_code($album);
 
 
