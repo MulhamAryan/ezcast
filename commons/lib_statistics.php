@@ -28,7 +28,6 @@ Class GenerateStatistics{
 
     public $startdate;
     public $enddate;
-    public $excludedCourses = array("PODC-I-","PODC-E-");
     public $recordStatus = array("processed" => 0, "failed" => 0);
     public $recordType = array("camslide" => 0,"cam" => 0, "slide" => 0, "SUBMIT" => 0);
     public $auditoireRecordNumber = array();
@@ -51,6 +50,9 @@ Class GenerateStatistics{
     function __construct($startdate,$enddate){
 
         global $repository_basedir;
+
+        $excludedCourses = array("PODC-I");
+
         $repository_basedir = "/var/lib/ezcast";
         $this->startdate = $startdate;
         $this->enddate = $enddate;
@@ -64,8 +66,13 @@ Class GenerateStatistics{
             $search  = ["-priv","-pub"];
             $replace = ["",""];
             $courseName = str_replace($search,$replace,$folder->getFilename());
-
-            if($folder->getCTime() >= $startdate && $folder->getCTime() <= $enddate && $folder->isDir() && !$folder->isDot()) {
+            $matches  = preg_grep ('/^' . $courseName . '/i', $excludedCourses);
+            if($folder->getCTime() >= $startdate
+                && $folder->getCTime() <= $enddate
+                && $folder->isDir()
+                && !$folder->isDot()
+                && empty($matches))
+            {
                 $iterator = new DirectoryIterator($this->dir . $folder);
                 foreach ($iterator as $fileinfo) {
 
@@ -82,43 +89,23 @@ Class GenerateStatistics{
                             $this->failedListCourses[$folder->getFilename()][] = array("asset" => $fileinfo->getFilename(),"origin" => $metadata["origin"], "user" => $metadata["author"]);
                         }
                         if($metadata["origin"] == "SUBMIT"){
-
-                            if(isset($this->userSubmitList[$metadata["author"]]) && !empty($this->userSubmitList[$metadata["author"]]))
-                                $this->userSubmitList[$metadata["author"]]++;
-
-                            if(isset($this->submitCourseList[$courseName]) && !empty($this->submitCourseList[$courseName]))
-                                $this->submitCourseList[$courseName]++;
-
-                            if(isset($this->recordType["SUBMIT"]) && !empty($this->recordType["SUBMIT"]))
-                                $this->recordType["SUBMIT"]++;
-
+                            $this->userSubmitList[$metadata["author"]]++;
+                            $this->submitCourseList[$courseName]++;
+                            $this->recordType["SUBMIT"]++;
                         }
                         else{
-                            if(isset($this->userRecordList[$metadata["author"]]) && !empty($this->userRecordList[$metadata["author"]]))
+                            if(!empty($metadata["author"]))
                                 $this->userRecordList[$metadata["author"]]++;
 
-                            if(isset($this->auditoireCourseList[$courseName]) && !empty($this->auditoireCourseList[$courseName]))
+                            if(!empty($courseName))
                                 $this->auditoireCourseList[$courseName]++;
                         }
-
-                        if(isset($this->auditoireRecordNumber[$metadata["origin"]]) && !empty($this->auditoireRecordNumber[$metadata["origin"]]))
-                            $this->auditoireRecordNumber[$metadata["origin"]]++;
-
-                        if(isset($this->auditoireRecordtimer[$metadata["origin"]]) && !empty($this->auditoireRecordtimer[$metadata["origin"]]))
-                            $this->auditoireRecordtimer[$metadata["origin"]] += $metadata["duration"];
-
-                        if(isset($this->usersList[$metadata["author"]]) && !empty($this->usersList[$metadata["author"]]))
-                            $this->usersList[$metadata["author"]]++;
-
-                        if(isset($this->coursesList[$courseName]) && !empty($this->coursesList[$courseName]))
-                            $this->coursesList[$courseName]++;
-
-                        if(isset($this->recordStatus[$metadata["status"]]) && !empty($this->recordStatus[$metadata["status"]]))
-                            $this->recordStatus[$metadata["status"]]++;
-
-                        if(isset($this->recordType[$metadata["record_type"]]) && !empty($this->recordType[$metadata["record_type"]]))
-                            $this->recordType[$metadata["record_type"]]++;
-
+                        $this->auditoireRecordNumber[$metadata["origin"]]++;
+                        $this->auditoireRecordtimer[$metadata["origin"]] += $metadata["duration"];
+                        $this->usersList[$metadata["author"]]++;
+                        $this->coursesList[$courseName]++;
+                        $this->recordStatus[$metadata["status"]]++;
+                        $this->recordType[$metadata["record_type"]]++;
                     }
                 }
 
