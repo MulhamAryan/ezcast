@@ -58,7 +58,7 @@ function index($param = array())
     }
 
     if ($seek && isset($input['t'])) {
-        $timecode = $input['t'];
+        $timecode = intval($input['t']);
     } else {
         $timecode = 0;
     }
