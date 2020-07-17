@@ -1,6 +1,6 @@
 <?php
 require_once 'config.inc';
-require_once(__DIR__.'/../../commons/lib_statistics.php');
+require_once('/usr/loca/ezcast/commons/lib_statistics.php');
 
 function index($param = array()){
     global $input;
@@ -16,7 +16,7 @@ function index($param = array()){
 
     include template_getpath('div_main_header.php');
     $resultat = $Stat->startdate;
-    $resultat .= var_dump($Stat->auditoireCourseList);
+    $resultat .= var_dump($Stat->getRecords("total"));
 
     include template_getpath('div_new_view_report.php');
     include template_getpath('div_main_footer.php');

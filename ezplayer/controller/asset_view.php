@@ -123,7 +123,8 @@ function index($param = array())
     // adds the asset to the watched assets list if needed
     if (acl_user_is_logged()) {
         if (user_prefs_watched_add($_SESSION['user_login'], $album, $asset) && acl_show_notifications()) {
-            acl_update_watched_assets();
+            //acl_update_watched_assets();
+            //TODO ACL UPDATE ON HOLD
         }
     }
     

@@ -30,7 +30,8 @@ function index($param = array())
 
     if ($display_new_video_notification) {
         // updates the watched videos count
-        acl_update_watched_assets();
+        //acl_update_watched_assets();
+        //TODO ACL UPDATE ON HOLD
     } else {
         unset($_SESSION['acl_watched_assets']);
     }

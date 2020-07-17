@@ -98,13 +98,14 @@ function ezplayer_acl_update_permissions_list()
     }
     
     if (acl_show_notifications()) {
-        acl_update_watched_assets();
+        //TODO ACL UPDATE ON HOLD
+        //acl_update_watched_assets();
     }
 
     $_SESSION['acl_consulted_albums'] = $consulted_albums;
     $_SESSION['acl_moderated_albums'] = $courses_list_for_author;
 }
-
+/*
 function acl_update_watched_assets()
 {
     global $repository_path;
@@ -123,7 +124,7 @@ function acl_update_watched_assets()
         $_SESSION['acl_global_count'] = $global_count;
     }
     $_SESSION['acl_watched_assets'] = $watched_assets;
-}
+}*/ //TODO ACL UPDATE ON HOLD
 /**
  * Determines if the current user is a professor or not
  * @return boolean
@@ -157,12 +158,13 @@ function acl_is_watched($album, $asset)
     if (!acl_user_is_logged()) {
         return true;
     }
-    
-    foreach ($_SESSION['acl_watched_assets'] as $watched) {
+    // TODO ACL DISABLED
+    /*foreach ($_SESSION['acl_watched_assets'] as $watched) {
         if ($watched['album'] == $album && in_array($asset, $watched['assets'])) {
             return true;
         }
     }
+    */
     return false;
 }
 
@@ -178,7 +180,8 @@ function acl_watched_count($album)
         return 0;
     }
     $count = 0;
-    foreach ($_SESSION['acl_watched_assets'] as $watched) {
+    // TODO ACL DISABLED
+    /*foreach ($_SESSION['acl_watched_assets'] as $watched) {
         if ($watched['album'] == $album) {
             $album_assets = ezmam_asset_list($album);
             foreach ($watched['assets'] as $asset) {
@@ -187,7 +190,7 @@ function acl_watched_count($album)
                 }
             }
         }
-    }
+    }*/
     return $count;
 }
 
@@ -198,7 +201,7 @@ function acl_watched_count($album)
  */
 function acl_global_count($album)
 {
-    return $_SESSION['acl_global_count'][$album];
+    //return $_SESSION['acl_global_count'][$album];
 }
 
 /**
