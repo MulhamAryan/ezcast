@@ -122,7 +122,7 @@ function statements_get()
                       '(' . db_gettable('users') . '.recorder_passwd = "" OR '.db_gettable('users').'.recorder_passwd IS NULL) as passNotSet, ' .
                             db_gettable('users') . '.permissions, ' .
                             db_gettable('users') . '.origin ' .
-//                            db_gettable('users') . '.termsOfUses ' .
+                            //db_gettable('users') . '.termsOfUses ' .
                             //db_gettable('users') . '.date_created ' .
                     'FROM ' . db_gettable('users') . ' ' .
                     'WHERE user_ID = :user_ID',
@@ -293,14 +293,39 @@ function statements_get()
                     "AND (date_update > DATE_ADD(NOW(), INTERVAL -6 HOUR)) ".
                     "GROUP BY classroom ".
                     "ORDER BY status DESC",                      
-        
-        
 
             'in_recorder_update' =>
                 'UPDATE ' . db_gettable('courses') . ' ' .
                 'SET in_recorders = :in_recorders ' .
                 'WHERE course_code = :course_code',
-        
+
+            'user_tokens_list' =>
+                //"SELECT utl.*, c.course_name as title, c.course_code FROM " . db_gettable('user_tokens_list') . " utl ".
+                "SELECT utl.*, c.course_code, c.course_name as title FROM " . db_gettable('user_tokens_list') . " utl ".
+                "INNER JOIN " . db_gettable('courses') . " c on c.course_code = left(utl.album, LENGTH(utl.album) - 4)" .
+                " WHERE utl.user_id = :user_id " .
+                " ORDER BY list_order asc ",
+
+            'user_insert_token' =>
+                "INSERT INTO " . db_gettable('user_tokens_list') . "(user_id,album,token) " .
+                "VALUES (:user_id,:album,:token)",
+
+            'user_album_bookmarks_list' =>
+                "SELECT * FROM " . db_gettable('user_bookmarks') . " ".
+                "WHERE album = :album and user_id = :user_id and place = :place",
+
+            'album_bookmarks_list' =>
+                "SELECT * FROM " . db_gettable('user_bookmarks') . " ".
+                "where album = :album and place = :place",
+
+            'user_insert_bookmark' =>
+                "INSERT INTO " . db_gettable('user_bookmarks') . "(album,asset,title,user_id,timecode,description,keywords,level,type,place) " .
+                "VALUES (:album,:asset,:title,:user_id,:timecode,:description,:keywords,:level,:type,:place)",
+
+            'user_delete_bookmark_asset' =>
+                'DELETE FROM ' . db_gettable('user_bookmarks') . ' ' .
+                'WHERE user_id=:user_id AND album=:album AND asset=:asset AND timecode=:timecode AND place=:place',
+
     );
 }
 
@@ -1150,4 +1175,77 @@ function db_in_recorder_update($course,$value)
     $statements['in_recorder_update']->bindParam(':in_recorders', $value);
     
     return $statements['in_recorder_update']->execute();
+}
+
+function get_user_tokens_list($user_id){
+    global $statements;
+
+    $statements["user_tokens_list"]->bindParam(':user_id', $user_id);
+
+    $statements["user_tokens_list"]->execute();
+    return $statements["user_tokens_list"]->fetchAll();
+}
+
+function user_insert_token($info = array()){
+    global $statements;
+    $statements['user_insert_token']->bindParam(':user_id', $info["user_id"]);
+    $statements['user_insert_token']->bindParam(':album', $info["album"]);
+    //$statements['user_insert_token']->bindParam(':list_order', "0");
+    $statements['user_insert_token']->bindParam(':token', $info["token"]);
+
+    $statements['user_insert_token']->execute();
+}
+
+function get_user_bookmarks($info = array()){
+    global $statements;
+
+    if($info["place"] == "general"){
+        $statements["album_bookmarks_list"]->bindParam(':album', $info["album"]);
+        $statements["album_bookmarks_list"]->bindParam(':place', $info["place"]);
+
+        $statements["album_bookmarks_list"]->execute();
+        $result = $statements["album_bookmarks_list"]->fetchAll();
+    }
+    elseif($info["place"] == "personal") {
+        $statements["user_album_bookmarks_list"]->bindParam(':user_id', $info["user_id"]);
+        $statements["user_album_bookmarks_list"]->bindParam(':album', $info["album"]);
+        $statements["user_album_bookmarks_list"]->bindParam(':place', $info["place"]);
+
+        $statements["user_album_bookmarks_list"]->execute();
+        $result = $statements["user_album_bookmarks_list"]->fetchAll();
+    }
+    else{
+        $result = array();
+    }
+    return $result;
+}
+
+function user_insert_bookmark($info){
+    global $statements;
+
+    $statements["user_insert_bookmark"]->bindParam(':album', $info["album"]);
+    $statements["user_insert_bookmark"]->bindParam(':asset', $info["asset"]);
+    $statements["user_insert_bookmark"]->bindParam(':title', $info["title"]);
+    $statements["user_insert_bookmark"]->bindParam(':user_id', $info["user_id"]);
+    $statements["user_insert_bookmark"]->bindParam(':timecode', $info["timecode"]);
+    $statements["user_insert_bookmark"]->bindParam(':description', $info["description"]);
+    $statements["user_insert_bookmark"]->bindParam(':keywords', $info["keywords"]);
+    $statements["user_insert_bookmark"]->bindParam(':level', $info["level"]);
+    $statements["user_insert_bookmark"]->bindParam(':type', $info["type"]);
+    $statements["user_insert_bookmark"]->bindParam(':place', $info["place"]);
+
+    $statements['user_insert_bookmark']->execute();
+}
+
+function user_delete_bookmark($info){
+    global $statements;
+
+    $statements["user_delete_bookmark_asset"]->bindParam(":album", $info["album"]);
+    $statements["user_delete_bookmark_asset"]->bindParam(":user_id", $info["user_id"]);
+    $statements["user_delete_bookmark_asset"]->bindParam(":timecode", $info["timecode"]);
+    $statements["user_delete_bookmark_asset"]->bindParam(":place", $info["place"]);
+    $statements["user_delete_bookmark_asset"]->bindParam(":asset", $info["asset"]);
+
+    $statements['user_delete_bookmark_asset']->execute();
+
 }

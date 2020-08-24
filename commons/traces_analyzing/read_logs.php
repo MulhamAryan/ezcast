@@ -5,6 +5,7 @@ date_default_timezone_set('Europe/Brussels');
 
 // Load config
 require_once __DIR__.'/../config.inc';
+require_once __DIR__.'/../lib_database.php';
 
 // Default param
 $all_logs = false;
@@ -39,7 +40,16 @@ class Database
 {
     public function __construct($host, $dbname,$port, $login, $passwd, $prefix = "")
     {
-        $this->db = new PDO("mysql:host=$host;dbname=$dbname;port=$port;charset=utf8", $login, $passwd);
+        global $db_type;
+        //global $azureDB;
+        //global $cerfile;
+        /*if($azureDB == true){
+            $this->db = new PDO("mysql:host=$host;dbname=$dbname;port=$port;charset=utf8", $login, $passwd,array(PDO::MYSQL_ATTR_SSL_CA => $cerfile, PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false));
+        }
+        else{
+            $this->db = new PDO("mysql:host=$host;dbname=$dbname;port=$port;charset=utf8", $login, $passwd);
+        }*/
+        $this->db = db_ping($db_type,$host,$login,$passwd,$dbname);
         $this->prefix = $prefix;
     }
 

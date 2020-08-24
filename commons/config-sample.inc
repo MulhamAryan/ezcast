@@ -139,6 +139,9 @@ $ezplayer_trace_path = $repository_basedir . '/ezplayer/ezplayer_traces/';
 $video_split_time = 30; // Time in second to send information that user watch a video
 $display_trace_stats = false; // Display or not stat on ezmanager
 
+// -- Token and Bookmarks system -- //
+$token_system_database = true; //If false file system will be used
+
 //Transcoding streaming video live  !!!!WARNING $repository_basedir has to be shared between the two servers && remote server must have right to write in "$repository_basedir/streamEncode"
 $transcodeStreaming=false;                                            
 $externalClients=array();        // use : $externalClients=array("user1@ip", "user2@ip")        !!!! ssh link must be establish between ezcast && those clients                                                                                            

@@ -45,14 +45,26 @@ $db_prepared = false;
  */
 function db_ping($type, $host, $login, $passwd, $dbname)
 {
+
+    global $db_port;
+    global $azureDB;
+    global $cerfile;
+
     try {
-        $db = new PDO("$type:host=$host;dbname=$dbname;charset=utf8", $login, $passwd);
+        if($azureDB == true){
+            $db_object = new PDO("$type:host=$host;port=$db_port;dbname=$dbname;charset=utf8", $login, $passwd,array(PDO::MYSQL_ATTR_SSL_CA => $cerfile, PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false));
+        }
+        else{
+            $db_object = new PDO("$type:host=$host;port=$db_port;dbname=$dbname;charset=utf8", $login, $passwd);
+        }
+        return $db_object;
     } catch (PDOException $e) {
+        //throw new Exception("Could not connect to database $host, $db_port, $dbname with login $login");
         return false;
     }
 
-    unset($db);
-    return true;
+    //unset($db);
+    //return true;
 }
 
 /*
@@ -64,26 +76,31 @@ function db_ping($type, $host, $login, $passwd, $dbname)
 
 function db_prepare(&$stmt_array = array())
 {
-    global $db_object;
     global $db_type;
+    global $db_object;
     global $db_host;
-    global $db_port;
+    //global $db_port;
     global $db_login;
     global $db_passwd;
     global $db_name;
     global $db_prepared;
     global $statements;
     global $debug_mode;
-    
-    if ($db_object == null) {
+    //global $azureDB;
+    //global $cerfile;
+    $db_object = db_ping($db_type, $db_host, $db_login, $db_passwd, $db_name);
+    /*if ($db_object == null) {
         try {
-//            $db_object = new PDO("$db_type:host=$db_host;dbname=$db_name;charset=utf8", $db_login, $db_passwd);
-           $db_object = new PDO("$db_type:host=$db_host;port=$db_port;dbname=$db_name;charset=utf8", "$db_login", "$db_passwd");
+            if($azureDB == true){
+                $db_object = new PDO("$db_type:host=$db_host;port=$db_port;dbname=$db_name;charset=utf8", $db_login, $db_passwd,array(PDO::MYSQL_ATTR_SSL_CA => $cerfile, PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false));
+            }
+            else{
+                $db_object = new PDO("$db_type:host=$db_host;port=$db_port;dbname=$db_name;charset=utf8", $db_login, $db_passwd);
+            }
         } catch (PDOException $e) {
-//             throw new Exception("Could not connect to database $db_host, $db_name with login $db_login");
             throw new Exception("Could not connect to database $db_host, $db_port, $db_name with login $db_login");
         }
-    }
+    }*/
     
     foreach ($stmt_array as $stmt_name => $stmt) {
         db_statement_prepare($stmt_name, $stmt);
