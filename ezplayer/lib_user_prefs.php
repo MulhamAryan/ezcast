@@ -29,6 +29,8 @@ require_once 'config.inc';
 require_once __DIR__.'/../commons/lib_error.php';
 require_once 'lib_various.php';
 require_once 'lib_ezmam.php';
+require_once __DIR__."/../commons/lib_sql_management.php";
+
 /**
  * This library contains functions that allow to get user's preferences
  * @package ezcast.ezplayer.lib.userPreferences
@@ -71,6 +73,8 @@ function user_prefs_repository_path($path = "")
  */
 function user_prefs_tokens_get($user)
 {
+    require_once __DIR__.'/../commons/lib_sql_management.php';
+    global $token_system_database;
     // Sanity check
     if (!isset($user) || $user == '') {
         return false;
@@ -88,11 +92,15 @@ function user_prefs_tokens_get($user)
     $user_path = $user_files_path . "/" . $user;
 
     // 3) if the xml file exists, it is converted in associative array
-    if (file_exists($user_path . "/_album_tokens.xml")) {
-        $xml = simplexml_load_file($user_path . "/_album_tokens.xml");
-        $assoc_album_tokens = xml_file2assoc_array($xml, 'album_token');
+    if($token_system_database == true){
+        $assoc_album_tokens = get_user_tokens_list($user);
     }
-
+    else {
+        if (file_exists($user_path . "/_album_tokens.xml")) {
+            $xml = simplexml_load_file($user_path . "/_album_tokens.xml");
+            $assoc_album_tokens = xml_file2assoc_array($xml, 'album_token');
+        }
+    }
     return $assoc_album_tokens;
 }
 
@@ -218,7 +226,7 @@ function user_prefs_tokens_add($user, $tokens_array)
         return false;
     }
     // converts the array in xml file
-    return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
+    //return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
 }
 
 // checks if the array contains the token
@@ -252,6 +260,7 @@ function token_array_contains(&$array, $token)
  */
 function user_prefs_token_add($user, $album, $title, $token, $index = 0)
 {
+    global $token_system_database;
     // Sanity check
     if (!isset($user) || $user == '' ||
             !ezmam_album_exists($album)) {
@@ -278,8 +287,14 @@ function user_prefs_token_add($user, $album, $title, $token, $index = 0)
         // add a token at the specified index in the albums list
         array_splice($token_list, $index, 0, array(null));
         $token_list[$index] = $album_token;
-        // converts the array in xml file
-        return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
+        if($token_system_database == true){
+            $info = array("user_id" => $user, "album" => $album, "token" => $token);
+            return insert_token_to_db($info);
+        }
+        else {
+            // converts the array in xml file
+            return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
+        }
     }
     return false;
 }
@@ -315,7 +330,7 @@ function user_prefs_token_update_count($user, $album)
         // updates the count
         $count = count(ezmam_asset_list($album));
         $token_list[$index]['count'] = $count;
-        return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
+        //return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
     }
 
     return false;
@@ -359,7 +374,7 @@ function user_prefs_token_remove($user, $album)
     }
     if ($removed) {
         $user_path = $user_files_path . '/' . $user;
-        return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
+        //return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
     }
     return false;
 }
@@ -396,7 +411,7 @@ function user_prefs_token_remove_at($user, $index)
     }
     unset($token_list[$index]);
     $user_path = $user_files_path . '/' . $user;
-    return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
+    //return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
 }
 
 /**
@@ -436,7 +451,7 @@ function user_prefs_token_swap($user, $index, $new_index)
     $token_list[$new_index] = $token;
 
     $user_path = $user_files_path . '/' . $user;
-    return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
+    //return assoc_array2xml_file($token_list, $user_path . "/_album_tokens.xml", "album_tokens", "album_token");
 }
 
 /**
@@ -586,29 +601,35 @@ function user_prefs_bookmarks_search($user, $search, $fields, $level, $albums, $
  */
 function user_prefs_album_bookmarks_list_get($user, $album)
 {
+    global $bookmarks_on_db;
     // Sanity check
     if (!isset($user) || $user == '') {
         return false;
     }
-
-    // 1) set repository path
-    $user_files_path = user_prefs_repository_path();
-    if ($user_files_path === false) {
-        return false;
+    if($bookmarks_on_db == true){
+        $info = array("user_id" => $user, "album" => $album, "place" => "personal");
+        $assoc_album_bookmarks = get_user_bookmarks($info);
     }
-    // 2) set user's file path
-    $user_path = $user_files_path . "/" . $user;
-
-    $assoc_album_bookmarks = array();
-    // 3) if the xml file exists, it is converted in associative array
-    if (file_exists($user_path . "/bookmarks_$album.xml")) {
-        $xml = simplexml_load_file($user_path . "/bookmarks_$album.xml");
-        if (!$xml) {
+    else {
+        // 1) set repository path
+        $user_files_path = user_prefs_repository_path();
+        if ($user_files_path === false) {
             return false;
         }
-        $assoc_album_bookmarks = xml_file2assoc_array($xml, 'bookmark');
-    }
+        // 2) set user's file path
+        $user_path = $user_files_path . "/" . $user;
 
+        $assoc_album_bookmarks = array();
+        // 3) if the xml file exists, it is converted in associative array
+        if (file_exists($user_path . "/bookmarks_$album.xml")) {
+            $xml = simplexml_load_file($user_path . "/bookmarks_$album.xml");
+            if (!$xml) {
+                return false;
+            }
+            $assoc_album_bookmarks = xml_file2assoc_array($xml, 'bookmark');
+        }
+
+    }
     return $assoc_album_bookmarks;
 }
 
@@ -750,95 +771,126 @@ function user_prefs_asset_bookmark_add(
     $keywords = '',
     $level = '1',
     $type = ''
-) {
+)
+{
     global $logger;
-    
+    global $bookmarks_on_db;
+
     // Sanity check
     if (!isset($user) || $user == '' ||
-            !ezmam_album_exists($album) ||
-            !ezmam_asset_exists($album, $asset) ||
-            !isset($timecode) || $timecode == '' || $timecode < 0) {
+        !ezmam_album_exists($album) ||
+        !ezmam_asset_exists($album, $asset) ||
+        !isset($timecode) || $timecode == '' || $timecode < 0) {
         return false;
     }
-
-    // 1) set the repository path
-    $user_files_path = user_prefs_repository_path();
-    if ($user_files_path === false) {
-        return false;
-    }
-
-    // set user's file path
-    $user_path = $user_files_path . '/' . $user;
-    // remove the previous same bookmark if it existed yet
-    $delete_ok = user_prefs_asset_bookmark_delete($user, $album, $asset, $timecode);
-    if (!$delete_ok) {
-        $logger->log(
-            EventType::MANAGER_BOOKMARKS,
-            LogLevel::ERROR,
-            "Could not delete last bookmark (user: "
+    if ($bookmarks_on_db == true) {
+        $delete_ok = user_prefs_asset_bookmark_delete($user, $album, $asset, $timecode);
+        if (!$delete_ok) {
+            $logger->log(
+                EventType::MANAGER_BOOKMARKS,
+                LogLevel::ERROR,
+                "Could not delete last bookmark (user: "
                 . "$user, album: $album, asset: $asset, timecode: $timecode). New bookmark cannot be added.",
                 array(__FUNCTION__)
+            );
+            return false;
+        }
+
+        $info = array(
+            "album"       => $album,
+            "asset"       => $asset,
+            "title"       => $title,
+            "user_id"     => $user,
+            "timecode"    => $timecode,
+            "description" => $description,
+            "keywords"    => $keywords,
+            "level"       => $level,
+            "type"        => $type,
+            "place"       => "personal"
         );
-        return false;
+
+        user_insert_bookmark($info);
     }
-    
-    // if the user's directory doesn't exist yet, we create it
-    if (!file_exists($user_path)) {
-        mkdir($user_path, 0755, true);
+    else{
+        // 1) set the repository path
+        $user_files_path = user_prefs_repository_path();
+        if ($user_files_path === false) {
+            return false;
+        }
+
+        // set user's file path
+        $user_path = $user_files_path . '/' . $user;
+        // remove the previous same bookmark if it existed yet
+        $delete_ok = user_prefs_asset_bookmark_delete($user, $album, $asset, $timecode);
+        if (!$delete_ok) {
+            $logger->log(
+                EventType::MANAGER_BOOKMARKS,
+                LogLevel::ERROR,
+                "Could not delete last bookmark (user: "
+                . "$user, album: $album, asset: $asset, timecode: $timecode). New bookmark cannot be added.",
+                array(__FUNCTION__)
+            );
+            return false;
+        }
+
+        // if the user's directory doesn't exist yet, we create it
+        if (!file_exists($user_path)) {
+            mkdir($user_path, 0755, true);
+        }
+
+        // Get the bookmarks list
+        $bookmarks_list = user_prefs_album_bookmarks_list_get($user, $album);
+        $count = $bookmarks_list === false ? 0 : count($bookmarks_list);
+        $index = 0;
+
+        if ($count > 0) {
+            $index = -1;
+            $asset_ref = $bookmarks_list[0]['asset'];
+            $timecode_ref = $bookmarks_list[0]['timecode'];
+            // loop while the asset is older than the reference asset
+            while ($index < ($count - 1) && $asset < $asset_ref) {
+                ++$index;
+                $asset_ref = $bookmarks_list[$index]['asset'];
+                $timecode_ref = $bookmarks_list[$index]['timecode'];
+            }
+            // if the asset already contains bookmarks, loop while
+            // timecode is bigger than reference timecode
+            while ($index < $count && $asset == $asset_ref && $timecode > $timecode_ref) {
+                ++$index;
+                $timecode_ref = $bookmarks_list[$index]['timecode'];
+                $asset_ref = $bookmarks_list[$index]['asset'];
+            }
+
+            if ($index < 0) { // no bookmark yet
+                $index = 0;
+            }
+            if ($index > $count) { // add in last index
+                --$index;
+            }
+        }
+
+        $logger->log(EventType::MANAGER_BOOKMARKS, LogLevel::DEBUG, "BOOKMARK bookmarks_list: " .
+            print_r($bookmarks_list, true) . ", count: $count, index: $index", array(__FUNCTION__));
+
+        // extract keywords from the description
+        $keywords_array = get_keywords($description);
+        // and save them as keywords
+        foreach ($keywords_array as $keyword) {
+            if (strlen($keywords) > 0) {
+                $keywords .= ', ';
+            }
+            $keywords .= $keyword;
+        }
+        // surround every url by '*' for url recognition in EZplayer
+        $description = surround_url($description);
+
+        // add a bookmark at the specified index in the albums list
+        array_splice($bookmarks_list, $index, 0, array(null));
+        $bookmarks_list[$index] = array('album' => $album, 'asset' => $asset, 'timecode' => $timecode,
+            'title' => $title, 'description' => $description, 'keywords' => $keywords, 'level' => $level, 'type' => $type);
+
+        return assoc_array2xml_file($bookmarks_list, $user_path . "/bookmarks_$album.xml", "bookmarks", "bookmark");
     }
-
-    // Get the bookmarks list
-    $bookmarks_list = user_prefs_album_bookmarks_list_get($user, $album);
-    $count = $bookmarks_list === false ? 0 : count($bookmarks_list);
-    $index = 0;
-
-    if ($count > 0) {
-        $index = -1;
-        $asset_ref = $bookmarks_list[0]['asset'];
-        $timecode_ref = $bookmarks_list[0]['timecode'];
-        // loop while the asset is older than the reference asset
-        while ($index < ($count-1) && $asset < $asset_ref) {
-            ++$index;
-            $asset_ref = $bookmarks_list[$index]['asset'];
-            $timecode_ref = $bookmarks_list[$index]['timecode'];
-        }
-        // if the asset already contains bookmarks, loop while
-        // timecode is bigger than reference timecode
-        while ($index < $count && $asset == $asset_ref && $timecode > $timecode_ref) {
-            ++$index;
-            $timecode_ref = $bookmarks_list[$index]['timecode'];
-            $asset_ref = $bookmarks_list[$index]['asset'];
-        }
-
-        if ($index < 0) { // no bookmark yet
-            $index = 0;
-        }
-        if ($index > $count) { // add in last index
-            --$index;
-        }
-    }
-    
-    $logger->log(EventType::MANAGER_BOOKMARKS, LogLevel::DEBUG, "BOOKMARK bookmarks_list: " .
-            print_r($bookmarks_list, true) .", count: $count, index: $index", array(__FUNCTION__));
-
-    // extract keywords from the description
-    $keywords_array = get_keywords($description);
-    // and save them as keywords
-    foreach ($keywords_array as $keyword) {
-        if (strlen($keywords) > 0) {
-            $keywords .= ', ';
-        }
-        $keywords .= $keyword;
-    }
-    // surround every url by '*' for url recognition in EZplayer
-    $description = surround_url($description);
-
-    // add a bookmark at the specified index in the albums list
-    array_splice($bookmarks_list, $index, 0, array(null));
-    $bookmarks_list[$index] = array('album' => $album, 'asset' => $asset, 'timecode' => $timecode,
-        'title' => $title, 'description' => $description, 'keywords' => $keywords, 'level' => $level, 'type' => $type);
-
-    return assoc_array2xml_file($bookmarks_list, $user_path . "/bookmarks_$album.xml", "bookmarks", "bookmark");
 }
 
 /**
@@ -943,7 +995,7 @@ function user_prefs_album_bookmarks_add($user, $bookmarks)
 function user_prefs_asset_bookmark_delete($user, $album, $asset, $timecode)
 {
     global $logger;
-    
+    global $bookmarks_on_db;
     // Sanity check
     if (!isset($user) || $user == '') {
         return false;
@@ -970,19 +1022,25 @@ function user_prefs_asset_bookmark_delete($user, $album, $asset, $timecode)
         $logger->log(EventType::MANAGER_BOOKMARKS, LogLevel::DEBUG, "Bookmark already exists (user: $user, album: "
                 . "$album, asset: $asset, timecode: $timecode)", array(__FUNCTION__));
 
-        $bookmarks_list = user_prefs_album_bookmarks_list_get($user, $album);
+        if($bookmarks_on_db == true){
+            $info = array("album" => $album, "asset" => $asset, "user_id" => $user, "timecode" => $timecode, "place" => "personal");
+            user_delete_bookmark($info);
+        }
+        else {
+            $bookmarks_list = user_prefs_album_bookmarks_list_get($user, $album);
 
-        // if there is no bookmark anymore, the file is deleted
-        if (count($bookmarks_list) == 1) {
-            return user_prefs_album_bookmarks_delete_all($user, $album);
-        }
-        foreach ($bookmarks_list as $index => $bookmark) {
-            if ($bookmark['asset'] == $asset && $bookmark['timecode'] == $timecode) {
-                unset($bookmarks_list[$index]);
-                break;
+            // if there is no bookmark anymore, the file is deleted
+            if (count($bookmarks_list) == 1) {
+                return user_prefs_album_bookmarks_delete_all($user, $album);
             }
+            foreach ($bookmarks_list as $index => $bookmark) {
+                if ($bookmark['asset'] == $asset && $bookmark['timecode'] == $timecode) {
+                    unset($bookmarks_list[$index]);
+                    break;
+                }
+            }
+            return assoc_array2xml_file($bookmarks_list, $user_path . "/bookmarks_$album.xml", "bookmarks", "bookmark");
         }
-        return assoc_array2xml_file($bookmarks_list, $user_path . "/bookmarks_$album.xml", "bookmarks", "bookmark");
     }
     return true;
 }

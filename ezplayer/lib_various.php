@@ -790,6 +790,12 @@ function search_in_array($search, $bookmarks, $fields, $level)
 
     return null;
 }
+// Add token to user table
+
+function insert_token_to_db($album_token = array()){
+    require_once __DIR__.'/../commons/lib_sql_management.php';
+    user_insert_token($album_token);
+}
 
 //===== V A R I O U S - THREADS ================================================
 //==============================================================================

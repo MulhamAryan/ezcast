@@ -15,6 +15,7 @@ include_once 'config.inc';
 include_once 'lib_ezmam.php';
 include_once 'lib_various.php';
 require_once __DIR__.'/../commons/lib_scheduling.php';
+require_once __DIR__.'/../commons/lib_syncrhonize.php';
 
 Logger::$print_logs = true;
 
@@ -155,6 +156,10 @@ scheduler_schedule();
 $pos = strrpos($album, "-");
 $album_without_mod = substr($album, 0, $pos);
 $asset_name = $asset . '_' . $album_without_mod;
+if($enable_repo_sync == true){
+    exec($php_cli_cmd . " cli_sync_servers.php {$album} {$asset}",$output, $val);
+    $logger->log(EventType::MANAGER_SUBMIT_RENDERING, LogLevel::INFO, "Launching repository synchro ...", array("cli_submit_intro_title_movie"), $asset_name);
+}
 $logger->log(EventType::MANAGER_SUBMIT_RENDERING, LogLevel::INFO, "Successfully scheduled rendering job", array("cli_submit_intro_title_movie"), $asset_name);
 exit(0);
 

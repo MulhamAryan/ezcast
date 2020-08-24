@@ -9,10 +9,10 @@ include_once 'config.inc';
 include_once 'lib_ezmam.php';
 include_once 'lib_various.php';
 require_once dirname(__FILE__) . '/../commons/config.inc';
+require_once __DIR__.'/../commons/lib_syncrhonize.php';
 
 //always initialize repository path before using ezmam library
 ezmam_repository_path($repository_path);
-
 
 /*
  * This program handles media cam,slide,upload movies and asset's metadata and ask a remote machine to render the video
@@ -129,7 +129,10 @@ $pos = strrpos($album, "-");
 $album_without_mod = substr($album, 0, $pos);
 $asset_name = $asset . '_' . $album_without_mod;
 $logger->log(EventType::ASSET_FINALIZED, LogLevel::NOTICE, "Asset succesfully finalized", array(basename(__FILE__)), $asset_name);
-
+if($enable_repo_sync == true){
+    exec($php_cli_cmd . " cli_sync_servers.php {$album} {$asset}",$output, $val);
+    $logger->log(EventType::MANAGER_SUBMIT_RENDERING, LogLevel::INFO, "Launching repository synchro step 2 ...", array("cli_rendered_maminsert"), $asset_name);
+}
 
 
 function high_low_media_mam_insert($album, $asset, $high_low, $cam_slide, $processing_assoc, $render_dir)

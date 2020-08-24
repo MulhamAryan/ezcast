@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/config.inc';
 require_once dirname(__FILE__) . '/lib_ezmam.php';
 require_once dirname(__FILE__) . '/../commons/common.inc';
 require_once dirname(__FILE__) . '/../commons/config.inc';
+require_once __DIR__.'/../commons/lib_syncrhonize.php';
 
 global $basedir;
 global $php_cli_cmd;
@@ -60,7 +61,7 @@ if (isset($asset_metadata['add_title']) && $asset_metadata['status']=='processed
     exec($cmd4, $cmdoutput4, $returncode4);
     exec($cmd5, $cmdoutput5, $returncode5);
     exec($cmd6, $cmdoutput6, $returncode6);
-        
+
     file_put_contents($log_path, implode("\n", $cmdoutput1)."\n".implode("\n", $cmdoutput2)."\n".implode("\n", $cmdoutput3)."\n".implode("\n", $cmdoutput4)."\n".implode("\n", $cmdoutput5)."\n".implode("\n", $cmdoutput6)."\n", FILE_APPEND);
 
     

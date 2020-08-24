@@ -783,7 +783,7 @@ function albums_view($refresh_page = true)
             }
         }
         // add the list of moderated public albums
-        user_prefs_tokens_add($_SESSION['user_login'], $moderated_tokens);
+        //user_prefs_tokens_add($_SESSION['user_login'], $moderated_tokens);
         ezplayer_acl_update_permissions_list();
     }
     // albums to display on the home page

@@ -12,7 +12,6 @@ function index($param = array())
     global $repository_path;
     global $user_files_path;
 
-
     $bookmark_album = $input['album'];
     $bookmark_asset = $input['asset'];
     $bookmark_timecode = $input['timecode'];
