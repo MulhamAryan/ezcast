@@ -300,11 +300,15 @@ function statements_get()
                 'WHERE course_code = :course_code',
 
             'user_tokens_list' =>
-                //"SELECT utl.*, c.course_name as title, c.course_code FROM " . db_gettable('user_tokens_list') . " utl ".
                 "SELECT utl.*, c.course_code, c.course_name as title FROM " . db_gettable('user_tokens_list') . " utl ".
-                "INNER JOIN " . db_gettable('courses') . " c on c.course_code = left(utl.album, LENGTH(utl.album) - 4)" .
-                " WHERE utl.user_id = :user_id " .
-                " ORDER BY list_order asc ",
+                "INNER JOIN " . db_gettable('courses') . " c on c.course_code = left(utl.album, LENGTH(utl.album) - 4) " .
+                "WHERE utl.user_id = :user_id " .
+                "ORDER BY list_order asc ",
+
+            /*'user_tokens_list' =>
+                "SELECT utl.* FROM " . db_gettable('user_tokens_list') . " utl ".
+                "WHERE utl.user_id = :user_id and ",
+            */
 
             'user_insert_token' =>
                 "INSERT INTO " . db_gettable('user_tokens_list') . "(user_id,album,token) " .

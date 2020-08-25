@@ -33,6 +33,7 @@
             echo "®Player_url_private_alert®";
             echo "</div>";
         }
+        else{
         ?>
         ®Player_url_message® <br/><br/>
         
@@ -45,6 +46,6 @@
                 ®Copy_to_clipboard®
             </span>
         </div>
-        
+        <?php } ?>
     </div>
 </div>
